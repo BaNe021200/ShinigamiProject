@@ -7,5 +7,5 @@ Shinigami est un projet d'étude.
 ## Mise en place du projet
 
 - [Schema du site](https://github.com/BaNe021200/ShinigamiProject/wiki/Schéma-du-site)
-- [Fonctionalités](https://github.com/BaNe021200/ShinigamiProject/wiki/Fonctionnalités)
+- [Fonctionnalités](https://github.com/BaNe021200/ShinigamiProject/wiki/Fonctionnalités)
 - [Ambiguités](https://github.com/BaNe021200/ShinigamiProject/wiki/Ambiguités)
