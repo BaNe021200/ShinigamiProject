@@ -23,9 +23,13 @@ La carte elle-même aura un numéro. Celui-ci servira pour nos références inte
 Sachant qu'une carte physique possèdera un motif :
 
 > CODE_CENTRE CODE_CARTE CHECKSUM
+>
 > CODE_CENTRE : 3 chiffres décrivant un établissement
+>
 > CODE_CARTE : 6 chiffres décrivant un client
+>
 > CHECKSUM : somme des chiffres précédents modulo 9
+>
 > Exemple : 123 142121 8
 
 ### Réaliser une plate-forme web
@@ -38,6 +42,7 @@ Permettant les interactions suivantes :
 - Un membre du staff pourra trouver un client d'après un numéro de carte.
 
 > Note :
+>
 > Nous ne souhaitons pas dans l'immédiat gérer les informations relatives aux services associés à ces cartes (affichage des visites, scores ou autres) bien que cela soit évidemment un "plus".
 
 ## Base de départ
@@ -76,6 +81,8 @@ ROLE_STAFF, ROLE_PLAYER, ROLE_ADMIN
  - ouverture de compte client gérée par token (B) v. userbundle / swiftmailer
  - rechercher un client avec un numéro de carte (S)
  - mise en place paiement paypal (B)
+ - génération du cardCode du client (B)
+ - upload image dans formulaire sous forme de service (S)
 
  Feuille de route à créer....
 
@@ -88,3 +95,8 @@ ROLE_STAFF, ROLE_PLAYER, ROLE_ADMIN
 - création d'offres
 
 
+### Ambiguités
+
+> "Nous ne souhaitons pas dans l'immédiat gérer les informations relatives aux services associés à ces cartes (affichage des visites, scores ou autres) bien que cela soit évidemment un "plus"."
+
+On doit pouvoir afficher ces informations mais pour l'instant il n'est pas prévu d'interaction.
