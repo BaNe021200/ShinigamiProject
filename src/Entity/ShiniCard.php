@@ -27,10 +27,7 @@ class ShiniCard
      */
     private $QRCode;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $motif;
+
 
     /**
      * @ORM\OneToMany(targetEntity="ShiniPlayer",mappedBy="cards")
@@ -41,6 +38,22 @@ class ShiniCard
      * @ORM\ManyToOne(targetEntity="ShiniCenter",inversedBy="cards")
      */
     private $center;
+
+    /**
+     * @ORM\Column(type="string", length=6)
+     */
+    private $player_code;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $checksum;
+
+    
+
+
+
+    
 
 
 
@@ -73,17 +86,7 @@ class ShiniCard
         return $this;
     }
 
-    public function getMotif(): ?int
-    {
-        return $this->motif;
-    }
 
-    public function setMotif(int $motif): self
-    {
-        $this->motif = $motif;
-
-        return $this;
-    }
 
     public function getPlayer(): ?int
     {
@@ -114,5 +117,31 @@ class ShiniCard
         $this->center = $center;
         return $this;
     }
+
+    public function getPlayerCode(): ?string
+    {
+        return $this->player_code;
+    }
+
+    public function setPlayerCode(string $player_code): self
+    {
+        $this->player_code = $player_code;
+
+        return $this;
+    }
+
+    public function getChecksum(): ?int
+    {
+        return $this->checksum;
+    }
+
+    public function setChecksum(int $checksum): self
+    {
+        $this->checksum = $checksum;
+
+        return $this;
+    }
+
+
 
 }
