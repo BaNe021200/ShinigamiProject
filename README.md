@@ -8,5 +8,5 @@ Shinigami est un projet d'étude.
 
 - [Uml](https://github.com/BaNe021200/ShinigamiProject/blob/master/shinigami_uml.png)
 - [Schema du site](https://github.com/BaNe021200/ShinigamiProject/wiki/Schéma-du-site)
-- [Feuille de route](https://github.com/BaNe021200/ShinigamiProject/wiki/Fonctionnalités)
+- [Feuille de route](https://github.com/BaNe021200/ShinigamiProject/wiki/Feuille-de-route)
 - [Ambiguités](https://github.com/BaNe021200/ShinigamiProject/wiki/Ambiguités)
