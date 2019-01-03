@@ -1,0 +1,14 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}New ShiniPlayer{% endblock %}
+
+{% block body %}
+    <h1>Create new ShiniPlayer</h1>
+
+    <div class="container">
+    {{ form(form, {attr:{novalidate: 'novalidate' }}) }}
+
+    <a href="{{ path('shini_player_index') }}"><button class="btn btn-info">{{ button_label|default('Retour à la liste') }}</button></a>
+
+    </div>
+{% endblock %}

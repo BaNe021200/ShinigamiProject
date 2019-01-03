@@ -39,6 +39,8 @@ class ShiniGame
      */
     private $players;
 
+
+
     /**
      * ShiniGame constructor.
      * @param $centers
@@ -134,6 +136,8 @@ class ShiniGame
         $this->centers[] = $center;
         return $this;
     }
+
+
 
     
 
