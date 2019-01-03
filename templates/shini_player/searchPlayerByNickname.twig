@@ -1,0 +1,23 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+
+    <h1>Search user by code</h1>
+    <div class="container">
+        <form action="{{ path('foundPlayerByPseudo') }}" method="post" >
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <button class="btn btn-success" id="basic-addon1">rechercher</button>
+                </div>
+                <input type="text" name="foundPlayerByNickname" class="form-control" placeholder="User Pseudo" aria-label="UserPseudo"
+                       aria-describedby="basic-addon1">
+            </div>
+        </form>
+    </div>
+
+{% endblock body %}
+
+{% block title %}
+    Search User by Code
+{% endblock title %}
+
