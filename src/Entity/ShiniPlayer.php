@@ -16,7 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ShiniPlayerRepository")
- * @UniqueEntity(fields={"email"},errorPath="email",message="cet email existe dèjà!")
+ * @UniqueEntity(fields={"email"},errorPath="email",message="cet email existe dèjà !")
+ * @UniqueEntity(fields={"nickName"},errorPath="nickName",message="Ce pseudo existe déjà !")
  */
 class ShiniPlayer implements UserInterface
 {
@@ -41,19 +42,19 @@ class ShiniPlayer implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull(message="N'oubliez pas d'entrer votre adresse")
+     * #@Assert\NotNull(message="N'oubliez pas d'entrer votre adresse")
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=20)
-     * @Assert\NotNull(message="N'oubliez pas d'entrer votre téléphone")
+     * #@Assert\NotNull(message="N'oubliez pas d'entrer votre téléphone")
      */
     private $phone;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\NotNull(message="N'oubliez pas d'entrer votre date de naissance")
+     * #@Assert\NotNull(message="N'oubliez pas d'entrer votre date de naissance")
      */
     private $birthday;
 
@@ -91,6 +92,8 @@ class ShiniPlayer implements UserInterface
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank(message="N'oubliez pas d'entrer votre mot de passe")
+     * @Assert\Regex(pattern="/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([!@#$%^&*\w]{8,20})$/",message="votre mot de passe est invalide : il doit contenir au moins une majuscule, une minuscule et un de ces caractères spéciaux (!@#$%^&*)")
+     * @Assert\Length(min="8", minMessage="votre mot de passe doit contenir {{ limit }} caractères au minimum",max="20",maxMessage="votre mot de passe est trop long il ne doit pas contenir plus de {{ limit }} caractères")
      *
      */
     private $password;
@@ -105,7 +108,7 @@ class ShiniPlayer implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=5)
-     * @Assert\NotNull(message="N'oubliez pas d'entrer votre cosde postal")
+     * #@Assert\NotNull(message="N'oubliez pas d'entrer votre cosde postal")
      */
     private $postal_code;
 
@@ -117,7 +120,7 @@ class ShiniPlayer implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull(message="N'oubliez pas d'entrer votre ville")
+     * #@Assert\NotNull(message="N'oubliez pas d'entrer votre ville")
      */
     private $city;
 

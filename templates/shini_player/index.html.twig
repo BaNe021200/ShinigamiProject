@@ -1,8 +1,11 @@
-{% extends 'layout.html.twig' %}
+{% extends 'shini_player/layout.html.twig' %}
 
 {% block title %}ShiniPlayer index{% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success"> {{ message }}</div>
+    {% endfor %}
     <h1>ShiniPlayer index <a href="{{ path('searchByNickname') }}"><button class="btn btn-outline-info">Retrouver un client par pseudo</button></a></h1>
 
     <table class="table table-striped">
