@@ -6,6 +6,7 @@ use App\Entity\ShiniPlayer;
 use App\Form\ShiniPlayerEditType;
 use App\Form\ShiniPlayerType;
 use App\Repository\ShiniPlayerRepository;
+use function Sodium\add;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,11 +41,11 @@ class ShiniPlayerController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $shiniPlayer->setPassword($userPasswordEncoder->encodePassword($shiniPlayer,$shiniPlayer->getPassword()));
-            $clientCode = rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
+            //$shiniPlayer->setPassword($userPasswordEncoder->encodePassword($shiniPlayer,$shiniPlayer->getPassword()));
+            /*$clientCode = rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
             $centerCodeForCheckSum = intval(self::CENTER_CODE);
             $clientCodeForCheckSum = intval($clientCode);
-            $checksum =($centerCodeForCheckSum+$clientCodeForCheckSum)%9;
+            $checksum =($centerCodeForCheckSum+$clientCodeForCheckSum)%9;*/
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($shiniPlayer);
             $entityManager->flush();
@@ -84,6 +85,7 @@ class ShiniPlayerController extends AbstractController
 
 
             $this->getDoctrine()->getManager()->flush();
+           $this->addFlash('success','Votre profil est modifié');
 
             return $this->redirectToRoute('shini_player_index', ['id' => $shiniPlayer->getId()]);
         }
@@ -122,6 +124,7 @@ class ShiniPlayerController extends AbstractController
      * @param Request $request
      * @param ShiniPlayerRepository $shiniPlayerRepository
      * @Route("/foundPlayerByPseudo",name="foundPlayerByPseudo")
+     * @return Response
      */
     public function findPlayerByNickname(Request $request, ShiniPlayerRepository $shiniPlayerRepository)
     {

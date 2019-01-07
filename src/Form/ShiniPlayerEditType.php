@@ -86,13 +86,13 @@ class ShiniPlayerEditType extends AbstractType
                     'placeholder'=>"Votre numéro de téléphone (10 chiffres)"
                 ]
             ])
-            ->add('password', PasswordType::class,[
+            /*->add('password', PasswordType::class,[
                 'label' => 'Saisissez votre password',
                 'required'=>false,
                 'attr'=> [
                     'placeholder'=> 'saisissez votre mot de passe'
                 ]
-            ])
+            ])*/
 
             ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,
@@ -116,8 +116,9 @@ class ShiniPlayerEditType extends AbstractType
             // formData contient les donnée du formulaire
             if( $formData['password']['first'] == '') {
                 $form->remove('password');
+
             }
-            //dump($formData);die;
+            //dump($form);die;
         });
     }
 
