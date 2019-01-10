@@ -18,6 +18,8 @@ class ShiniStaff
      */
     private $id;
 
+    const DIRECTORY = 'staff';
+
     /**
      * @ORM\Column(type="string", length=255)
      */

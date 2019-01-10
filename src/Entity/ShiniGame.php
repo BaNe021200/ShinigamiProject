@@ -19,6 +19,8 @@ class ShiniGame
      */
     private $id;
 
+    const DIRECTORY = 'game';
+
     /**
      * @ORM\Column(type="datetime")
      */

@@ -28,6 +28,8 @@ class ShiniPlayer implements UserInterface
      */
     private $id;
 
+    const DIRECTORY = 'player';
+
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotNull(message="N'oubliez pas d'entrer votre prénom")
@@ -64,11 +66,17 @@ class ShiniPlayer implements UserInterface
     private $cardCode;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $playerImageName;
+
+
+    /**
      * @ORM\ManyToOne(targetEntity="ShiniCard",inversedBy="player")
      * @ORM\JoinColumn(nullable=true)
      *
      */
-    private $cards ;
+    private $cards;
 
     /**
      * @ORM\OneToOne(targetEntity="ShiniPlayerAccount")
@@ -110,7 +118,7 @@ class ShiniPlayer implements UserInterface
      * @ORM\Column(type="string", length=5)
      * #@Assert\NotNull(message="N'oubliez pas d'entrer votre cosde postal")
      */
-    private $postal_code;
+    private $postalcode;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -314,17 +322,6 @@ class ShiniPlayer implements UserInterface
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
     public function getEmail(): ?string
     {
         return $this->email;
@@ -339,12 +336,12 @@ class ShiniPlayer implements UserInterface
 
     public function getPostalCode(): ?string
     {
-        return $this->postal_code;
+        return $this->postalcode;
     }
 
-    public function setPostalCode(string $postal_code): self
+    public function setPostalCode(string $postalcode): self
     {
-        $this->postal_code = $postal_code;
+        $this->postalcode = $postalcode;
 
         return $this;
     }
@@ -388,4 +385,22 @@ class ShiniPlayer implements UserInterface
     {
 
     }
+
+    /**
+     * @return string
+     */
+    public function getPlayerImageName()
+    {
+        return $this->playerImageName;
+    }
+
+    /**
+     * @param mixed $playerImageName
+     */
+    public function setPlayerImageName($playerImageName): self
+    {
+        $this->playerImageName = $playerImageName;
+        return $this;
+    }
+
 }

@@ -18,6 +18,8 @@ class ShiniCenter
      */
     private $id;
 
+    const DIRECTORY = 'center';
+
     /**
      * @ORM\Column(type="string", length=255)
      */

@@ -19,6 +19,8 @@ class ShiniOffer
      */
     private $id;
 
+    const DIRECTORY = 'offer';
+
     /**
      * @ORM\Column(type="float")
      */
