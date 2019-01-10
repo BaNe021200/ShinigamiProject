@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ShiniCard;
 use App\Entity\ShiniGame;
+use App\Entity\ShiniStaff;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ShiniCenterRepository")
  */
@@ -21,7 +22,7 @@ class ShiniCenter
     const DIRECTORY = 'center';
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address;
 
@@ -32,13 +33,20 @@ class ShiniCenter
 
     /**
      * @ORM\OneToMany(targetEntity="ShiniCard",mappedBy="center")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $cards;
 
     /**
      * @ORM\ManyToMany(targetEntity="ShiniGame",inversedBy="centers")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $games;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ShiniStaff",mappedBy="center")
+     */
+    private $staff;
 
     /**
      * ShiniCenter constructor.
@@ -48,6 +56,7 @@ class ShiniCenter
     {
         $this->cards = new ArrayCollection();
         $this->games = new ArrayCollection();
+        $this->staff = new ArrayCollection();
     }
 
 
@@ -113,6 +122,18 @@ class ShiniCenter
     public function setGames($games)
     {
         $this->games = $games;
+        return $this;
+    }
+
+    public function getStaff(): ?int
+    {
+        return $this->staff;
+    }
+
+    public function setStaff(int $staff): self
+    {
+        $this->staff = $staff;
+
         return $this;
     }
 

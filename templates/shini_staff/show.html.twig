@@ -1,0 +1,89 @@
+{% extends 'shini_staff/layout.html.twig' %}
+
+{% block title %}ShiniPlayer{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock stylesheets %}
+
+
+{% block body %}
+    <h1>ShiniStaff</h1>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-6"> {% include 'shini_staff/_sideBar.html.twig' %}
+            </div>
+
+            <div class="col-md-6">
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ shini_staff.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ shini_staff.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>NickName</th>
+                        <td>{{ shini_staff.nickName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td>{{ shini_staff.address }}</td>
+                    </tr>
+                    <tr>
+                        <th>Phone</th>
+                        <td>{{ shini_staff.phone }}</td>
+                    </tr>
+                    <tr>
+                        <th>Birthday</th>
+                        <td>{{ shini_staff.birthday ? shini_staff.birthday|date('d-m-Y') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Center</th>
+                        <td>{{ shini_staff.center.code }}</td>
+                    </tr>
+                    <tr>
+                        <th>Roles</th>
+                        <td>{{ shini_staff.roles ? shini_staff.roles|join(', ') : '' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ shini_staff.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Postal_code</th>
+                        <td>{{ shini_staff.postalCode }}</td>
+                    </tr>
+                    <tr>
+                        <th>Lastname</th>
+                        <td>{{ shini_staff.lastname }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div id="buttonCenter">
+                    <a href="{{ path('shini_staff_index') }}">
+                        <button class="btn btn-outline-info"><i class="fas fa-arrow-circle-left"></i> back to list
+                        </button>
+                    </a>
+
+                    <a href="{{ path('shini_staff_edit', {'id': shini_staff.id}) }}">
+                        <button class="btn btn-outline-warning"><i class="fas fa-user-edit  text-center"></i> edit
+                        </button>
+                    </a>
+
+                    {{ include('shini_staff/_delete_form.html.twig') }}</div>
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

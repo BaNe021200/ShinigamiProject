@@ -19,6 +19,15 @@ class ShiniPlayerRepository extends ServiceEntityRepository
         parent::__construct($registry, ShiniPlayer::class);
     }
 
+    public function findPassword($id)
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s.password')
+            ->where('s.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
     // /**
     //  * @return ShiniPlayer[] Returns an array of ShiniPlayer objects
     //  */

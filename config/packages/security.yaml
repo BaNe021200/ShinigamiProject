@@ -1,9 +1,23 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     encoders:
-        App\Entity\ShiniPlayer: bcrypt
+        App\Entity\ShiniPlayer: plaintext
+        App\Entity\ShiniStaff: plaintext
+
     providers:
         in_memory: { memory: ~ }
+        player_provider:
+            entity:
+                class: App\Entity\ShiniPlayer
+                property: email
+        staff_provider:
+            entity:
+                class: App\Entity\ShiniStaff
+                property: email
+        chained_provider :
+            chain:
+                providers : [player_provider, staff_provider]
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -19,8 +33,28 @@ security:
             # form_login: true
             # https://symfony.com/doc/current/security/form_login_setup.html
 
+            form_login:
+                login_path: signInUp
+                check_path: /signIn/validate
+                username_parameter: app_login[email]
+                password_parameter: app_login[password]
+                default_target_path: /shiniGami/signInUp
+                always_use_default_target_path: true
+
+            provider:
+                chained_provider
+
+            logout:
+                path: /logOut
+                target: /
+
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/shiniPlayer, roles: [ROLE_STAFF,ROLE_PLAYER] }
+        - { path: ^/shiniStaff, roles: ROLE_STAFF }
+
+
+    role_hierarchy:
+
+        ROLE_ADMIN: ROLE_STAFF

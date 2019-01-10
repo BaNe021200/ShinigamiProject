@@ -19,6 +19,25 @@ class ShiniStaffRepository extends ServiceEntityRepository
         parent::__construct($registry, ShiniStaff::class);
     }
 
+    public function findStaffWithCenter()
+    {
+        return $this->createQueryBuilder('staff')
+            ->leftJoin('staff.center', 'center')
+            ->addSelect('center')
+            ->getQuery()->getResult();
+
+    }
+
+    public function findPassword($id)
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s.password')
+            ->where('s.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     // /**
     //  * @return ShiniStaff[] Returns an array of ShiniStaff objects
     //  */
