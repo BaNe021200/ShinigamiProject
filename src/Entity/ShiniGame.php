@@ -40,11 +40,6 @@ class ShiniGame
      */
     private $players;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     */
-    private $gameImageName;
 
     /**
      * ShiniGame constructor.
@@ -92,7 +87,7 @@ class ShiniGame
         return $this;
     }
 
-    public function getPlayers(): ?array 
+    public function getPlayers(): ? ArrayCollection
     {
         return $this->players;
     }
@@ -136,24 +131,6 @@ class ShiniGame
     public function addCenters($center)
     {
         $this->centers[] = $center;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getGameImageName()
-    {
-        return $this->gameImageName;
-    }
-
-    /**
-     * @param mixed $gameImageName
-     * @return ShiniGame
-     */
-    public function setGameImageName($gameImageName)
-    {
-        $this->gameImageName = $gameImageName;
         return $this;
     }
 }
