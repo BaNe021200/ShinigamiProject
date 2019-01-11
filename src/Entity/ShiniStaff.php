@@ -11,14 +11,14 @@ use App\Entity\ShiniOffer;
  */
 class ShiniStaff
 {
+    const DIRECTORY = 'staff';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    const DIRECTORY = 'staff';
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -34,6 +34,12 @@ class ShiniStaff
      * @ORM\OneToMany(targetEntity="ShiniOffer",mappedBy="staffAdviser")
      */
     private $offers;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     */
+    private $staffImageName;
 
     /**
      * ShiniStaff constructor.
@@ -102,5 +108,20 @@ class ShiniStaff
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getStaffImageName()
+    {
+        return $this->staffImageName;
+    }
 
+    /**
+     * @param mixed $staffImageName
+     */
+    public function setStaffImageName($staffImageName): self
+    {
+        $this->staffImageName = $staffImageName;
+        return $this;
+    }
 }

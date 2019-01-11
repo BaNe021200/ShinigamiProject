@@ -12,14 +12,14 @@ use App\Entity\ShiniPlayer;
  */
 class ShiniGame
 {
+    const DIRECTORY = 'game';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    const DIRECTORY = 'game';
 
     /**
      * @ORM\Column(type="datetime")
@@ -41,7 +41,11 @@ class ShiniGame
      */
     private $players;
 
-
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     */
+    private $gameImageName;
 
     /**
      * ShiniGame constructor.
@@ -76,8 +80,6 @@ class ShiniGame
         return $this;
     }
 
-
-
     public function getDateEnd(): ?\DateTimeInterface
     {
         return $this->dateEnd;
@@ -89,8 +91,6 @@ class ShiniGame
 
         return $this;
     }
-
-
 
     public function getPlayers(): ?array 
     {
@@ -139,11 +139,21 @@ class ShiniGame
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getGameImageName()
+    {
+        return $this->gameImageName;
+    }
 
-
-    
-
-
-
-
+    /**
+     * @param mixed $gameImageName
+     * @return ShiniGame
+     */
+    public function setGameImageName($gameImageName)
+    {
+        $this->gameImageName = $gameImageName;
+        return $this;
+    }
 }

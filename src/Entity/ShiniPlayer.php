@@ -21,14 +21,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ShiniPlayer implements UserInterface
 {
+    const DIRECTORY = 'player';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    const DIRECTORY = 'player';
 
     /**
      * @ORM\Column(type="string", length=255)

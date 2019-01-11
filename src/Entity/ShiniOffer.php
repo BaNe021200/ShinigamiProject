@@ -12,14 +12,14 @@ use App\Entity\ShiniStaff;
  */
 class ShiniOffer
 {
+    const DIRECTORY = 'offer';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    const DIRECTORY = 'offer';
 
     /**
      * @ORM\Column(type="float")
@@ -177,8 +177,4 @@ class ShiniOffer
         $this->staffAdviser = $staffAdviser;
         return $this;
     }
-
-
-
-
 }

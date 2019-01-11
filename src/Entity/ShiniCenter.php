@@ -11,14 +11,14 @@ use App\Entity\ShiniGame;
  */
 class ShiniCenter
 {
+    const DIRECTORY = 'center';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    const DIRECTORY = 'center';
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -39,6 +39,12 @@ class ShiniCenter
      * @ORM\ManyToMany(targetEntity="ShiniGame",inversedBy="centers")
      */
     private $games;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     */
+    private $centerImageName;
 
     /**
      * ShiniCenter constructor.
@@ -116,5 +122,22 @@ class ShiniCenter
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCenterImageName()
+    {
+        return $this->centerImageName;
+    }
+
+    /**
+     * @param mixed $centerImageName
+     * @return ShiniCenter
+     */
+    public function setCenterImageName($centerImageName)
+    {
+        $this->centerImageName = $centerImageName;
+        return $this;
+    }
 
 }
