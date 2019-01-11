@@ -43,13 +43,13 @@ class ImageSaver implements EventSubscriberInterface
      */
     public function addImageField(FormEvent $event)
     {
-        $user = $event->getData();
+        $entity = $event->getData();
         $form = $event->getForm();
 
-        // If the user have an image pass it to dropify
-        if ($imageUrl = $user->getImageName())
+        // If the entity have an image pass it to dropify
+        if ($imageUrl = $entity->getImageName())
         {
-            $directory = $user->getFolder();
+            $directory = $entity->getFolder();
             $imageUrl = "${directory}/${imageUrl}";
         }
 
@@ -80,15 +80,15 @@ class ImageSaver implements EventSubscriberInterface
      */
     public function saveImage(FormEvent $event)
     {
-        $user = $event->getData();
+        $entity = $event->getData();
         $form = $event->getForm();
 
-        if (!$user) {
+        if (!$entity) {
             return;
         }
 
         // We need to check that form is valid.
-        $errors = $form->getErrors()->count();
+        $errors = $form->getErrors(true)->count();
 
         // Find error from the added field.
         // $errors += $form->get('playerImageFile')->getErrors()->count();
@@ -96,16 +96,16 @@ class ImageSaver implements EventSubscriberInterface
         if ($errors)  return;
 
         // Good news, the form is valid.
-        // Now, check if the user has uploaded an image.
+        // Now, check if the entity has uploaded an image.
         if ($noImageUploaded = $form->get('ImageSaver')->isEmpty())
         {
-            if ($user->getImageName()) return;
+            if ($entity->getImageName()) return;
 
-           $user->setImageName($user->getFolder().'/default.png');
+           $entity->setImageName('default.png');
             return;
         }
 
-        // Well ! User has added a new image for his profile !
+        // Got it ! entity has an image !
         /** @var UploadedFile $image */
         $image = $form->get('ImageSaver')->getData();
 
@@ -124,7 +124,7 @@ class ImageSaver implements EventSubscriberInterface
 
         // Create a name for this image
         $filename = md5(uniqid()).'.'.$extension;
-        $folder = $user->getFolder();
+        $folder = $entity->getFolder();
 
         // Move image to right folder
         try
@@ -137,7 +137,7 @@ class ImageSaver implements EventSubscriberInterface
         }
 
         // Update form data
-        $user->setImageName($filename);
+        $entity->setImageName($filename);
     }
 
     private function sanitifyImage(UploadedFile $image): UploadedFile

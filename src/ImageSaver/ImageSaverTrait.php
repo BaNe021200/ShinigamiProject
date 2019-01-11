@@ -38,7 +38,7 @@ trait ImageSaverTrait
      */
     public function setImageName(string $imageName): self
     {
-        $this->staffImageName = $imageName;
+        $this->imageName = $imageName;
         return $this;
     }
 
