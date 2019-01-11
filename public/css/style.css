@@ -13,3 +13,7 @@
 .nav-link,li.nav-item{
     display: inline-block !important;
 }
+
+.mrgbody{
+    margin-top: 5vh;
+}

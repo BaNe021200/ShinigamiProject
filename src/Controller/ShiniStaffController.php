@@ -157,7 +157,7 @@ class ShiniStaffController extends AbstractController
             return $this->redirectToRoute('searchByNicknameInStaffWay');
         }
 
-        return $this->render('shini_staff/show.html.twig',['shini_player'=>$ShiniPlayer]);
+        return $this->render('shini_staff/showPlayerByNickname.html.twig',['shini_player'=>$ShiniPlayer]);
 
     }
 

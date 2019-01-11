@@ -18,12 +18,12 @@
             <button class="btn btn-outline-warning"><i class="fas fa-plus-square"></i> Créer une nouvelle offre</button></a>
     </li>
 
-    {#{% if is_granted('ROLE_ADMIN') %}#}
+    {% if is_granted('ROLE_ADMIN') %}
         <li class="nav-item">
             <a class="nav-link disabled" href="{{ path('create.new.staff') }}">
                 <button class="btn btn-outline-success"><i class="fas fa-plus-square"></i> Créer un nouveau membre du Satff</button></a>
         </li>
-    {#{% endif %}#}
+    {% endif %}
 
 </ul>
 

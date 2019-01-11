@@ -55,6 +55,7 @@ class ShiniOfferType extends AbstractType
                     'data-toggle'=>"toggle",
                     'data-on'=> 'oui',
                     'data-off'=>'non',
+
                 ]
             ])
 

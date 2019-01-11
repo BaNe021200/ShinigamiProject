@@ -1,13 +1,18 @@
 {% extends 'shini_player/layout.html.twig' %}
 
 {% block title %}ShiniPlayer index{% endblock %}
-
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock stylesheets %}
 {% block body %}
+
 
     {% for message in app.flashes('success') %}
         <div class="alert alert-success"> {{ message }}</div>
     {% endfor %}
-    <h1>ShiniPlayer index <a href="{{ path('searchByNickname') }}"><button class="btn btn-outline-info">Retrouver un client par pseudo</button></a></h1>
+    {% include 'shini_gami/_nav.html.twig' %}
+    <h1 class="mrgbody">ShiniPlayer index <a href="{{ path('searchByNickname') }}"><button class="btn btn-outline-info">Retrouver un client par pseudo</button></a></h1>
     {% block tableHeadContent %}
     <table class="table table-striped">
         <thead>
