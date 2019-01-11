@@ -12,7 +12,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 
-
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ShiniPlayerRepository")
  * @UniqueEntity(fields={"email"},errorPath="email",message="cet email existe dèjà !")
@@ -156,22 +155,5 @@ class ShiniPlayer implements UserInterface
     public function eraseCredentials()
     {
 
-    }
-
-    /**
-     * @return string
-     */
-    public function getPlayerImageName()
-    {
-        return $this->playerImageName;
-    }
-
-    /**
-     * @param mixed $playerImageName
-     */
-    public function setPlayerImageName($playerImageName): self
-    {
-        $this->playerImageName = $playerImageName;
-        return $this;
     }
 }

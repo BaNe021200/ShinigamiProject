@@ -47,7 +47,7 @@ class ImageSaver implements EventSubscriberInterface
         $form = $event->getForm();
 
         // If the user have an image pass it to dropify
-        if ($imageUrl = $user->getPlayerImageName())
+        if ($imageUrl = $user->getImageName())
         {
             $directory = $user->getFolder();
             $imageUrl = "${directory}/${imageUrl}";
@@ -58,8 +58,10 @@ class ImageSaver implements EventSubscriberInterface
         ];
 
         // move submit to end of form.
-        $submit = $form->get('submit');
-        $form->remove('submit');
+        if ($submit = $form->get('submit'))
+        {
+            $form->remove('submit');
+        }
 
         $form->add('ImageSaver', FileType::class,  [
             'label' => 'Charger une image pour votre profile',

@@ -27,7 +27,7 @@ trait ImageSaverTrait
     /**
      * @return string $imageName
      */
-    public function getImageName(): string
+    public function getImageName():? string
     {
         return $this->imageName;
     }
