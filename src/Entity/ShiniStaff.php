@@ -34,7 +34,7 @@ class ShiniStaff
      * @ORM\OneToMany(targetEntity="ShiniOffer",mappedBy="staffAdviser")
      */
     private $offers;
-
+    
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      *

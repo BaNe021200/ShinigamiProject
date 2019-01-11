@@ -70,7 +70,6 @@ class ShiniPlayer implements UserInterface
      */
     private $playerImageName;
 
-
     /**
      * @ORM\ManyToOne(targetEntity="ShiniCard",inversedBy="player")
      * @ORM\JoinColumn(nullable=true)
