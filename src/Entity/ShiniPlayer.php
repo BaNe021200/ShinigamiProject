@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\EntityTrait\shiniPeopleTrait;
 use Doctrine\Common\Annotations\Annotation\Required;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,6 +22,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ShiniPlayer implements UserInterface
 {
+
+    use shiniPeopleTrait;
+
     const DIRECTORY = 'player';
 
     /**
@@ -29,36 +33,6 @@ class ShiniPlayer implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull(message="N'oubliez pas d'entrer votre prénom")
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull(message="N'oubliez pas d'entrer votre pseudo")
-     */
-    private $nickName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * #@Assert\NotNull(message="N'oubliez pas d'entrer votre adresse")
-     */
-    private $address;
-
-    /**
-     * @ORM\Column(type="string", length=20)
-     * #@Assert\NotNull(message="N'oubliez pas d'entrer votre téléphone")
-     */
-    private $phone;
-
-    /**
-     * @ORM\Column(type="datetime")
-     * #@Assert\NotNull(message="N'oubliez pas d'entrer votre date de naissance")
-     */
-    private $birthday;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -75,7 +49,7 @@ class ShiniPlayer implements UserInterface
      * @ORM\JoinColumn(nullable=true)
      *
      */
-    private $cards;
+    private $cards ;
 
     /**
      * @ORM\OneToOne(targetEntity="ShiniPlayerAccount")
@@ -92,123 +66,21 @@ class ShiniPlayer implements UserInterface
     private $games;
 
     /**
-     * @ORM\Column(type="array")
-     */
-    private $roles = [];
-
-    /**
-     * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank(message="N'oubliez pas d'entrer votre mot de passe")
-     * @Assert\Regex(pattern="/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([!@#$%^&*\w]{8,20})$/",message="votre mot de passe est invalide : il doit contenir au moins une majuscule, une minuscule et un de ces caractères spéciaux (!@#$%^&*)")
-     * @Assert\Length(min="8", minMessage="votre mot de passe doit contenir {{ limit }} caractères au minimum",max="20",maxMessage="votre mot de passe est trop long il ne doit pas contenir plus de {{ limit }} caractères")
-     *
-     */
-    private $password;
-
-
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull(message="N'oubliez pas d'entrer votre email")
-     */
-    private $email;
-
-    /**
-     * @ORM\Column(type="string", length=5)
-     * #@Assert\NotNull(message="N'oubliez pas d'entrer votre cosde postal")
-     */
-    private $postalcode;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull(message="N'oubliez pas d'entrer votre nom")
-     */
-    private $lastname;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * #@Assert\NotNull(message="N'oubliez pas d'entrer votre ville")
-     */
-    private $city;
-
-    /**
      * ShiniPlayer constructor.
      * @param string $role
      */
     public function __construct(string $role = 'ROLE_PLAYER')
     {
-        $this->cards = new ArrayCollection();
+        #$this->cards = new ArrayCollection();
         #$this->account = new ArrayCollection();
         $this->games = new ArrayCollection();
         $this->roles = new ArrayCollection();
         $this->addRole($role);
     }
 
-
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getNickName(): ?string
-    {
-        return $this->nickName;
-    }
-
-    public function setNickName(string $nickName): self
-    {
-        $this->nickName = $nickName;
-
-        return $this;
-    }
-
-
-    public function getAddress(): ?string
-    {
-        return $this->address;
-    }
-
-    public function setAddress(string $address): self
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(string $phone): self
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    public function getBirthday(): ?\DateTimeInterface
-    {
-        return $this->birthday;
-    }
-
-    public function setBirthday(\DateTimeInterface $birthday): self
-    {
-        $this->birthday = $birthday;
-
-        return $this;
     }
 
     public function getCardCode(): ?int
@@ -228,7 +100,7 @@ class ShiniPlayer implements UserInterface
        return $this->cards;
     }
 
-    public function setCards($cards)
+    public function setCards($cards = null)
     {
         $this->cards = $cards;
 
@@ -257,35 +129,6 @@ class ShiniPlayer implements UserInterface
         return $this;
     }*/
 
-    /**
-     * @return mixed
-     */
-    public function getRoles()
-    {
-        return $this->roles;
-    }
-
-    /**
-     * @param mixed $roles
-     * @return ShiniPlayer
-     */
-    public function setRoles($roles)
-    {
-        $this->roles = $roles;
-        return $this;
-    }
-
-    /**
-     * @param mixed $role
-     * @return ShiniPlayer
-     */
-    public function addRole($role)
-    {
-        $this->roles[] = $role;
-        return $this;
-    }
-
-
     public function getGames():?ArrayCollection
     {
         return $this->games;
@@ -306,69 +149,6 @@ class ShiniPlayer implements UserInterface
         $this->games[] = $game;
         return $this;
     }
-
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPostalCode(): ?string
-    {
-        return $this->postalcode;
-    }
-
-    public function setPostalCode(string $postalcode): self
-    {
-        $this->postalcode = $postalcode;
-
-        return $this;
-    }
-
-    public function getLastname(): ?string
-    {
-        return $this->lastname;
-    }
-
-    public function setLastname(string $lastname): self
-    {
-        $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
-    public function setCity(string $city): self
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
 
     public function getSalt()
     {
@@ -401,5 +181,4 @@ class ShiniPlayer implements UserInterface
         $this->playerImageName = $playerImageName;
         return $this;
     }
-
 }

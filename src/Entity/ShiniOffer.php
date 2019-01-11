@@ -22,7 +22,7 @@ class ShiniOffer
     private $id;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
     private $price;
 
@@ -48,18 +48,23 @@ class ShiniOffer
 
     /**
      * @ORM\ManyToOne(targetEntity="ShiniStaff",inversedBy="offers")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $staffAdviser;
 
     /**
      * @ORM\ManyToMany(targetEntity="ShiniPlayerAccount",mappedBy="offers")
-     *
+     *@ORM\JoinColumn(nullable=true)
      */
     private $accounts;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
      * ShiniOffer constructor.
-     * @param $accounts
      */
     public function __construct()
     {
@@ -72,19 +77,45 @@ class ShiniOffer
         return $this->id;
     }
 
-    public function getPrice(): ?float
+    /**
+     * @return mixed
+     */
+    public function getPrice():?int
     {
         return $this->price;
     }
 
-    public function setPrice(float $price): self
+    /**
+     * @param mixed $price
+     * @return ShiniOffer
+     */
+    public function setPrice(?int $price)
     {
         $this->price = $price;
-
         return $this;
     }
 
-    public function getDateEnd(): ?array
+    /**
+     * @return mixed
+     */
+    public function getDateEnd()
+    {
+        return $this->dateEnd;
+    }
+
+    /**
+     * @param mixed $dateEnd
+     * @return ShiniOffer
+     */
+    public function setDateEnd($dateEnd)
+    {
+        $this->dateEnd = $dateEnd;
+        return $this;
+    }
+
+
+
+    /*public function getDateEnd(): ?array
     {
         return $this->dateEnd;
     }
@@ -94,7 +125,9 @@ class ShiniOffer
         $this->dateEnd = $dateEnd;
 
         return $this;
-    }
+    }*/
+
+
 
     public function getDescription(): ?string
     {
@@ -177,4 +210,17 @@ class ShiniOffer
         $this->staffAdviser = $staffAdviser;
         return $this;
     }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
 }

@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\ShiniPlayer;
 use App\Form\ShiniLaserSignInType;
 
+use App\Form\ShiniLoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
  * @Route("/shiniGami")
@@ -52,35 +54,69 @@ class ShiniGamiController extends AbstractController
     }
 
     /**
-     * @Route("/connexion",name="connexion", methods={"GET","POST"})
+     * @Route("/signInUp",name="signInUp", methods={"GET","POST"})
      * @param Request $request
      * @param UserPasswordEncoderInterface $userPasswordEncoder
+     * @param AuthenticationUtils $authenticationUtils
      * @return Response
      */
-    public function Log(Request $request, UserPasswordEncoderInterface $userPasswordEncoder):Response
+    public function signInUp(Request $request, UserPasswordEncoderInterface $userPasswordEncoder,AuthenticationUtils $authenticationUtils):Response
     {
+        if($this->getUser())
+        {
+            if((in_array('ROLE_PLAYER', $this->getUser()->getRoles()))) {
+                return $this->redirectToRoute('shini_player_index');
+            } else {
+                return $this->redirectToRoute('shini_staff_index');
+            }
+        }
+
         $shiniPlayer = new ShiniPlayer();
-        $form = $this->createForm(ShiniLaserSignInType::class, $shiniPlayer);
-        $form->handleRequest($request);
+        //$shiniPlayer
+        $formSignUp = $this->createForm(ShiniLaserSignInType::class, $shiniPlayer);
+        $formSignUp->handleRequest($request);
 
 
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($formSignUp->isSubmitted() && $formSignUp->isValid()){
 
-            $shiniPlayer->setPassword($userPasswordEncoder->encodePassword($shiniPlayer,$shiniPlayer->getPassword()));
+            //$shiniPlayer->setPassword($userPasswordEncoder->encodePassword($shiniPlayer,$shiniPlayer->getPassword()));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($shiniPlayer);
             $entityManager->flush();
-            $this->addFlash('notice','Félicitation, vous pouvez vous connecter');
-            return $this->redirectToRoute('shini_player_index');
+            $this->addFlash('success','Félicitation, vous pouvez vous connecter');
+
         }
+
+        $formSignIn = $this->createForm(ShiniLoginType::class,[
+            'email'=>$authenticationUtils->getLastUsername(),
+        ]);
+
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('shini_gami/connexion.htlm.twig',[
 
             'shini_player'=> $shiniPlayer,
-            'form'=> $form->createView()
+            'formSignUp'=> $formSignUp->createView(),
+            'formSignIn'=> $formSignIn->createView(),
+            'error' => $error
 
         ]);
+
+    }
+
+    /**
+     * @Route("/logOut",name="logOut")
+     */
+    public function logOut()
+    {
+
+    }
+
+    public function validation()
+    {
 
     }
 

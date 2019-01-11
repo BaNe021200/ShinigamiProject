@@ -1,0 +1,57 @@
+{% extends 'shini_staff/layout.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+{% endblock stylesheets %}
+
+
+{% block body %}
+
+    <h1>créer une offre</h1>
+
+    <div class="container">
+        {{ form_start(form , {attr:{novlidate: 'novalidate'}}) }}
+
+    <div class="row">
+        <div class="col-md-4">{{ form_row(form.name) }}</div>
+        <div class="col-md-4">{{ form_row(form.price) }}</div>
+        <div class="col-md-4">{{ form_row(form.dateEnd) }}</div>
+
+    </div>
+    <div class="row">
+
+        <div class="offset-2 col-md-8">{{ form_row(form.description) }}</div>
+    </div>
+
+    <div class="row">
+
+        <div class="offset-2 col-md-8">{{ form_row(form.image) }}</div>
+
+    </div>
+
+
+        <div class="row">
+            <div class="offset-5 col-md-6">{{ form_row(form.shown) }}</div>
+        </div>
+
+        <div class="row">
+            <div class="offset-5 col-md-6">{{ form_row(form.submit) }}</div>
+
+        </div>
+
+
+    {{ form_widget(form) }}
+
+    {{ form_end(form) }}</div>
+{% endblock body %}
+
+{% block title %}
+ offerForm
+{% endblock title %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+{% endblock javascripts %}

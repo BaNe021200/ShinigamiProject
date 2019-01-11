@@ -1,0 +1,19 @@
+{% extends 'shini_staff/new.html.twig' %}
+
+
+{% block shinirole %}Staff{% endblock shinirole %}
+
+
+{% block form_content %}
+    {{ parent() }}
+
+    <div class="row">
+        <div class="offset-3 col-md-6">{{ form_row(form.roles) }}</div>
+        <div class="offset-3 col-md-6">
+
+                {{ form_row(form.center) }}
+
+        </div>
+
+    </div>
+{% endblock form_content %}

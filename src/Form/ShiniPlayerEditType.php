@@ -86,6 +86,7 @@ class ShiniPlayerEditType extends AbstractType
                     'placeholder'=>"Votre numéro de téléphone (10 chiffres)"
                 ]
             ])
+
             ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
@@ -103,15 +104,7 @@ class ShiniPlayerEditType extends AbstractType
             ])
             ->addEventSubscriber(new ImageSaver())
         ;
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $ev){
-            $formData = $ev->getData();
-            $form = $ev->getForm();
-            // formData contient les donnée du formulaire
-            if( $formData['password']['first'] == '') {
-                $form->remove('password');
 
-            }
-        });
     }
 
     public function configureOptions(OptionsResolver $resolver)

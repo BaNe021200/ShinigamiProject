@@ -1,0 +1,66 @@
+{% extends "shini_player/index.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock stylesheets %}
+
+
+{% block contentDiff %}
+    <th>centre</th>
+{% endblock contentDiff %}
+{% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success"> {{ message }}</div>
+    {% endfor %}
+
+        <div class="row">
+
+            <div class="col-md-3"><h1>ShiniStaff index </h1>
+                {{ include('shini_staff/_sideBar.html.twig') }}
+            </div>
+
+            <div class="col-md-6"> {{ block('tableHeadContent') }}
+
+                {% if shini_staffs %}
+                    {% for shini_staff in shini_staffs %}
+                        <tr>
+                            <td>{{ shini_staff.id }}</td>
+                            <td>{{ shini_staff.name }}</td>
+                            <td>{{ shini_staff.lastname }}</td>
+                            <td>{{ shini_staff.nickName }}</td>
+                            <td>{{ shini_staff.email }}</td>
+                            <td>{{ shini_staff.address }}</td>
+                            <td>{{ shini_staff.postalCode }}</td>
+                            <td>{{ shini_staff.phone }}</td>
+                            <td>{{ shini_staff.birthday ? shini_staff.birthday|date('d-m-Y') : '' }}</td>
+
+
+                            <td>{{ shini_staff.center.code }}</td>
+                            <td>{{ shini_staff.roles ? shini_staff.roles|join(', ') : '' }}</td>
+
+                            <td>
+                                <a href="{{ path('shini_staff_show', {'id': shini_staff.id}) }}">
+                                    <button class="btn btn-outline-info"><i class="fas fa-eye">&nbsp;</i>show</button>
+                                </a>
+                                <a href="{{ path('shini_staff_edit', {'id': shini_staff.id}) }}">
+                                    <button class="btn btn-outline-warning"><i class="fas fa-user-edit"></i> edit
+                                    </button>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="14">no records found</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+                </table></div>
+        </div>
+
+
+    {#<a href="{{ path('shini.staff.player_new') }}">
+        <button class="btn btn-outline-primary"><i class="fas fa-plus-square"></i> Create new</button></a>#}
+
+{% endblock body %}

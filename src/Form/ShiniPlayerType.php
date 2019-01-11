@@ -6,7 +6,6 @@ use App\Entity\ShiniPlayer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -78,7 +77,6 @@ class ShiniPlayerType extends AbstractType
                     'placeholder'=>"Votre numéro de téléphone (10 chiffres)"
                 ]
             ])
-            /*
             ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
@@ -87,10 +85,9 @@ class ShiniPlayerType extends AbstractType
                 'first_options'  => ['label' => 'Mot de passe','attr'=>['placeholder'=>'Mot de passe']],
                 'second_options' => ['label' => 'Confirmez le mot de passe','attr'=>['placeholder'=>'Confirmez votre mot de passe']],
             ))
-            */
-            ->add('cards')
+            /*->add('cards')*/
             ->add('submit', SubmitType::class,[
-                'label'=> "Je m'inscris",
+                'label'=> "Soumettre",
                 'attr'=> [
                     'class' => 'btn btn-success center'
 

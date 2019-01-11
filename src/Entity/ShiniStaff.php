@@ -2,15 +2,29 @@
 
 namespace App\Entity;
 
+use App\EntityTrait\shiniPeopleTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ShiniOffer;
+use App\Entity\ShiniPlayerAccount;
+use App\Entity\ShiniCard;
+use App\Entity\ShiniGame;
+use App\Entity\ShiniCenter;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+use Symfony\Component\Security\Core\Role\Role;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ShiniStaffRepository")
+ * @UniqueEntity(fields={"email"},errorPath="email",message="cet email existe dèjà !")
+ * @UniqueEntity(fields={"nickName"},errorPath="nickName",message="Ce pseudo existe déjà !")
  */
-class ShiniStaff
+class ShiniStaff implements UserInterface
 {
+    use shiniPeopleTrait;
+
     const DIRECTORY = 'staff';
 
     /**
@@ -26,15 +40,10 @@ class ShiniStaff
     private $name;
 
     /**
-     * @ORM\Column(type="array")
-     */
-    private $roles = [];
-
-    /**
      * @ORM\OneToMany(targetEntity="ShiniOffer",mappedBy="staffAdviser")
      */
     private $offers;
-    
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      *
@@ -42,52 +51,24 @@ class ShiniStaff
     private $staffImageName;
 
     /**
-     * ShiniStaff constructor.
-     *
+     * @ORM\ManyToOne(targetEntity="ShiniCenter",inversedBy="staff")
      */
-    public function __construct()
+    private $center;
+
+    /**
+     * ShiniStaff constructor.
+     * @param string $role
+     */
+    public function __construct(string $role = 'ROLE_STAFF')
     {
         $this->offers = new ArrayCollection();
+        $this->roles = new ArrayCollection();
+        $this->addRole($role);
     }
-
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getRoles(): ?array
-    {
-        return $this->roles;
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $role
-     * @return ShiniPlayer
-     */
-    public function addRole($role)
-    {
-        $this->roles[] = $role;
-        return $this;
     }
 
     /**
@@ -105,6 +86,33 @@ class ShiniStaff
     public function setOffers($offers)
     {
         $this->offers = $offers;
+        return $this;
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials()
+    {
+
+    }
+
+    public function getCenter(): ?ShiniCenter
+    {
+        return $this->center;
+    }
+
+    public function setCenter(ShiniCenter $center): self
+    {
+        $this->center = $center;
+
         return $this;
     }
 

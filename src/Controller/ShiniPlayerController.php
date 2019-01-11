@@ -28,7 +28,7 @@ class ShiniPlayerController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="shini_player_new", methods={"GET","POST"})
+     * @Route("/new", name="/shini_player_new", methods={"GET","POST"})
      * @param Request $request
      * @param UserPasswordEncoderInterface $userPasswordEncoder
      * @return Response

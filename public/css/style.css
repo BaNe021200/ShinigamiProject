@@ -9,3 +9,7 @@
     margin-left: 50%;
 
 }
+
+.nav-link,li.nav-item{
+    display: inline-block !important;
+}
