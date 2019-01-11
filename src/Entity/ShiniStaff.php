@@ -2,19 +2,13 @@
 
 namespace App\Entity;
 
+use App\ImageSaver\ImageSaverTrait;
 use App\EntityTrait\shiniPeopleTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ShiniOffer;
-use App\Entity\ShiniPlayerAccount;
-use App\Entity\ShiniCard;
-use App\Entity\ShiniGame;
-use App\Entity\ShiniCenter;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
-use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ShiniStaffRepository")
@@ -24,8 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ShiniStaff implements UserInterface
 {
     use shiniPeopleTrait;
-
-    const DIRECTORY = 'staff';
+    use ImageSaverTrait;
 
     /**
      * @ORM\Id()
@@ -44,11 +37,7 @@ class ShiniStaff implements UserInterface
      */
     private $offers;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     */
-    private $staffImageName;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="ShiniCenter",inversedBy="staff")
@@ -64,6 +53,7 @@ class ShiniStaff implements UserInterface
         $this->offers = new ArrayCollection();
         $this->roles = new ArrayCollection();
         $this->addRole($role);
+        $this->folder = 'staff';
     }
 
     public function getId(): ?int
@@ -116,20 +106,5 @@ class ShiniStaff implements UserInterface
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getStaffImageName()
-    {
-        return $this->staffImageName;
-    }
 
-    /**
-     * @param mixed $staffImageName
-     */
-    public function setStaffImageName($staffImageName): self
-    {
-        $this->staffImageName = $staffImageName;
-        return $this;
-    }
 }

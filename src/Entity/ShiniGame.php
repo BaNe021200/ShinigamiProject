@@ -2,17 +2,16 @@
 
 namespace App\Entity;
 
+use App\ImageSaver\ImageSaverTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ShiniCenter;
-use App\Entity\ShiniPlayer;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ShiniGameRepository")
  */
 class ShiniGame
 {
-    const DIRECTORY = 'game';
+    use ImageSaverTrait;
 
     /**
      * @ORM\Id()
@@ -55,6 +54,7 @@ class ShiniGame
     {
         $this->centers = new ArrayCollection();
         $this->players = new ArrayCollection();
+        $this->folder = 'game';
     }
 
     public function getId(): ?int

@@ -6,7 +6,7 @@
  * Time: 10:50
  */
 
-namespace App\Form;
+namespace App\ImageSaver;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -49,7 +49,7 @@ class ImageSaver implements EventSubscriberInterface
         // If the user have an image pass it to dropify
         if ($imageUrl = $user->getPlayerImageName())
         {
-            $directory = $this->getDirectory($user);
+            $directory = $user->getFolder();
             $imageUrl = "${directory}/${imageUrl}";
         }
 
@@ -61,7 +61,7 @@ class ImageSaver implements EventSubscriberInterface
         $submit = $form->get('submit');
         $form->remove('submit');
 
-        $form->add('playerImageFile', FileType::class,  [
+        $form->add('ImageSaver', FileType::class,  [
             'label' => 'Charger une image pour votre profile',
             'mapped' => false,
             'attr' => [
@@ -95,67 +95,47 @@ class ImageSaver implements EventSubscriberInterface
 
         // Good news, the form is valid.
         // Now, check if the user has uploaded an image.
-        if ($noImageUploaded = $form->get('playerImageFile')->isEmpty())
+        if ($noImageUploaded = $form->get('ImageSaver')->isEmpty())
         {
-            if ($user->getPlayerImageName()) return;
+            if ($user->getImageName()) return;
 
-            // User doesn't have an image
-            $user->setPlayerImageName('player/default.png');
+           $user->setImageName($user->getFolder().'/default.png');
             return;
         }
 
         // Well ! User has added a new image for his profile !
         /** @var UploadedFile $image */
-        $image = $form->get('playerImageFile')->getData();
+        $image = $form->get('ImageSaver')->getData();
 
         // Is it really an image file ?
         $extension = $image->guessExtension();
 
         if (!in_array($extension, array('gif','jpeg','png')))
         {
-            $form->get('playerImageFile')->addError(new FormError('Invalid Image type'));
+            // TODO : traduction des messages d'erreur
+            $form->get('ImageSaver')->addError(new FormError('Invalid Image type'));
             return;
         }
 
         // Never trust user input...
         $image = $this->sanitifyImage($image);
 
-        // Create a name for the image
+        // Create a name for this image
         $filename = md5(uniqid()).'.'.$extension;
-        $directory = $this->getDirectory($user);
+        $folder = $user->getFolder();
 
-        // Move the image to the right folder
+        // Move image to right folder
         try
         {
-            $image->move($directory, $filename);
+            $image->move($folder, $filename);
         }
         catch (FileException $e) {
             // TODO: quel message d'erreur renvoyer ?
             // ... handle exception if something happens during file upload
         }
 
-        // Set the entity
-        $user->setPlayerImageName($filename);
-    }
-
-    /**
-     * Get the storage directory of the entity using the form
-     * @return string
-     */
-    private function getDirectory($user): string
-    {
-        //TODO: comment typer notre $user (ShiniStaff, ou ShiniPlayer, ShiniOffer)
-        try
-        {
-            $directory = get_class($user)::DIRECTORY;
-        }
-        catch (\Exception $e)
-        {
-            // TODO: prévoir la gestion des exceptions
-            // Did you add a DIRECTORY constant in your %s entity ?
-        }
-
-        return $directory;
+        // Update form data
+        $user->setImageName($filename);
     }
 
     private function sanitifyImage(UploadedFile $image): UploadedFile
