@@ -39,10 +39,10 @@
 
         </div>
 
-        {% endblock %}
+        {% endblock form_content  %}
         {{ form_widget(form) }}
         {{ form_end(form) }}
     <a href="{{ path('shini_staff_index') }}"><button class="btn btn-info">{{ button_label|default('Retour à la liste') }}</button></a>
 
     </div>
-{% endblock %}
+{% endblock body %}

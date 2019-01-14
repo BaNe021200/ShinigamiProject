@@ -4,9 +4,9 @@
 
     <h1>Search user by code</h1>
 
-    {% for message in app.flashes("danger") %}
+    {#{% for message in app.flashes("danger") %}
         <div class="alert alert-danger">{{ message }}</div>
-    {% endfor %}
+    {% endfor %}#}
 
     <div class="container">
         <form action="{{ path('foundPlayerByPseudoInStaffWay') }}" method="post" >

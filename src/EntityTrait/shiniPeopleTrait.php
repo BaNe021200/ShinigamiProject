@@ -8,14 +8,13 @@
 
 namespace App\EntityTrait;
 
-
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait shiniPeopleTrait
 {
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull(message="N'oubliez pas d'entrer votre prénom")
+     * @Assert\NotNull(message="N'oubliez pas vote prénom")
      * @Assert\Length(max="50")
      */
     private $name;
@@ -53,7 +52,7 @@ trait shiniPeopleTrait
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank(message="N'oubliez pas d'entrer votre mot de passe", groups={"insertion"})
      * @Assert\Regex(pattern="/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([!@#$%^&*\w]{8,20})$/",message="votre mot de passe est invalide : il doit contenir au moins une majuscule, une minuscule et un de ces caractères spéciaux (!@#$%^&*)")
-     * @Assert\Length(min="8", minMessage="votre mot de passe doit contenir {{ limit }} caractères au minimum",max="20",maxMessage="votre mot de passe est trop long il ne doit pas contenir plus de {{ limit }} caractères")
+     * @Assert\Length(min="8", minMessage="votre mot de passe doit contenir {{ limit }} caractères au minimum et 20 au max",max="20",maxMessage="votre mot de passe est trop long il ne doit pas contenir plus de {{ limit }} caractères")
      *
      */
     private $password;
@@ -62,7 +61,7 @@ trait shiniPeopleTrait
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull(message="N'oubliez pas d'entrer votre email")
+     * @Assert\NotBlank(message="N'oubliez pas d'entrer votre email")
      */
     private $email;
 

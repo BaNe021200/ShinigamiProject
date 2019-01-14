@@ -1,6 +1,6 @@
-{% extends 'shini_staff/newStaff.html.twig' %}
+{% extends 'shini_staff/layout.html.twig' %}
 
-{#{% block title %}Edit ShiniStaff{% endblock %}
+{% block title %}Edit ShiniStaff{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -47,13 +47,16 @@
 
         </div>
 
+        <div class="row">
+            <div class="offset-4 col-md-6">{{ form_row(form.center) }}</div>
+            <div class="offset-4 col-md-6">{{ form_row(form.roles) }}</div>
+        </div>
 
 
         {{ form_widget(form) }}
 
         {{ form_end(form) }}
 
-            #}{#{{ include('shini_staff/_form.html.twig', {'button_label': 'Update'}) }}#}{#
             <div id="buttonCenter">
             <a href="{{ path('shini_staff_index') }}">
                 <button class="btn btn-outline-info "><i class="fas fa-arrow-circle-left"></i> back to list</button></a>
@@ -62,4 +65,12 @@
                 </a>
             {{ include('shini_staff/_delete_form.html.twig') }}</div>
     </div>
-{% endblock %}#}
+{% endblock %}
+
+{#{% block form_delete  %}
+
+    {{ include('shini_staff/_delete_form.html.twig') }}</div>
+{% endblock form_delete %}#}
+
+
+

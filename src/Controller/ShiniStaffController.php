@@ -245,7 +245,7 @@ class ShiniStaffController extends AbstractController
         //dd($shiniCenter);
 
         $form = $this->createForm(ShiniStaffType::class,$shiniStaff, [
-            'validation_groups'=>['insertion']
+            'validation_groups'=>['insertion', 'Default']
         ]);
         $form->handleRequest($request);
 
@@ -285,7 +285,7 @@ class ShiniStaffController extends AbstractController
             $em->persist($shiniOffer);
             $em->flush();
             $this->addFlash('success','Votre Offre est créée');
-            if($shiniOffer->getShown()==='oui')
+            if($shiniOffer->getShown())
             {
                 $this->addFlash('notice','votre offre est publiée');
 

@@ -1,4 +1,4 @@
-{% extends "shini_gami/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block stylesheets %}
 
@@ -14,7 +14,7 @@
     <link href="{{asset('theme/css/clean-blog.min.css')}}" rel="stylesheet">
 {% endblock stylesheets %}
 
-{% block main %}
+{% block body %}
 
     {% include 'shini_gami/_nav.html.twig' %}
 
@@ -59,11 +59,11 @@
 
 
 
-{% endblock main %}
-{% block script %}
+{% endblock body %}
+{% block  javascripts %}
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Custom scripts for this template -->
     <script src="js/clean-blog.min.js"></script>
-{% endblock %}
+{% endblock javascripts %}

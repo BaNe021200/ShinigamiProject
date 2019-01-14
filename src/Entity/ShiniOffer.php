@@ -113,22 +113,6 @@ class ShiniOffer
         return $this;
     }
 
-
-
-    /*public function getDateEnd(): ?array
-    {
-        return $this->dateEnd;
-    }
-
-    public function setDateEnd(array $dateEnd): self
-    {
-        $this->dateEnd = $dateEnd;
-
-        return $this;
-    }*/
-
-
-
     public function getDescription(): ?string
     {
         return $this->description;

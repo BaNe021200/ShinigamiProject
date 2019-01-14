@@ -19,8 +19,11 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class ShiniPlayerController extends AbstractController
 {
     const CENTER_CODE = '360';
+
     /**
      * @Route("/", name="shini_player_index", methods={"GET"})
+     * @param ShiniPlayerRepository $shiniPlayerRepository
+     * @return Response
      */
     public function index(ShiniPlayerRepository $shiniPlayerRepository): Response
     {

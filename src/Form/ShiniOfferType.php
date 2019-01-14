@@ -51,10 +51,14 @@ class ShiniOfferType extends AbstractType
             ->add('image')
             ->add('shown',CheckboxType::class,[
                 'label'=> "visible en ligne",
+                'required' => false,
                 'attr'=>[
                     'data-toggle'=>"toggle",
                     'data-on'=> 'oui',
                     'data-off'=>'non',
+                    'data-onstyle'=>"success",
+                    'data-offstyle'=>"danger",
+                    'novalidate' => 'novalidate'
 
                 ]
             ])

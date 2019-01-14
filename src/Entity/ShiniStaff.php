@@ -27,10 +27,6 @@ class ShiniStaff implements UserInterface
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
 
     /**
      * @ORM\OneToMany(targetEntity="ShiniOffer",mappedBy="staffAdviser")
