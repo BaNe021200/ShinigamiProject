@@ -1,4 +1,4 @@
-{% extends 'shini_staff/layout.html.twig' %}
+{% extends 'base.html.twig' %}
 
 
 {% block stylesheets %}
@@ -35,8 +35,9 @@
     </div>
 
 
-        <div id="shown" class="row">
-            <div class="offset-5 col-md-6">{{ form_row(form.shown) }}</div>
+        <div  class="row">
+            <div class="offset-3 col-md-4">{{ form_row(form.shown) }}</div>
+            <div class="col-md-4 ">{{ form_row(form.onfirstpage) }}</div>
         </div>
 
         <div class="row">

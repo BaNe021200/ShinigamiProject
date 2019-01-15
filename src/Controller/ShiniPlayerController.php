@@ -20,15 +20,7 @@ class ShiniPlayerController extends AbstractController
 {
     const CENTER_CODE = '360';
 
-    /**
-     * @Route("/", name="shini_player_index", methods={"GET"})
-     * @param ShiniPlayerRepository $shiniPlayerRepository
-     * @return Response
-     */
-    public function index(ShiniPlayerRepository $shiniPlayerRepository): Response
-    {
-        return $this->render('shini_player/index.html.twig', ['shini_players' => $shiniPlayerRepository->findAll()]);
-    }
+
 
     /**
      * @Route("/new", name="/shini_player_new", methods={"GET","POST"})
@@ -90,7 +82,7 @@ class ShiniPlayerController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
            $this->addFlash('success','Votre profil est modifié');
 
-            return $this->redirectToRoute('shini_player_index', ['id' => $shiniPlayer->getId()]);
+            return $this->redirectToRoute('shini.player.list', ['id' => $shiniPlayer->getId()]);
         }
 
         return $this->render('shini_player/edit.html.twig', [

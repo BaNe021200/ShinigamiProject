@@ -3,43 +3,28 @@
 namespace App\Form;
 
 use App\Entity\ShiniOffer;
-use App\ImageSaver\ImageSaver;
+use App\Entity\ShiniStaff;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ShiniOfferType extends AbstractType
+class ShiniOffer1Type extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name',TextType::class,[
-                'label'=>'Nom de l\'offre',
-                'attr'=>[
-                    'placeholder'=>'nom de votre offre'
-                ]
-            ])
-            ->add('price', MoneyType::class,[
-                'label'=> 'prix',
-                'attr'=>[
-                    'placeholder'=>"prix de l'article",
-
-
-                ]
-            ])
-            ->add('dateEnd',DateType::class,[
-                'label' =>'date de fin',
-                'attr' =>[
-                    'placeholder'=>"date de fin",
-                ]
-            ])
-
+            ->add('name')
+            ->add('price')
+            ->add('dateEnd',DateType::class)
             ->add('description',CKEditorType::class,[
                 'label'=>'Description',
                 'attr'=> [
@@ -75,13 +60,19 @@ class ShiniOfferType extends AbstractType
                 ]
             ])
 
+            /*->add('staffAdviser', EntityType::class, [
+                'label'=>'publié par',
+                'class' => ShiniStaff::class,
+                'choice_label' => 'nickName'
+            ])*/
             ->add('submit',SubmitType::class,[
-                'label'=> 'soumettre',
+               'label'=>'Update',
                 'attr'=>[
-                    'class' =>'btn btn-success'
+                    'class' => "btn btn-success"
                 ]
             ])
-            ->addEventSubscriber(new ImageSaver())
+
+
         ;
     }
 

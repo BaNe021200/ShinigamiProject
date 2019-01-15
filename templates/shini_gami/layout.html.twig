@@ -1,27 +1,15 @@
 {% extends "base.html.twig" %}
 
-{% block stylesheets %}
 
-
-    <!-- Custom fonts for this template -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <!-- Custom styles for this template -->
-    <link href="{{asset('theme/css/clean-blog.min.css')}}" rel="stylesheet">
-{% endblock stylesheets %}
 
 {% block body %}
 
-    {% include 'shini_gami/_nav.html.twig' %}
+   {# {% include 'shini_gami/_nav.html.twig' %}#}
 
 
 
     {% block header %}
-        <header class="masthead" style="background-image:{% block imgBk %}url('{{ asset('theme/img/home-bg.jpg') }}'){% endblock imgBk %}">
+        {#<header class="masthead" style="background-image:{% block imgBk %}url('{{ asset('theme/img/home-bg.jpg') }}'){% endblock imgBk %}">
             <div class="overlay"></div>
             <div class="container">
                 <div class="row">
@@ -43,7 +31,23 @@
                     </div>
                 </div>
             </div>
-        </header>
+        </header>#}
+
+        <div class="jumbotron text-center">
+            <h1>{% block about1 %}ShiniGamiLaser{% endblock about1 %}</h1>
+
+
+            <span class="subheading">{% block about2 %}The place to be <br>Sic Gorgiamus Allos Subjectatos Nunc
+
+                                        {% endblock about2 %}</span></div>
+
+
+
+
+
+
+
+
     {% endblock header %}
 
 

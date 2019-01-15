@@ -19,6 +19,30 @@ class ShiniOffersRepository extends ServiceEntityRepository
         parent::__construct($registry, ShiniOffer::class);
     }
 
+
+    public function findVisible()
+    {
+        return $this->createQueryBuilder('shiniOffers')
+            ->where('shiniOffers.shown = 1')
+            ->orderBy('shiniOffers.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findOnLine()
+    {
+        return $this->createQueryBuilder('shiniOffers')
+            ->where('shiniOffers.onfirstpage = 1')
+            ->orderBy('shiniOffers.id', 'ASC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
     // /**
     //  * @return ShiniOffer[] Returns an array of ShiniOffer objects
     //  */

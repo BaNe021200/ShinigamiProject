@@ -164,8 +164,9 @@ class ShiniStaffController extends AbstractController
     /**
      * @param Request $request
      * @param ShiniPlayer $player
-     * @Route("shiniplayer/{id<\d+>}/card",name="searchCard")
+     * @param ShiniCenterRepository $shiniCenterRepository
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("shiniplayer/{id<\d+>}/card",name="searchCard")
      */
     public function cardGenerator(Request $request, ShiniPlayer $player, ShiniCenterRepository $shiniCenterRepository)
     {
@@ -275,25 +276,33 @@ class ShiniStaffController extends AbstractController
      */
     public function createNewOffer(Request $request):Response
     {
+
         $shiniOffer = new ShiniOffer();
         $form = $this->createForm(ShiniOfferType::class, $shiniOffer);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
         {
+            $shiniOffer->setStaffAdviser($this->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($shiniOffer);
             $em->flush();
             $this->addFlash('success','Votre Offre est créée');
             if($shiniOffer->getShown())
             {
-                $this->addFlash('notice','votre offre est publiée');
+                $this->addFlash('info','votre offre est publiée');
 
             }else{
-                $this->addFlash('notice','votre offre n\'est pas publiée');
+                $this->addFlash('danger','votre offre n\'est pas publiée');
+            }
+            if($shiniOffer->getOnfirstpage())
+            {
+                $this->addFlash('info','votre offre est publiée à la une');
+            }else{
+                $this->addFlash('danger','votre offre n\'est pas à la une');
             }
 
-            return $this->redirectToRoute('shini_staff_index');
+            return $this->redirectToRoute('shini.offer.index');
         }
 
         return $this->render('shini_staff/offerForm.html.twig',[
@@ -303,4 +312,14 @@ class ShiniStaffController extends AbstractController
 
     }
 
+
+    /**
+     * @Route("/ShiniPlayer/list", name="shini.player.list", methods={"GET"})
+     * @param ShiniPlayerRepository $shiniPlayerRepository
+     * @return Response
+     */
+    public function playersList(ShiniPlayerRepository $shiniPlayerRepository): Response
+    {
+        return $this->render('shini_staff/list_players.html.twig', ['shini_players' => $shiniPlayerRepository->findAll()]);
+    }
 }

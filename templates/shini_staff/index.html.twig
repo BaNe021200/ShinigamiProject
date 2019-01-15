@@ -1,4 +1,4 @@
-{% extends "shini_player/index.html.twig" %}
+{% extends "shini_staff/list_players.html.twig" %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,7 +11,7 @@
     <th>centre</th>
 {% endblock contentDiff %}
 {% block body %}
-    {% include 'shini_gami/_nav.html.twig' %}
+    {#{% include 'shini_gami/_nav.html.twig' %}#}
     {#{% for message in app.flashes('success') %}
         <div class="alert alert-success"> {{ message }}</div>
     {% endfor %}#}

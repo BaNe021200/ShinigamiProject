@@ -46,7 +46,8 @@ security:
 
             logout:
                 path: /logOut
-                target: /
+                target: /shiniGami/signInUp#connexion
+                #always_use_default_target_path: true
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used

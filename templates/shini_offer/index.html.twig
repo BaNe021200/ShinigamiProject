@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ShiniOffer index{% endblock %}
+
+{% block body %}
+
+    <div class="row mrgbody">
+
+        <div class="col-md-3">
+            <h1>ShiniOffer index</h1>
+            {{include('shini_staff/_sideBar.html.twig')}}
+        </div>
+
+        <div class="col-md-6">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Price</th>
+                    <th>DateEnd</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Publiée</th>
+                    <th>A la une</th>
+                    <th>Name</th>
+                    <th>Publié Par</th>
+
+                    <th>actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for shini_offer in shini_offers %}
+                    <tr>
+                        <td>{{ shini_offer.id }}</td>
+                        <td>{{ shini_offer.price }} €</td>
+                        <td>{{ shini_offer.dateEnd ? shini_offer.dateEnd|date('d-m-Y') : '' }}</td>
+                        <td>{{ shini_offer.description |truncate(170) }}</td>
+                        <td>{{ shini_offer.image }}</td>
+                        <td>{{ shini_offer.shown ? 'Oui' : 'Non' }}</td>
+                        <td>{% if shini_offer.onfirstpage %}
+                                <button class="btn btn-danger disabled">Oui</button> {% else %}
+
+
+                            {% endif %}
+
+
+
+                            </td>
+                        <td>{{ shini_offer.name }}</td>
+                        <td>{{ shini_offer.staffAdviser.nickName }}</td>
+                        <td>
+                            <a href="{{ path('shini.offer.show', {'id': shini_offer.id}) }}"><button class="btn btn-outline-info"><i class="fas fa-eye">&nbsp;</i>show</button></a>
+                            <a href="{{ path('shini.offer.edit', {'id': shini_offer.id}) }}"><button class="btn btn-outline-warning"><i class="fas fa-user-edit"></i> edit</button></a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+{% endblock %}
