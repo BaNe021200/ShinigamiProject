@@ -17,3 +17,4 @@
 ###< symfony/web-server-bundle ###
 /.idea/
 /public/theme/
+/public/assets/
