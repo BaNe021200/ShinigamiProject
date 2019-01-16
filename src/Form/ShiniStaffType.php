@@ -11,6 +11,7 @@ namespace App\Form;
 
 use App\Entity\ShiniCenter;
 use App\Entity\ShiniStaff;
+use App\ImageSaver\ImageSaver;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -39,7 +40,7 @@ class ShiniStaffType extends ShiniPlayerType
                 'class' => ShiniCenter::class,
                 'choice_label' => 'code',
             ])
-
+            ->addEventSubscriber(new ImageSaver())
 
         ;
 

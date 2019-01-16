@@ -2,17 +2,16 @@
 
 namespace App\Entity;
 
+use App\ImageSaver\ImageSaverTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ShiniCenter;
-use App\Entity\ShiniPlayer;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ShiniGameRepository")
  */
 class ShiniGame
 {
-    const DIRECTORY = 'game';
+    use ImageSaverTrait;
 
     /**
      * @ORM\Id()
@@ -41,11 +40,6 @@ class ShiniGame
      */
     private $players;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     */
-    private $gameImageName;
 
     /**
      * ShiniGame constructor.
@@ -55,6 +49,7 @@ class ShiniGame
     {
         $this->centers = new ArrayCollection();
         $this->players = new ArrayCollection();
+        $this->folder = 'game';
     }
 
     public function getId(): ?int
@@ -92,7 +87,7 @@ class ShiniGame
         return $this;
     }
 
-    public function getPlayers(): ?array 
+    public function getPlayers(): ? ArrayCollection
     {
         return $this->players;
     }
@@ -136,24 +131,6 @@ class ShiniGame
     public function addCenters($center)
     {
         $this->centers[] = $center;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getGameImageName()
-    {
-        return $this->gameImageName;
-    }
-
-    /**
-     * @param mixed $gameImageName
-     * @return ShiniGame
-     */
-    public function setGameImageName($gameImageName)
-    {
-        $this->gameImageName = $gameImageName;
         return $this;
     }
 }

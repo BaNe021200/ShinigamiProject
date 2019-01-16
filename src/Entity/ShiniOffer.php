@@ -2,17 +2,16 @@
 
 namespace App\Entity;
 
+use App\ImageSaver\ImageSaverTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ShiniPlayerAccount;
-use App\Entity\ShiniStaff;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ShiniOffersRepository")
  */
 class ShiniOffer
 {
-    const DIRECTORY = 'offer';
+    use ImageSaverTrait;
 
     /**
      * @ORM\Id()
@@ -69,6 +68,7 @@ class ShiniOffer
     public function __construct()
     {
         $this->accounts = new ArrayCollection();
+        $this->folder = 'offer';
     }
 
 

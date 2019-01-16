@@ -2,17 +2,14 @@
 
 namespace App\Entity;
 
+
 use App\EntityTrait\shiniPeopleTrait;
-use Doctrine\Common\Annotations\Annotation\Required;
+use App\ImageSaver\ImageSaverTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ShiniPlayerAccount;
-use App\Entity\ShiniCard;
-use App\Entity\ShiniGame;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -24,8 +21,7 @@ class ShiniPlayer implements UserInterface
 {
 
     use shiniPeopleTrait;
-
-    const DIRECTORY = 'player';
+    use ImageSaverTrait;
 
     /**
      * @ORM\Id()
@@ -38,11 +34,6 @@ class ShiniPlayer implements UserInterface
      * @ORM\Column(type="integer", nullable=true)
      */
     private $cardCode;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $playerImageName;
 
     /**
      * @ORM\ManyToOne(targetEntity="ShiniCard",inversedBy="player")
@@ -76,6 +67,7 @@ class ShiniPlayer implements UserInterface
         $this->games = new ArrayCollection();
         $this->roles = new ArrayCollection();
         $this->addRole($role);
+        $this->folder = 'player';
     }
 
     public function getId(): ?int
@@ -163,22 +155,5 @@ class ShiniPlayer implements UserInterface
     public function eraseCredentials()
     {
 
-    }
-
-    /**
-     * @return string
-     */
-    public function getPlayerImageName()
-    {
-        return $this->playerImageName;
-    }
-
-    /**
-     * @param mixed $playerImageName
-     */
-    public function setPlayerImageName($playerImageName): self
-    {
-        $this->playerImageName = $playerImageName;
-        return $this;
     }
 }

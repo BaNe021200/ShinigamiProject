@@ -2,18 +2,16 @@
 
 namespace App\Entity;
 
+use App\ImageSaver\ImageSaverTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ShiniCard;
-use App\Entity\ShiniGame;
-use App\Entity\ShiniStaff;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ShiniCenterRepository")
  */
 class ShiniCenter
 {
-    const DIRECTORY = 'center';
-
+    use ImageSaverTrait;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -42,12 +40,6 @@ class ShiniCenter
      * @ORM\JoinColumn(nullable=true)
      */
     private $games;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     */
-    private $centerImageName;
 
      /**
      * @ORM\OneToMany(targetEntity="ShiniStaff",mappedBy="center")
@@ -131,25 +123,8 @@ class ShiniCenter
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCenterImageName()
-    {
-        return $this->centerImageName;
-    }
 
-    /**
-     * @param mixed $centerImageName
-     * @return ShiniCenter
-     */
-    public function setCenterImageName($centerImageName)
-    {
-        $this->centerImageName = $centerImageName;
-        return $this;
-    }
-
-    public function getStaff(): ?int
+    public function getStaff(): ? ArrayCollection
     {
         return $this->staff;
     }
