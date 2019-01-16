@@ -5,6 +5,9 @@ namespace App\Entity;
 use App\ImageSaver\ImageSaverTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\ShiniPlayerAccount;
+use App\Entity\ShiniStaff;
+use Cocur\Slugify\Slugify;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ShiniOffersRepository")
@@ -63,6 +66,11 @@ class ShiniOffer
     private $name;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $onfirstpage;
+
+    /**
      * ShiniOffer constructor.
      */
     public function __construct()
@@ -94,6 +102,10 @@ class ShiniOffer
         $this->price = $price;
         return $this;
     }
+    public function getFormattedPrice():string
+    {
+        return number_format($this->price, 0, '',' ');
+    }
 
     /**
      * @return mixed
@@ -112,22 +124,6 @@ class ShiniOffer
         $this->dateEnd = $dateEnd;
         return $this;
     }
-
-
-
-    /*public function getDateEnd(): ?array
-    {
-        return $this->dateEnd;
-    }
-
-    public function setDateEnd(array $dateEnd): self
-    {
-        $this->dateEnd = $dateEnd;
-
-        return $this;
-    }*/
-
-
 
     public function getDescription(): ?string
     {
@@ -219,6 +215,23 @@ class ShiniOffer
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSlug():string
+    {
+        return (new Slugify())->slugify($this->name);
+    }
+
+    public function getOnfirstpage(): ?bool
+    {
+        return $this->onfirstpage;
+    }
+
+    public function setOnfirstpage(bool $onfirstpage): self
+    {
+        $this->onfirstpage = $onfirstpage;
 
         return $this;
     }

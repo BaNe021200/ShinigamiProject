@@ -3,9 +3,7 @@
 {% set active = 'signIn' %}
 
 {% block content %}
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success"> {{ message }}</div>
-    {% endfor %}
+
 
     <div>
             <ul class="nav nav-tabs">
@@ -24,9 +22,9 @@
                           {{ error.messageKey | trans(error.messageData, 'security') }}
                       </div>
                     {% endif %}
-                    {% for message in app.flashes('notice') %}
+                    {#{% for message in app.flashes('notice') %}
                         <div class="alert alert-success">{{ message }}</div>
-                    {% endfor %}
+                    {% endfor %}#}
                     {{ form(formSignIn) }}
 
                 </div>
@@ -88,10 +86,10 @@
 {% endblock %}
 
 {% block page_title %}
-
+    s'incrire ou se connecter
 {% endblock %}
 
-{% block script %}
+{% block javascripts %}
    {{ parent() }}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>

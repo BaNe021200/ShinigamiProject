@@ -1,6 +1,6 @@
 <ul class="nav flex-column">
     <li class="nav-item">
-        <a class="nav-link active" href="{{ path('shini_player_index') }}">
+        <a class="nav-link active" href="{{ path('shini.player.list') }}">
             <button class="btn btn-outline-info"><i class="fas fa-eye">&nbsp;</i> Voir les ShiniPlayers</button></a>
     </li>
     <li class="nav-item">
@@ -10,20 +10,25 @@
         <a class="nav-link" href="{{ path('searchByNicknameInStaffWay') }}"><button class="btn btn-outline-info"><i class="fas fa-search"></i> Retrouver un client par pseudo</button></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link disabled" href="{{ path('shiniStaff.create.new.center') }}">
-            <button class="btn btn-outline-info"><i class="fas fa-plus-square"></i> Créer un nouveau centre</button></a>
+        <a class="nav-link " href="{{ path('shiniStaff.create.new.center') }}">
+            <button class="btn btn-outline-danger"><i class="fas fa-plus-square"></i> Créer un nouveau centre</button></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link disabled" href="{{ path('shiniStaff.new.offer') }}">
+        <a class="nav-link " href="{{ path('shiniStaff.new.offer') }}">
             <button class="btn btn-outline-warning"><i class="fas fa-plus-square"></i> Créer une nouvelle offre</button></a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link " href="{{ path('shini.offer.index') }}">
+            <button class="btn btn-outline-warning"><i class="fas fa-eye"></i> Voir toutes les offres</button></a>
+    </li>
 
-    {#{% if is_granted('ROLE_ADMIN') %}#}
+
+    {% if is_granted('ROLE_ADMIN') %}
         <li class="nav-item">
-            <a class="nav-link disabled" href="{{ path('create.new.staff') }}">
+            <a class="nav-link " href="{{ path('create.new.staff') }}">
                 <button class="btn btn-outline-success"><i class="fas fa-plus-square"></i> Créer un nouveau membre du Satff</button></a>
         </li>
-    {#{% endif %}#}
+    {% endif %}
 
 </ul>
 

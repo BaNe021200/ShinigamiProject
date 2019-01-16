@@ -94,7 +94,7 @@ class ShiniPlayerType extends AbstractType
 
                 ]
             ])
-            ->addEventSubscriber(new ImageSaver())
+            /*->addEventSubscriber(new ImageSaver())*/
         ;
     }
 

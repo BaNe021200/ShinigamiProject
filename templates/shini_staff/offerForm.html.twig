@@ -1,9 +1,12 @@
-{% extends 'shini_staff/layout.html.twig' %}
+{% extends 'base.html.twig' %}
 
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    {#<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">#}
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
 {% endblock stylesheets %}
 
 
@@ -32,8 +35,9 @@
     </div>
 
 
-        <div class="row">
-            <div class="offset-5 col-md-6">{{ form_row(form.shown) }}</div>
+        <div  class="row">
+            <div class="offset-3 col-md-4">{{ form_row(form.shown) }}</div>
+            <div class="col-md-4 ">{{ form_row(form.onfirstpage) }}</div>
         </div>
 
         <div class="row">
@@ -54,4 +58,5 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
 {% endblock javascripts %}

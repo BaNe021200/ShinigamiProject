@@ -13,3 +13,14 @@
 .nav-link,li.nav-item{
     display: inline-block !important;
 }
+
+.mrgbody{
+    margin-top: 5vh;
+}
+
+.active{
+
+    font-weight: 600 !important;
+    /*text-decoration: underline black !important;*/
+
+}

@@ -61,15 +61,19 @@
             </tr>
             </tbody>
         </table>
+        {% block buttonShow %}
+            
+
 
         <div id="buttonCenter">
-            <a href="{{ path('shini_player_index') }}">
+            <a href="{{ path('shini.player.list') }}">
                 <button class="btn btn-outline-info"><i class="fas fa-arrow-circle-left"></i> back to list</button>
             </a>
-
+            {% endblock buttonShow %}
             <a href="{{ path('shini_player_edit', {'id': shini_player.id}) }}">
                 <button class="btn btn-outline-warning"><i class="fas fa-user-edit  text-center"></i> edit</button>
             </a>
+
 
             {{ include('shini_player/_delete_form.html.twig') }}</div>
 

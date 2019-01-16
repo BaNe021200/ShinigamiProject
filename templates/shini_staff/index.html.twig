@@ -1,4 +1,4 @@
-{% extends "shini_player/index.html.twig" %}
+{% extends "shini_staff/list_players.html.twig" %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -7,16 +7,19 @@
 
 
 {% block contentDiff %}
+
     <th>centre</th>
 {% endblock contentDiff %}
 {% block body %}
-    {% for message in app.flashes('success') %}
+    {#{% include 'shini_gami/_nav.html.twig' %}#}
+    {#{% for message in app.flashes('success') %}
         <div class="alert alert-success"> {{ message }}</div>
-    {% endfor %}
+    {% endfor %}#}
 
-        <div class="row">
+        <div class="row mrgbody">
 
-            <div class="col-md-3"><h1>ShiniStaff index </h1>
+            <div class="col-md-3">
+                <h1>ShiniStaff index </h1>
                 {{ include('shini_staff/_sideBar.html.twig') }}
             </div>
 

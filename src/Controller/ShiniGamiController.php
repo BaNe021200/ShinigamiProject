@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\ShiniOffer;
 use App\Entity\ShiniPlayer;
 use App\Form\ShiniLaserSignInType;
 
 use App\Form\ShiniLoginType;
+use App\Repository\ShiniOffersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,29 +22,60 @@ class ShiniGamiController extends AbstractController
 {
     /**
      * @Route("/", name="shini_gami")
+     * @param ShiniOffersRepository $offersRepository
+     * @return Response
      */
-    public function index()
+    public function index(ShiniOffersRepository $offersRepository):Response
     {
+
+        $offerOnLine = $offersRepository->findOnLine();
+
         return $this->render('shini_gami/index.html.twig', [
-            'controller_name' => 'ShiniGamiController',
+            'onLines'=>$offerOnLine,
+
         ]);
     }
+
+
 
     /**
      * @Route("/about",name="about")
      */
     public function about()
     {
-       return $this->render('shini_gami/about.htlm.twig');
+       return $this->render('shini_gami/about.htlm.twig',[
+           'about' =>'about'
+       ]);
     }
 
 
     /**
      * @Route("/offers",name="offers")
+     * @param ShiniOffersRepository $offersRepository
+     * @return Response
      */
-    public function offers()
+    public function offers(ShiniOffersRepository $offersRepository):Response
     {
-        return $this->render('shini_gami/offers.html.twig');
+        $shiniOffers = $offersRepository->findVisible();
+
+        return $this->render('shini_gami/offers.html.twig',[
+            'offer' =>'offer',
+            'shini_offers' =>$shiniOffers
+
+
+        ]);
+    }
+
+    /**
+     * @Route("/{slug}-{id}",name="shiniGami.offer.show", methods={"GET"},requirements={"slug": "[a-z0-9\-]*"})
+     * @param ShiniOffer $shiniOffer
+     * @return Response
+     */
+    public function offerShow(ShiniOffer $shiniOffer):Response
+    {
+      return $this->render('shini_gami/showOffer.twig',[
+          'shini_offer' =>$shiniOffer
+      ]);
     }
 
     /**
@@ -50,7 +83,7 @@ class ShiniGamiController extends AbstractController
      */
     public function contact()
     {
-        return $this->render('shini_gami/contact.htlm.twig');
+        return $this->render('shini_gami/contact.htlm.twig',['contact'=>'contact']);
     }
 
     /**

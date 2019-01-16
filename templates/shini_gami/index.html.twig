@@ -1,7 +1,7 @@
 {% extends 'shini_gami/layout.html.twig' %}
 
 {% block imgBk %}
-    url('{{ asset('theme/img/home-bg.jpg') }}')
+    {#url('{{ asset('theme/img/home-bg.jpg') }}')#}
 {% endblock %}
 
 {% block page_title %}
@@ -11,69 +11,31 @@
 
 
     {% block content %}
+        <div class="container">
+            {% for offer in onLines %}
 
+                <div class="post-preview text-center">
+                    <a href="{{ path('shiniGami.offer.show', {id: offer.id,slug:offer.slug}) }}">
+                        <h2 class="post-title text-center">
+                            {{ offer.name }}
+                        </h2></a>
+                    <a href="{{ path('shiniGami.offer.show', {'id': offer.id,slug:offer.slug}) }}">
+                    <img src="../{{ offer.image }}" class="img-thumbnail img-rounded" alt=""></a>
+                    <h3 class="post-subtitle text-primary text-center" style="font-weight: bold;font-size: 2rem;">
+                        {{ offer.getFormattedPrice }} €
+                    </h3>
 
-                    <div class="post-preview">
-                        <a href="post.html">
-                            <h2 class="post-title">
-                                Man must explore, and this is exploration at its greatest
-                            </h2>
-                            <h3 class="post-subtitle">
-                                Problems look mighty small from 150 miles up
-                            </h3>
-                        </a>
-                        <p class="post-meta">Posted by
-                            <a href="#">Start Bootstrap</a>
-                            on September 24, 2018</p>
-                    </div>
-                    <hr>
-                    <div class="post-preview">
-                        <a href="post.html">
-                            <h2 class="post-title">
-                                I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.
-                            </h2>
-                        </a>
-                        <p class="post-meta">Posted by
-                            <a href="#">Start Bootstrap</a>
-                            on September 18, 2018</p>
-                    </div>
-                    <hr>
-                    <div class="post-preview">
-                        <a href="post.html">
-                            <h2 class="post-title">
-                                Science has not yet mastered prophecy
-                            </h2>
-                            <h3 class="post-subtitle">
-                                We predict too much for the next year and yet far too little for the next ten.
-                            </h3>
-                        </a>
-                        <p class="post-meta">Posted by
-                            <a href="#">Start Bootstrap</a>
-                            on August 24, 2018</p>
-                    </div>
-                    <hr>
-                    <div class="post-preview">
-                        <a href="post.html">
-                            <h2 class="post-title">
-                                Failure is not an option
-                            </h2>
-                            <h3 class="post-subtitle">
-                                Many say exploration is part of our destiny, but it’s actually our duty to future generations.
-                            </h3>
-                        </a>
-                        <p class="post-meta">Posted by
-                            <a href="#">Start Bootstrap</a>
-                            on July 8, 2018</p>
-                    </div>
-                    <hr>
-                    <!-- Pager -->
-                    <div class="clearfix">
-                        <a class="btn btn-outline-primary float-right" href="#">Older Posts <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                    <p class="post-meta">Offre valable juqu'au {{ offer.dateEnd |date('d-m-Y') }}
+
+                </div>
+                <hr>
 
 
 
 
+            {% endfor %}
+
+        </div>
 
     {% endblock content %}
 

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ShiniOffer{% endblock %}
+
+{% block body %}
+    <h1>Create new ShiniOffer</h1>
+
+    {{ include('shini_offer/_form.html.twig') }}
+
+    <a href="{{ path('shini_offer_index') }}">back to list</a>
+{% endblock %}
