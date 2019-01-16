@@ -5,6 +5,9 @@ namespace App\Entity;
 use App\ImageSaver\ImageSaverTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\ShiniPlayerAccount;
+use App\Entity\ShiniStaff;
+use Cocur\Slugify\Slugify;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ShiniOffersRepository")
@@ -214,6 +217,11 @@ class ShiniOffer
         $this->name = $name;
 
         return $this;
+    }
+
+    public function getSlug():string
+    {
+        return (new Slugify())->slugify($this->name);
     }
 
     public function getOnfirstpage(): ?bool

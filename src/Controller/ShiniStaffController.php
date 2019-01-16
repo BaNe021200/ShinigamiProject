@@ -179,7 +179,10 @@ class ShiniStaffController extends AbstractController
           return $this->redirectToRoute('shini_player_edit', ['id'=>$player->getId()]);
       }
 
-
+        $unique = uniqid('', true);
+        $file_name = substr($unique, strlen($unique) - 6, strlen($unique));
+        dd($unique);
+        dd($file_name);
           $card = new ShiniCard();
           $shinicenter = $shiniCenterRepository->findOneBy(['code'=>360]);
           //dd($shinicenter);

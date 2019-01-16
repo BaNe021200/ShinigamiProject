@@ -67,7 +67,7 @@ class ShiniGamiController extends AbstractController
     }
 
     /**
-     * @Route("/offers/show/{id}",name="shiniGami.offer.show", methods={"GET"})
+     * @Route("/{slug}-{id}",name="shiniGami.offer.show", methods={"GET"},requirements={"slug": "[a-z0-9\-]*"})
      * @param ShiniOffer $shiniOffer
      * @return Response
      */
