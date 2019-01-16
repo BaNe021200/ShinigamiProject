@@ -17,3 +17,5 @@
 ###< symfony/web-server-bundle ###
 /.idea/
 /public/theme/
+/public/img/
+/public/css/bootstrap.min.css
