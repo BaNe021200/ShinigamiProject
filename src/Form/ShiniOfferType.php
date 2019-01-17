@@ -74,6 +74,11 @@ class ShiniOfferType extends AbstractType
                     'novalidate' => 'novalidate'
                 ]
             ])
+            /*->add('staffAdviser', EntityType::class, [
+                'label'=>'publié par',
+                'class' => ShiniStaff::class,
+                'choice_label' => 'nickName'
+            ])*/
 
             ->add('submit',SubmitType::class,[
                 'label'=> 'soumettre',

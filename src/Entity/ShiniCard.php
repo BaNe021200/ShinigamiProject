@@ -18,7 +18,7 @@ class ShiniCard
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $rfid;
 
@@ -30,7 +30,7 @@ class ShiniCard
 
 
     /**
-     * @ORM\OneToMany(targetEntity="ShiniPlayer",mappedBy="cards")
+     * @ORM\ManyToOne(targetEntity="ShiniPlayer",inversedBy="cards")
      */
     private $player;
 
@@ -93,7 +93,7 @@ class ShiniCard
         return $this->player;
     }
 
-    public function setPlayer(int $player): self
+    public function setPlayer(ShiniPlayer $player): self
     {
         $this->player = $player;
 

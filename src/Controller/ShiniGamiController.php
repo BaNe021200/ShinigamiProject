@@ -145,7 +145,8 @@ class ShiniGamiController extends AbstractController
      */
     public function logOut()
     {
-
+        $this->addFlash('info','Vous êtes bien déconnecté !');
+        $this->redirectToRoute('signInUp');
     }
 
     public function validation()

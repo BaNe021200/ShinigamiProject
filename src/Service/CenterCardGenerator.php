@@ -8,8 +8,12 @@
 
 namespace App\Service;
 
-
-class CardGenerator
+/**
+ * Class CenterCardGenerator
+ *
+ * @package App\Service
+ */
+class CenterCardGenerator
 {
-    
+
 }

@@ -40,7 +40,9 @@
             </tr>
             <tr>
                 <th>CardCode</th>
-                <td>{{ shini_player.cardCode }}</td>
+                <td>{% if shini_player.cardCode != 0 %}
+                        {{ "%06d"|format(shini_player.cardCode) }}
+                    {% endif %}</td>
             </tr>
             <tr>
                 <th>Roles</th>

@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    <h1>Search user by pseudo </h1>
+    <h1>Search user by code</h1>
 
     {#{% for message in app.flashes("danger") %}
         <div class="alert alert-danger">{{ message }}</div>
@@ -14,7 +14,7 @@
                 <div class="input-group-prepend">
                     <button class="btn btn-success" id="basic-addon1">rechercher</button>
                 </div>
-                <input type="text" name="foundPlayerByCodeCard" class="form-control" placeholder="User Pseudo" aria-label="UserPseudo"
+                <input type="text" name="foundPlayerByCardCode" class="form-control" placeholder="code de la carte à six chiffres" aria-label="UserPseudo"
                        aria-describedby="basic-addon1">
             </div>
         </form>

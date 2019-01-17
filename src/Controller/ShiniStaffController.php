@@ -21,6 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -63,7 +64,7 @@ class ShiniStaffController extends AbstractController
             $entityManager->persist($shiniPlayer);
             $entityManager->flush();
 
-            return $this->redirectToRoute('shini_player_index');
+            return $this->redirectToRoute('shini.player.list');
         }
 
         return $this->render('shini_staff/shini_player_new.html.twig', [
@@ -90,6 +91,7 @@ class ShiniStaffController extends AbstractController
      */
     public function edit(Request $request, ShiniStaff $shiniStaff): Response
     {
+
         $form = $this->createForm(ShiniStaffEditType::class, $shiniStaff);
         $form->handleRequest($request);
 
@@ -137,6 +139,15 @@ class ShiniStaffController extends AbstractController
 
 
     /**
+     * @return Response
+     * @Route("/searchByCodeCard",name="search.by.card.code")
+     */
+    public function searchPlayerByCardCode()
+    {
+        return $this->render('shini_staff/searchPlayerByCardCode.twig');
+    }
+
+    /**
      * @param Request $request
      * @param ShiniPlayerRepository $shiniPlayerRepository
      *
@@ -163,10 +174,33 @@ class ShiniStaffController extends AbstractController
 
     /**
      * @param Request $request
+     * @param ShiniPlayerRepository $shiniPlayerRepository
+     * @return Response
+     * @Route("/foundPlayerbyCardCode",name="found.player.by.card.code")
+     *
+     */
+    public function findPlayerByCode(Request $request, ShiniPlayerRepository $shiniPlayerRepository)
+    {
+       $cardCode = $request->request->get('foundPlayerByCardCode');
+       $shiniplayer = $shiniPlayerRepository->findOneBy(['cardCode' =>$cardCode]);
+       //var_dump($cardCode);die;
+
+        if($shiniplayer=== null)
+        {
+            $this->addFlash('danger','Il n\'y a pas d\'enregistrement corresondant au numéro '.$cardCode);
+            return $this->redirectToRoute('search.by.card.code');
+        }
+
+       return $this->render('shini_staff/showPlayerByCardCode.html.twig',['shini_player'=>$shiniplayer]);
+    }
+
+    /**
+     *
+     * @Route("/shiniplayer/{id<\d+>}/card",name="searchCard")
+     * @param Request $request
      * @param ShiniPlayer $player
      * @param ShiniCenterRepository $shiniCenterRepository
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("shiniplayer/{id<\d+>}/card",name="searchCard")
      */
     public function cardGenerator(Request $request, ShiniPlayer $player, ShiniCenterRepository $shiniCenterRepository)
     {
@@ -179,29 +213,31 @@ class ShiniStaffController extends AbstractController
           return $this->redirectToRoute('shini_player_edit', ['id'=>$player->getId()]);
       }
 
-        $unique = uniqid('', true);
-        $file_name = substr($unique, strlen($unique) - 6, strlen($unique));
-        dd($unique);
-        dd($file_name);
-          $card = new ShiniCard();
-          $shinicenter = $shiniCenterRepository->findOneBy(['code'=>360]);
-          //dd($shinicenter);
+      $card = new ShiniCard();
 
-          $clientCode = rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
-          $centerCodeForCheckSum = intval(self::CENTER_CODE);
-          $clientCodeForCheckSum = intval($clientCode);
-          $checksum =($centerCodeForCheckSum+$clientCodeForCheckSum)%9;
-          $card->setCenter($shinicenter);
-          $card->setPlayerCode($clientCode);
-          $card->setChecksum($checksum);
+      $staff = $this->getUser();
 
-           $em = $this->getDoctrine()->getManager();
-           $em->persist($card);
-           $em->flush();
+      $shinicenter = $shiniCenterRepository->findOneBy(['code'=>360]);
 
-           $this->addFlash('success', 'carte générée !');
 
-           return $this->render('shini_staff/edit.html.twig');
+      //$clientCode = rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
+      $clientCode= $player->getId();
+      $centerCodeForCheckSum = intval(self::CENTER_CODE);
+      $clientCodeForCheckSum = intval($clientCode);
+      $checksum =($centerCodeForCheckSum+$clientCodeForCheckSum)%9;
+      $card->setCenter($shinicenter);
+      $card->setPlayerCode($clientCode);
+      $card->setChecksum($checksum);
+      $card->setPlayer($player);
+      $player->setCardCode($clientCode);
+
+       $em = $this->getDoctrine()->getManager();
+       $em->persist($card);
+       $em->flush();
+
+       $this->addFlash('success', 'carte générée !');
+
+       return $this->redirectToRoute('shini_player_show', ['id'=>$player->getId()]);
     }
 
     /**
@@ -246,6 +282,7 @@ class ShiniStaffController extends AbstractController
     {
         $shiniStaff = new ShiniStaff();
         $shiniCenter = $shiniCenterRepository->findAll();
+
         //dd($shiniCenter);
 
         $form = $this->createForm(ShiniStaffType::class,$shiniStaff, [
@@ -255,10 +292,12 @@ class ShiniStaffController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
+
             //$shiniStaff->setPassword($userPasswordEncoder->encodePassword($shiniStaff,$shiniStaff->getPassword()));
+
             $em= $this->getDoctrine()->getManager();
             $em->persist($shiniStaff);
-            $em->flush($shiniStaff);
+            $em->flush();
             $this->addFlash('success','Le membre est créé');
 
             return $this->redirectToRoute('shini_staff_index');

@@ -36,7 +36,7 @@ class ShiniPlayer implements UserInterface
     private $cardCode;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ShiniCard",inversedBy="player")
+     * @ORM\OneToMany(targetEntity="ShiniCard",mappedBy="player")
      * @ORM\JoinColumn(nullable=true)
      *
      */
