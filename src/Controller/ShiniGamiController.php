@@ -98,7 +98,7 @@ class ShiniGamiController extends AbstractController
         if($this->getUser())
         {
             if((in_array('ROLE_PLAYER', $this->getUser()->getRoles()))) {
-                return $this->redirectToRoute('shini_player_index');
+                return $this->redirectToRoute('player.index');
             } else {
                 return $this->redirectToRoute('shini_staff_index');
             }

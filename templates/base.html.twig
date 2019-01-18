@@ -30,7 +30,7 @@
             {% if is_granted('ROLE_ADMIN')  or is_granted('ROLE_STAFF') %}
                 <a class="navbar-brand" href="{{ path('shini_staff_index') }}">ShiniStaffIndex</a>
                 {% elseif is_granted('ROLE_PLAYER')  %}
-                    <a class="navbar-brand" href="{{ path('shini_player_index') }}">ShiniPlayerIndex</a>
+                    <a class="navbar-brand" href="{{ path('player.index') }}">ShiniPlayerIndex</a>
                 {% else %}
                     <a class="navbar-brand" href="{{ path('shini_gami') }}">ShiniGamiLaser</a>
             {% endif %}

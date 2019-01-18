@@ -20,7 +20,14 @@ class ShiniPlayerController extends AbstractController
 {
     const CENTER_CODE = '360';
 
-
+    /**
+     * @Route("/",name="player.index")
+     * @return Response
+     */
+    public function index():Response
+    {
+        return $this->render('shini_player/index.html.twig');
+    }
 
     /**
      * @Route("/new", name="/shini_player_new", methods={"GET","POST"})
@@ -45,7 +52,7 @@ class ShiniPlayerController extends AbstractController
             $entityManager->persist($shiniPlayer);
             $entityManager->flush();
 
-            return $this->redirectToRoute('shini_player_index');
+            return $this->redirectToRoute('shini.player.list');
         }
 
         return $this->render('shini_player/new.html.twig', [
@@ -93,6 +100,9 @@ class ShiniPlayerController extends AbstractController
 
     /**
      * @Route("/{id}", name="shini_player_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param ShiniPlayer $shiniPlayer
+     * @return Response
      */
     public function delete(Request $request, ShiniPlayer $shiniPlayer): Response
     {
@@ -102,7 +112,7 @@ class ShiniPlayerController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('shini_player_index');
+        return $this->redirectToRoute('shini.player.list');
     }
 
     /**
@@ -118,15 +128,58 @@ class ShiniPlayerController extends AbstractController
     /**
      * @param Request $request
      * @param ShiniPlayerRepository $shiniPlayerRepository
-     * @Route("/foundPlayerByPseudo",name="foundPlayerByPseudo")
+     * @Route("/foundPlayerByNickname",name="found.Player.By.Nickname")
      * @return Response
      */
     public function findPlayerByNickname(Request $request, ShiniPlayerRepository $shiniPlayerRepository)
     {
-       $shiniPlayerPseudo = $request->request->get('foundPlayerByNickname');
+        $shiniPlayerPseudo = $request->request->get('foundPlayerByNickname');
 
-       $ShiniPlayer = $shiniPlayerRepository->findOneBy(['nickName' =>$shiniPlayerPseudo]);
 
-       return $this->render('shini_player/show.html.twig',['shini_player'=>$ShiniPlayer]);
+        $ShiniPlayer = $shiniPlayerRepository->findOneBy(['nickName' =>$shiniPlayerPseudo]);
+
+
+        if($ShiniPlayer=== null)
+        {
+            //dd($shiniPlayerPseudo);
+            $this->addFlash('danger','l\'utilisateur '.$shiniPlayerPseudo. ' n\'existe pas');
+            return $this->redirectToRoute('searchByNickname');
+        }
+
+            return $this->render('shini_player/show.html.twig',['shini_player'=>$ShiniPlayer]);
+
+        }
+
+    /**
+     * @return Response
+     * @Route("/searchByCodeCard",name="search.by.card.code")
+     */
+    public function searchPlayerByCardCode()
+    {
+
+
+        return $this->render('shini_player/searchPlayerByCardCode.twig');
+    }
+
+    /**
+     * @param Request $request
+     * @param ShiniPlayerRepository $shiniPlayerRepository
+     * @return Response
+     * @Route("/foundPlayerbyCardCode",name="found.player.by.card.code")
+     *
+     */
+    public function findPlayerByCode(Request $request, ShiniPlayerRepository $shiniPlayerRepository)
+    {
+        $cardCode = $request->request->get('foundPlayerByCardCode');
+        $shiniplayer = $shiniPlayerRepository->findOneBy(['cardCode' =>$cardCode]);
+
+
+        if($shiniplayer=== null)
+        {
+            $this->addFlash('danger','Il n\'y a pas d\'enregistrement corresondant au numéro '.$cardCode);
+            return $this->redirectToRoute('search.by.card.code');
+        }
+
+        return $this->render('shini_player/show.html.twig',['shini_player'=>$shiniplayer]);
     }
 }

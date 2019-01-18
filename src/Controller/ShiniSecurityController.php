@@ -28,7 +28,7 @@ class ShiniSecurityController extends AbstractController
            if((in_array('ROLE_STAFF', $this->getUser()->getRoles())) ||(in_array('ROLE_ADMIN', $this->getUser()->getRoles()))) {
                return $this->redirectToRoute('shini_staff_index');
            } else {
-               return $this->redirectToRoute('shini_player_index');
+               return $this->redirectToRoute('shini.player.list');
            }
        }
 
