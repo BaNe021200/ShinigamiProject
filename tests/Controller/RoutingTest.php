@@ -19,19 +19,25 @@ class RoutingTest extends WebTestCase
     }
 
     /**
-     * Test error 500.
+     * Test route with error.
      *
      * @dataProvider routeProvider
      *
-     *
      */
-    public function testRouteWithError500($path)
+    public function testRouteWithError($path)
     {
         $client = $this->client;
         $crawler = $client->request('GET', "$path");
         $statuscode = $client->getResponse()->getStatusCode();
+
+        if ($statuscode < 400)
+        {
+            $this->assertTrue(true);;
+            return;
+        }
+
         $message = $crawler->filter('title')->html();
-        $this->assertNotEquals("500","$statuscode", "$message");
+        $this->assertEquals("200","$statuscode", "$message");
     }
 
     /**

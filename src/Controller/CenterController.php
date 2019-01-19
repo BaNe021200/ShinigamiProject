@@ -6,6 +6,7 @@ use App\Entity\ShiniCenter;
 use App\Entity\ShiniStaff;
 use App\Form\ShiniCenterType;
 use App\Form\ShiniStaffEditType;
+use App\Repository\ShiniCenterRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,10 +28,9 @@ class CenterController extends AbstractController
      *
      * @Route("/", name=".list", methods={"GET"})
      */
-    public function index(): Response
+    public function list(ShiniCenterRepository $rep): Response
     {
-        $staff = $this->getUser();
-        return $this->render('user/profile.html.twig', ['user' => $staff]);
+        return $this->render('center/list.html.twig', ['centers' => $rep->findAll()]);
     }
 
     /**
@@ -43,7 +43,7 @@ class CenterController extends AbstractController
      */
     public function show(ShiniCenter $center): Response
     {
-        return $this->render('shini_center/show.html.twig', ['staff' => $center]);
+        return $this->render('shini_center/show.html.twig', ['center' => $center]);
     }
 
     /**
@@ -65,7 +65,7 @@ class CenterController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($center);
             $entityManager->flush();
-            $this->addFlash('success','Le centre est bien créée');
+            $this->addFlash('success','Le centre est bien créé');
             return $this->redirectToRoute('shini.center.index');
         }
 

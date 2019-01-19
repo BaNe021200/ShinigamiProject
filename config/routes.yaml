@@ -4,5 +4,5 @@
 #    controller: App\Controller\ShiniGamiController::index
 
 security.validate:
-    path: /connexion/signIn/validate
+    path: /connexion/validate
     controller: App\Controller\SecurityController::validation

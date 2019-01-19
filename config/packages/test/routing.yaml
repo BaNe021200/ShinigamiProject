@@ -1,3 +1,12 @@
 framework:
     router:
         strict_requirements: true
+
+#   Tests can now authenticate via HTTP passing the username and password as server variables using the second argument of createClient():
+#
+#       $client = static::createClient([], [
+#         'PHP_AUTH_USER' => 'username',
+#       'PHP_AUTH_PW'   => 'pa$$word',
+#       ]);
+#
+# v. https://symfony.com/doc/current/testing/http_authentication.html

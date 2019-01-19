@@ -26,15 +26,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
  */
 class SecurityController extends AbstractController
 {
-    /**
-     * Sign out (provided by Symfony).
-     *
-     * @Route("/signout", name=".signout")
-     */
-    public function signOut()
-    {
-
-    }
 
     /**
      * Sign in or sign up actions (provided by Symfony)
@@ -93,4 +84,23 @@ class SecurityController extends AbstractController
         ]);
     }
 
+    /**
+     * Validation (provided by Symfony).
+     *
+     * #@Route("/validate", name=".validate")
+     */
+    public function validation()
+    {
+
+    }
+
+    /**
+     * Sign out (provided by Symfony).
+     *
+     * @Route("/signout", name=".signout")
+     */
+    public function signOut()
+    {
+
+    }
 }

@@ -149,5 +149,4 @@ class StaffController extends AbstractController
         return $this->redirectToRoute('shini.staff.list');
     }
 
-
 }

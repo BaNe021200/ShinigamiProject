@@ -162,12 +162,12 @@ class PlayerController extends AbstractController
      * TODO: faire la doc
      *
      * @param Request $request
-     * @param ShiniPlayerRepository $shiniPlayerRepository
+     * @param ShiniPlayerRepository $rep
      * @return Response
      *
-     * @Route("/staff/foundPlayerByPseudo", name=".foundPlayerByPseudoInStaffWay")
+     * @Route("/staff/foundPlayerByPseudo", name=".searchByPseudo")
      */
-    public function findPlayerByNickname(Request $request, ShiniPlayerRepository $shiniPlayerRepository)
+    public function findPlayerByNickname(Request $request, ShiniPlayerRepository $rep)
     {
         $shiniPlayerPseudo = $request->request->get('foundPlayerByNickname');
 

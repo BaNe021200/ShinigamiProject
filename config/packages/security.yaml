@@ -34,7 +34,7 @@ security:
 
             form_login:
                 login_path: security.signinup
-                check_path: /connexion/signin/validate
+                check_path: /connexion/validate
                 username_parameter: app_login[email]
                 password_parameter: app_login[password]
                 default_target_path: /connexion/signinup

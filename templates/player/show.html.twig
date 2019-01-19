@@ -16,50 +16,48 @@
             <tbody>
             <tr>
                 <th>Id</th>
-                <td>{{ shini_player.id }}</td>
+                <td>{{ player.id }}</td>
             </tr>
             <tr>
                 <th>Name</th>
-                <td>{{ shini_player.name }}</td>
+                <td>{{ player.name }}</td>
             </tr>
             <tr>
                 <th>NickName</th>
-                <td>{{ shini_player.nickName }}</td>
+                <td>{{ player.nickName }}</td>
             </tr>
             <tr>
                 <th>Address</th>
-                <td>{{ shini_player.address }}</td>
+                <td>{{ player.address }}</td>
             </tr>
             <tr>
                 <th>Phone</th>
-                <td>{{ shini_player.phone }}</td>
+                <td>{{ player.phone }}</td>
             </tr>
             <tr>
                 <th>Birthday</th>
-                <td>{{ shini_player.birthday ? shini_player.birthday|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ player.birthday ? player.birthday|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>CardCode</th>
-                <td>{% if shini_player.cardCode != 0 %}
-                        {{ "%06d"|format(shini_player.cardCode) }}
-                    {% endif %}</td>
+                <td>{{ player.cardCode }}</td>
             </tr>
             <tr>
                 <th>Roles</th>
-                <td>{{ shini_player.roles ? shini_player.roles|join(', ') : '' }}</td>
+                <td>{{ player.roles ? player.roles|join(', ') : '' }}</td>
             </tr>
 
             <tr>
                 <th>Email</th>
-                <td>{{ shini_player.email }}</td>
+                <td>{{ player.email }}</td>
             </tr>
             <tr>
                 <th>Postal_code</th>
-                <td>{{ shini_player.postalCode }}</td>
+                <td>{{ player.postalCode }}</td>
             </tr>
             <tr>
                 <th>Lastname</th>
-                <td>{{ shini_player.lastname }}</td>
+                <td>{{ player.lastname }}</td>
             </tr>
             </tbody>
         </table>
@@ -68,11 +66,11 @@
 
 
         <div id="buttonCenter">
-            <a href="{{ path('shini_staff_index') }}">
+            <a href="{{ path('shini.player.list') }}">
                 <button class="btn btn-outline-info"><i class="fas fa-arrow-circle-left"></i> back to list</button>
             </a>
             {% endblock buttonShow %}
-            <a href="{{ path('shini.player.edit', {'id': shini_player.id}) }}">
+            <a href="{{ path('shini.player.edit', {'id': player.id}) }}">
                 <button class="btn btn-outline-warning"><i class="fas fa-user-edit  text-center"></i> edit</button>
             </a>
 
