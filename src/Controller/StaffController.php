@@ -33,7 +33,7 @@ class StaffController extends AbstractController
     {
         //TODO: vérifier la connection de l'utilisateur, sinon retourner sur accueil silencieusement
         $staff = $this->getUser();
-        return $this->render('user/profile.html.twig', ['user' => $staff]);
+        return $this->render('profile.html.twig', ['user' => $staff]);
     }
 
     /**

@@ -1,0 +1,54 @@
+{% extends "layout.html.twig" %}
+
+{% block page %}
+    {% block content %}
+        <article>
+            <!-- Info -->
+            <div class="row gtr-200">
+                <div class="col-12 col-12-medium imp-medium">
+                    <h3>Mes infos</h3>
+                </div>
+            </div>
+            <div class="row gtr-200">
+                <div class="col-3 col-12-medium imp-medium">
+                    <img alt="{{ user.nickName }}" src="{{ asset ('user/default.png') }}" />
+                </div>
+                <div class="col-9 col-12-medium imp-medium">
+                    <ul class="style2">
+                        <li>{{ user.nickName }}</li>
+                        <li>{{ user.lastname ~' '~ user.name }}</li>
+                        <li>{{ user.email }}</li>
+                        <li>{{ user.address ~' '~ user.postalCode }}</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Description -->
+            <div class="row gtr-200">
+                <div class="col-12 col-12-medium imp-medium">
+                    <h3>Ma description</h3>
+                </div>
+            </div>
+            <div class="row gtr-200">
+                <div class="col-12 col-12-medium imp-medium">
+                    <ul class="style2">
+                        <li>Phasellus quam turpis, feugiat sit amet ornare in, hendrerit in lectus. Praesent semper mod quis eget mi. Etiam eu ante risus. Aliquam erat volutpat. Aliquam luctus et mattis lectus sit amet pulvinar. Nam turpis nisi consequat etiam lorem ipsum dolor sit amet nullam.</td>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Fidelity Card -->
+            <div class="row gtr-200">
+                <div class="col-12 col-12-medium imp-medium">
+                    <h3>Ma Carte de fidélité</h3>
+                </div>
+            </div>
+            <div class="row gtr-200">
+                <div class="col-12 col-12-medium imp-medium">
+                    <ul class="style2">
+                        <li>etc....</li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+    {% endblock %}
+{% endblock %}

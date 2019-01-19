@@ -31,7 +31,7 @@ class PlayerController extends AbstractController
     {
         //Get the connected user and show his profile
         $player = $this->getUser();
-        return $this->render('user/profile.html.twig', ['user' => $player]);
+        return $this->render('profile.html.twig', ['user' => $player]);
     }
 
     /**
