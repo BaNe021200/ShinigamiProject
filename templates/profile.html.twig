@@ -1,54 +1,191 @@
 {% extends "layout.html.twig" %}
 
 {% block page %}
-    {% block content %}
-        <article>
-            <!-- Info -->
-            <div class="row gtr-200">
-                <div class="col-12 col-12-medium imp-medium">
-                    <h3>Mes infos</h3>
+
+    <!-- Avatar and pseudo-->
+    <section class="pt-5 bg-light">
+        {#<div class="image image-overlay image-cover skrollable skrollable-between" style="background-image: url({{ asset ('assets/css/images/portfolio-bg-2.jpg') }}); transform: translateY(0px);" data-top-top="transform: translateY(0px);" data-top-bottom="transform: translateY(-250px);"></div>#}
+        <div class="container">
+            <div class="row justify-content-center align-items-end vh-50 pb-5">
+                <div class="col col-md-10 col-lg-8">
+                    <div class="row align-items-center">
+                        <div class="col-4 col-lg-3">
+                            <img class="mr-3 avatar avatar-xl rounded" src="{{ asset ('staff/default.jpg') }}" {#{{ asset (user.imageName) }}#} alt="Generic placeholder image">
+                        </div>
+                        <div class="col">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h2 class="mb-0"><b>{{ user.nickName }}</b></h2>
+                                    <span class="text-muted">{{ user.name ~' '~ user.lastName}}</span>
+                                </div>
+                                <div class="col-md-4 text-left text-md-right">
+                                    <button type="button" class="btn btn-rounded btn-ico btn-white" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Friend"><i class="icon-plus2 fs-20"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row gtr-200">
-                <div class="col-3 col-12-medium imp-medium">
-                    <img alt="{{ user.nickName }}" src="{{ asset ('user/default.png') }}" />
-                </div>
-                <div class="col-9 col-12-medium imp-medium">
-                    <ul class="style2">
-                        <li>{{ user.nickName }}</li>
-                        <li>{{ user.lastname ~' '~ user.name }}</li>
-                        <li>{{ user.email }}</li>
-                        <li>{{ user.address ~' '~ user.postalCode }}</li>
-                    </ul>
-                </div>
-            </div>
-            <!-- Description -->
-            <div class="row gtr-200">
-                <div class="col-12 col-12-medium imp-medium">
-                    <h3>Ma description</h3>
-                </div>
-            </div>
-            <div class="row gtr-200">
-                <div class="col-12 col-12-medium imp-medium">
-                    <ul class="style2">
-                        <li>Phasellus quam turpis, feugiat sit amet ornare in, hendrerit in lectus. Praesent semper mod quis eget mi. Etiam eu ante risus. Aliquam erat volutpat. Aliquam luctus et mattis lectus sit amet pulvinar. Nam turpis nisi consequat etiam lorem ipsum dolor sit amet nullam.</td>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!-- Fidelity Card -->
-            <div class="row gtr-200">
-                <div class="col-12 col-12-medium imp-medium">
-                    <h3>Ma Carte de fidélité</h3>
-                </div>
-            </div>
-            <div class="row gtr-200">
-                <div class="col-12 col-12-medium imp-medium">
-                    <ul class="style2">
-                        <li>etc....</li>
-                    </ul>
+        </div>
+    </section>
+
+    <!-- Form -->
+    <section class="bg-light pt-0">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-lg-8">
+                    {{ form_start(form, {attr:{novalidate: 'novalidate' }}) }}
+                    <h5 class="mb-2 fs-10 font-weight-normal">Identité</h5>
+                    <div class="form-row">
+                        <div class="col">{{ form_row(form.nickName) }}</div>
+                        <div class="col">{{ form_row(form.email) }}</div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">{{ form_row(form.name) }} </div>
+                        <div class="col">{{ form_row(form.lastname) }}</div>
+                    </div>
+
+                    <h5 class="mb-2 fs-20 font-weight-normal">Adresse</h5>
+                    <div class="form-row">
+                        <div class="col">{{ form_row(form.address) }}</div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">{{ form_row(form.postalCode) }}</div>
+                        <div class="col">{{ form_row(form.city) }}</div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">{{ form_row(form.ImageSaver) }}</div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">{{ form_row(form.submit) }}</div>
+                    </div>
+                    {{ form_end(form, {'render_rest': false}) }}
                 </div>
             </div>
-        </article>
-    {% endblock %}
+        </div>
+    </section>
+
+
+{#    Version bootstrap
+
+<div class="row justify-content-center">
+        <div class="col col-md-10 col-lg-8">
+            <div class="nav nav-tabs mb-1 lavalamp"><div class="lavalamp-object ease" style="transition-duration: 0.2s; width: 70.6px; height: 37px; transform: translate(325.567px, 0px);"></div>
+                <a class="nav-item nav-link lavalamp-item" data-toggle="tab" href="#demo-2-1" style="z-index: 5; position: relative;">Profile</a>
+                <a class="nav-item nav-link lavalamp-item" data-toggle="tab" href="#demo-2-2" style="z-index: 5; position: relative;">Connections</a>
+                <a class="nav-item nav-link lavalamp-item" data-toggle="tab" href="#demo-2-3" style="z-index: 5; position: relative;">Groups</a>
+                <a class="nav-item nav-link lavalamp-item active show" data-toggle="tab" href="#demo-2-4" style="z-index: 5; position: relative;">Settings</a>
+                <a class="nav-item nav-link lavalamp-item" data-toggle="tab" href="#demo-2-5" style="z-index: 5; position: relative;">Payments</a>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane active show" id="demo-2-4" role="tabpanel" aria-labelledby="demo-2-4">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="boxed">
+                            <div class="row align-items-center justify-content-between p-3">
+                                <div class="col-md-2 pb-2 pb-md-0 text-center">
+                                    <img src="../../assets/images/demo/user-5.jpg" alt="Avatar" class="avatar avatar-lg rounded">
+                                </div>
+                                <div class="col-md-5 text-center text-md-left">
+                                    <h4 class="mb-0"><b>Valerie</b> Doe</h4>
+                                    <a href="" class="fs-14 link text-primary">Change Avatar</a>
+                                </div>
+                                <div class="col-md-4 text-center text-md-right mt-1 mt-md-0">
+                                    <a href="" class="btn btn-primary btn-rounded">Upgrade Plan</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <h5 class="mb-2 fs-20 font-weight-normal">General Information</h5>
+                        <form>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="firstName">First Name</label>
+                                        <input type="email" class="form-control" id="firstName" aria-describedby="firstName" placeholder="John">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="secondName">Second Name</label>
+                                        <input type="email" class="form-control" id="secondName" aria-describedby="secondName" placeholder="Doe">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="userMail">Email address</label>
+                                        <input type="email" class="form-control" id="userMail" aria-describedby="userMail" placeholder="johndoe@example.com">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row mt-1 align-items-center">
+                                <div class="col-3">
+                                    <button class="btn btn-secondary">Save Changes</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <h5 class="mb-2 fs-20 font-weight-normal">Profile Information</h5>
+                        <form>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="userCity">City</label>
+                                        <input type="email" class="form-control" id="userCity" aria-describedby="userCity" placeholder="New York">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="userCountry">Country</label>
+                                        <input type="email" class="form-control" id="userCountry" aria-describedby="userCountry" placeholder="United States">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="userTwitter">Twitter</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">@</span>
+                                            </div>
+                                            <input type="text" id="userTwitter" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="userTwitter">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlTextarea1">About</label>
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-3">
+                                    <button class="btn btn-secondary">Save Changes</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>#}
+
 {% endblock %}

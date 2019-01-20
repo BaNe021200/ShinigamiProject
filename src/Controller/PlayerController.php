@@ -27,11 +27,31 @@ class PlayerController extends AbstractController
      *
      * @Route("/", name=".connect", methods={"GET"})
      */
-    public function connect(): Response
+    public function connect(Request $request): Response
     {
         //Get the connected user and show his profile
         $player = $this->getUser();
-        return $this->render('profile.html.twig', ['user' => $player]);
+
+        $form = $this->createForm(ShiniPlayerType::class, $player, [
+            'validation_groups'=>['Default']
+        ]);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            //$shiniStaff->setPassword($userPasswordEncoder->encodePassword($shiniStaff,$shiniStaff->getPassword()));
+            $em= $this->getDoctrine()->getManager();
+            $em->persist($player);
+            $em->flush();
+            $this->addFlash('success','Votre profil a été mis à jour');
+
+            return $this->redirectToRoute('profile.html.twig');
+        }
+
+        return $this->render('profile.html.twig',[
+            'form'=> $form->createView()
+        ]);
     }
 
     /**

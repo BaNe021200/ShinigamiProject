@@ -6,6 +6,7 @@ use App\Entity\ShiniCard;
 use App\Entity\ShiniPlayer;
 use App\Entity\ShiniStaff;
 use App\Form\ShiniStaffEditType;
+use App\Form\ShiniStaffType;
 use App\Repository\ShiniCenterRepository;
 use App\Repository\ShiniPlayerRepository;
 use App\Repository\ShiniStaffRepository;
@@ -29,11 +30,34 @@ class StaffController extends AbstractController
      *
      * @Route("/", name=".connect", methods={"GET"})
      */
-    public function connect(): Response
+    public function connect(Request $request): Response
     {
         //TODO: vérifier la connection de l'utilisateur, sinon retourner sur accueil silencieusement
+        // Symfony renvoi vers la page de connexion si un utilisateur non accrédité accède à cette page
+
         $staff = $this->getUser();
-        return $this->render('profile.html.twig', ['user' => $staff]);
+
+        $form = $this->createForm(ShiniStaffType::class, $staff, [
+            'validation_groups'=>['Default']
+        ]);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            //$shiniStaff->setPassword($userPasswordEncoder->encodePassword($shiniStaff,$shiniStaff->getPassword()));
+            $em= $this->getDoctrine()->getManager();
+            $em->persist($staff);
+            $em->flush();
+            $this->addFlash('success','Votre profil a été mis à jour');
+
+            return $this->redirectToRoute('profile.html.twig');
+        }
+
+        return $this->render('profile.html.twig',[
+            'form'=> $form->createView(),
+            'user' => $staff
+        ]);
     }
 
     /**
@@ -100,7 +124,7 @@ class StaffController extends AbstractController
     }
 
     /**
-     * Staff edit his own page.
+     * Staff edit his own page, or admin do it for him.
      *
      * @param Request $request
      * @param ShiniStaff $shiniStaff

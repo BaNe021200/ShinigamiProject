@@ -92,7 +92,6 @@ trait shiniPeopleTrait
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -104,7 +103,6 @@ trait shiniPeopleTrait
     public function setNickName(string $nickName): self
     {
         $this->nickName = $nickName;
-
         return $this;
     }
 
@@ -117,7 +115,6 @@ trait shiniPeopleTrait
     public function setAddress(string $address): self
     {
         $this->address = $address;
-
         return $this;
     }
 
@@ -129,7 +126,6 @@ trait shiniPeopleTrait
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
-
         return $this;
     }
 
@@ -141,7 +137,6 @@ trait shiniPeopleTrait
     public function setBirthday(\DateTimeInterface $birthday): self
     {
         $this->birthday = $birthday;
-
         return $this;
     }
 
@@ -155,7 +150,7 @@ trait shiniPeopleTrait
 
     /**
      * @param mixed $roles
-     * @return ShiniPlayer
+     * @return mixed
      */
     public function setRoles($roles)
     {
@@ -165,7 +160,7 @@ trait shiniPeopleTrait
 
     /**
      * @param mixed $role
-     * @return ShiniPlayer
+     * @return mixed
      */
     public function addRole($role)
     {
@@ -180,7 +175,6 @@ trait shiniPeopleTrait
     public function setPassword(?string $password): self
     {
         $this->password = $password;
-
         return $this;
     }
 
@@ -192,7 +186,6 @@ trait shiniPeopleTrait
     public function setEmail(string $email): self
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -204,7 +197,6 @@ trait shiniPeopleTrait
     public function setPostalCode(string $postal_code): self
     {
         $this->postal_code = $postal_code;
-
         return $this;
     }
 
@@ -216,7 +208,6 @@ trait shiniPeopleTrait
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
-
         return $this;
     }
 
@@ -228,7 +219,6 @@ trait shiniPeopleTrait
     public function setCity(string $city): self
     {
         $this->city = $city;
-
         return $this;
     }
 }

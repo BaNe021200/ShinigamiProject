@@ -65,12 +65,13 @@ class ImageSaver implements EventSubscriberInterface
 
         $form->add('ImageSaver', FileType::class,  [
             'label' => 'Charger une image pour votre profile',
-            'mapped' => false,
-            'attr' => [
+            'mapped' => false
+/*            'attr' => [
                 'class' => 'dropify',
                 // TODO : gérer l'image qui a été ajoutée au moment de l'inscription
                 'data-default-file' => $options['image_url']
-        ]])
+            ]*/
+        ])
         ->add($submit);
     }
 

@@ -2,28 +2,37 @@
 
 {# in header #}
 {% block stylesheets %}
-     <link rel="stylesheet" href="{{ asset('css/shinigami.css') }}">
+     <link rel="stylesheet" href="{{ asset('assets/css/shinigami.css') }}">
 {% endblock stylesheets %}
 
 {# At the end of body #}
 {% block javascripts %}
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.bundle.js') }}"></script>
-    <script src="{{ asset('js/main.js') }}"></script>
-    <script src="{{ asset('js/util.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.bundle.js') }}"></script>
 {% endblock %}
 
 {# body elements #}
-{% block navbar %}
-       <nav class="navbar navbar-expand-lg navbar-light bg-light">
+{% block logo %}
+<div class="container">
+    <div class="row justify-content-center pt-4">
+    <h1>
+        <a class="shinigami font-effect-fire-animation" style="font-family: 'Monoton', serif;color:black;font-size: 2rem" href=/index.html">Shinigami Laser</a>
+    </h1>
+    </div>
+</div>
+{% endblock %}
 
-           {% if is_granted('ROLE_ADMIN')  or is_granted('ROLE_STAFF') %}
+
+{% block navbar %}
+{#       <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+#}{#           {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_STAFF') %}
                <a class="navbar-brand" href="{{ path('shini.staff.connect') }}">ShiniStaffIndex</a>
            {% elseif is_granted('ROLE_PLAYER')  %}
                <a class="navbar-brand" href="{{ path('shini.player.connect') }}">ShiniPlayerIndex</a>
            {% else %}
                <a class="navbar-brand" href="{{ path('shini.index') }}">ShiniGamiLaser</a>
-           {% endif %}
+           {% endif %}#}{#
 
 
            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +53,7 @@
                    </li>
 
 
-                   {#<li class="nav-item dropdown">
+                   #}{#<li class="nav-item dropdown">
                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                            Dropdown
                        </a>
@@ -57,12 +66,12 @@
                    </li>
                    <li class="nav-item">
                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                   </li>#}
+                   </li>#}{#
                </ul>
-               {#<form class="form-inline my-2 my-lg-0">
+               #}{#<form class="form-inline my-2 my-lg-0">
                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-               </form>#}
+               </form>#}{#
                <ul class="navbar-nav ml-auto">
                    <li class="nav-item float-right">
                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -78,7 +87,120 @@
                </ul>
 
            </div>
-       </nav>
+       </nav>#}
+
+            <nav class="navbar navbar-expand-lg navbar-dark pb-sm-4">
+                <div class="container">
+                <div class="row justify-content-center" style="width: 100%;">
+                    <div class="col col-md-10 col-lg-8 ml-2 ml-md-0">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="burger"><span></span></span></button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav align-items-left mr-auto">
+                        <li class="nav-item {% if about is defined and about == "about"  %}active{% endif %}">
+                            <a class="nav-link" href="{{path('shini.about')}}">A propos <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item {% if offer is defined and offer == "offer"  %}active{% endif %}">
+                            <a class="nav-link" href="{{ path('shini.offer.index') }}">Actu</a>
+                        </li>
+                        <li class="nav-item {% if contact is defined and contact == "contact"  %}active{% endif %}">
+                            <a class="nav-link" href="{{ path('shini.contact') }}">Contact</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Au cas où
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="../../landing-pages.html">
+                                    <span>Landing Pages</span>
+                                    <p>Start with one of pre-made templates.</p>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="../../inner-pages.html">
+                                    <span>Inner Pages</span>
+                                    <p>Extend your website with these pages.</p>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="../../app-pages.html">
+                                    <span>App Pages</span>
+                                    <p>Add functionality to your website.</p>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown dropdown-mega">
+                            <a class="nav-link dropdown" href="#" id="navbarDropdown-1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Components
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown-1">
+                                <div class="row">
+                                    <div class="col">
+                                        <ul class="mega-list">
+                                            <li><a href="../../components/index.html" class="highlight">Getting Started</a></li>
+                                            <li><a href="../../components/accordions.html">Accordions</a></li>
+                                            <li><a href="../../components/backgrounds.html">Backgrounds</a></li>
+                                            <li><a href="../../components/blog.html">Blog</a></li>
+                                            <li><a href="../../components/boxes.html">Boxes</a></li>
+                                            <li><a href="../../components/buttons.html">Buttons</a></li>
+                                            <li><a href="../../components/cards.html">Cards</a></li>
+                                            <li><a href="../../components/carousels.html">Carousels</a></li>
+                                            <li><a href="../../components/cta.html">CTA</a></li>
+                                            <li><a href="../../components/features.html">Features</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col">
+                                        <ul class="mega-list">
+                                            <li><a href="../../components/footers.html">Footers</a></li>
+                                            <li><a href="../../components/forms.html">Forms</a></li>
+                                            <li><a href="../../components/gallery.html">Gallery</a></li>
+                                            <li><a href="../../components/lightbox.html">Lightbox</a></li>
+                                            <li><a href="../../components/maps.html">Maps</a></li>
+                                            <li><a href="../../components/masonry.html">Masonry</a></li>
+                                            <li><a href="../../components/modals.html">Modals</a></li>
+                                            <li><a href="../../components/partners.html">Partners</a></li>
+                                            <li><a href="../../components/presentation.html">Presentations</a></li>
+                                            <li><a href="../../components/pricing.html">Pricing</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col">
+                                        <ul class="mega-list">
+                                            <li><a href="../../components/progress.html">Progress</a></li>
+                                            <li><a href="../../components/sliders.html">Sliders</a></li>
+                                            <li><a href="../../components/steps.html">Steps</a></li>
+                                            <li><a href="../../components/tables.html">Tables</a></li>
+                                            <li><a href="../../components/tabs.html">Tabs</a></li>
+                                            <li><a href="../../components/testimonials.html">Testimonials</a></li>
+                                            <li><a href="../../components/typed.html">Typed</a></li>
+                                            <li><a href="../../components/typography.html">Typography</a></li>
+                                            <li><a href="../../components/users.html">Users</a></li>
+                                            <li><a href="../../components/utility.html">Utility</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav align-items-right mr-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown" href="#" id="navbarDropdown-2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Michael Doe
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="../app/profile.html">Public Profile</a>
+                                <a class="dropdown-item" href="../app/connections.html">Connections</a>
+                                <a class="dropdown-item" href="../app/groups.html">Groups</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="../app/settings.html">Settings</a>
+                                <a class="dropdown-item" href="../app/payments.html">Payments</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                    </div>
+                </div>
+                </div>
+            </nav>
+
+
    {% endblock %}
 
 {% block messages %}
@@ -88,3 +210,15 @@
             {% endfor %}
         {% endfor %}
     {% endblock %}
+
+{% block footer %}
+
+    <footer class="py-5 text-muted text-center text-small bg-secondary">
+        <p class="mb-1">&copy; 2018-2019 Shinigami Laser</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
+    </footer>
+{% endblock %}
