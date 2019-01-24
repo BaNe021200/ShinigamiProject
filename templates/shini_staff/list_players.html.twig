@@ -88,7 +88,9 @@
     {% endfor %}
     </tbody>
     </table>
-
+    <div id="pagination">
+        {{ knp_pagination_render(shini_players) }}
+    </div>
     <a href="{{ path('shini.staff.player_new') }}">
         <button class="btn btn-outline-primary"><i class="fas fa-plus-square"></i> Create new</button></a>
 {% endblock body %}

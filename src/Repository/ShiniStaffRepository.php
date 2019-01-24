@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ShiniStaff;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,12 +20,15 @@ class ShiniStaffRepository extends ServiceEntityRepository
         parent::__construct($registry, ShiniStaff::class);
     }
 
-    public function findStaffWithCenter()
+    /**
+     * @return Query
+     */
+    public function findStaffWithCenterQuery():Query
     {
         return $this->createQueryBuilder('staff')
             ->leftJoin('staff.center', 'center')
             ->addSelect('center')
-            ->getQuery()->getResult();
+            ->getQuery()/*->getResult()*/;
 
     }
 
@@ -37,6 +41,7 @@ class ShiniStaffRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
 
     // /**
     //  * @return ShiniStaff[] Returns an array of ShiniStaff objects

@@ -71,7 +71,8 @@ class ShiniOfferType extends AbstractType
                     'data-off'=>'non',
                     'data-onstyle'=>"success",
                     'data-offstyle'=>"danger",
-                    'novalidate' => 'novalidate'
+                    'novalidate' => 'novalidate',
+
                 ]
             ])
             /*->add('staffAdviser', EntityType::class, [

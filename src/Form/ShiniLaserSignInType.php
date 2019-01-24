@@ -28,8 +28,11 @@ class ShiniLaserSignInType extends AbstractType
             ->add('name',TextType::class,[
                 'required' =>true,
                 'label' => "Prénom",
+
                 'attr'=>[
-                    'placeholder'=>"Votre prénom"
+                    'placeholder'=>"Votre prénom",
+
+
                 ]
             ])
             ->add('lastname',TextType::class,[

@@ -16,6 +16,8 @@ use App\Form\ShiniStaffType;
 use App\Repository\ShiniCenterRepository;
 use App\Repository\ShiniPlayerRepository;
 use App\Repository\ShiniStaffRepository;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use function Sodium\add;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,12 +35,14 @@ class ShiniStaffController extends AbstractController
 
     /**
      * @Route("/", name="shini_staff_index", methods={"GET"})
+     * @param Request $request
      * @param ShiniStaffRepository $shiniStaffRepository
+     * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function index(ShiniStaffRepository $shiniStaffRepository): Response
+    public function index(Request $request, ShiniStaffRepository $shiniStaffRepository, PaginatorInterface $paginator): Response
     {
-        return $this->render('shini_staff/index.html.twig', ['shini_staffs' => $shiniStaffRepository->findStaffWithCenter()]);
+        return $this->render('shini_staff/index.html.twig', ['shini_staffs' => $paginator->paginate($shiniStaffRepository->findStaffWithCenterQuery(), $request->query->getInt('page', 1), 10)]);
     }
 
     /**
@@ -95,9 +99,8 @@ class ShiniStaffController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
 
-
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success','Votre profil est modifié');
+            $this->addFlash('success', 'Votre profil est modifié');
 
             return $this->redirectToRoute('shini_staff_index', ['id' => $shiniStaff->getId()]);
         }
@@ -116,7 +119,7 @@ class ShiniStaffController extends AbstractController
      */
     public function delete(Request $request, ShiniStaff $shiniStaff): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$shiniStaff->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $shiniStaff->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($shiniStaff);
             $entityManager->flush();
@@ -124,8 +127,6 @@ class ShiniStaffController extends AbstractController
 
         return $this->redirectToRoute('shini_staff_index');
     }
-
-
 
 
     /**
@@ -138,40 +139,39 @@ class ShiniStaffController extends AbstractController
      */
     public function cardGenerator(Request $request, ShiniPlayer $player, ShiniCenterRepository $shiniCenterRepository)
     {
-      $searchCard =  $player->getCardCode();
+        $searchCard = $player->getCardCode();
 
-      if($searchCard !== null)
-      {
-          $this->addFlash('danger','Vous avez déjà un numéro de carte pour ce compte');
+        if ($searchCard !== null) {
+            $this->addFlash('danger', 'Vous avez déjà un numéro de carte pour ce compte');
 
-          return $this->redirectToRoute('shini_player_edit', ['id'=>$player->getId()]);
-      }
+            return $this->redirectToRoute('shini_player_edit', ['id' => $player->getId()]);
+        }
 
-      $card = new ShiniCard();
+        $card = new ShiniCard();
 
-      $staff = $this->getUser();
+        $staff = $this->getUser();
 
-      $shinicenter = $shiniCenterRepository->findOneBy(['code'=>360]);
+        $shinicenter = $shiniCenterRepository->findOneBy(['code' => 360]);
 
 
-      //$clientCode = rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
-      $clientCode= $player->getId();
-      $centerCodeForCheckSum = intval(self::CENTER_CODE);
-      $clientCodeForCheckSum = intval($clientCode);
-      $checksum =($centerCodeForCheckSum+$clientCodeForCheckSum)%9;
-      $card->setCenter($shinicenter);
-      $card->setPlayerCode($clientCode);
-      $card->setChecksum($checksum);
-      $card->setPlayer($player);
-      $player->setCardCode($clientCode);
+        //$clientCode = rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
+        $clientCode = $player->getId();
+        $centerCodeForCheckSum = intval(self::CENTER_CODE);
+        $clientCodeForCheckSum = intval($clientCode);
+        $checksum = ($centerCodeForCheckSum + $clientCodeForCheckSum) % 9;
+        $card->setCenter($shinicenter);
+        $card->setPlayerCode($clientCode);
+        $card->setChecksum($checksum);
+        $card->setPlayer($player);
+        $player->setCardCode($clientCode);
 
-       $em = $this->getDoctrine()->getManager();
-       $em->persist($card);
-       $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($card);
+        $em->flush();
 
-       $this->addFlash('success', 'carte générée !');
+        $this->addFlash('success', 'carte générée !');
 
-       return $this->redirectToRoute('shini_player_show', ['id'=>$player->getId()]);
+        return $this->redirectToRoute('shini_player_show', ['id' => $player->getId()]);
     }
 
     /**
@@ -183,25 +183,22 @@ class ShiniStaffController extends AbstractController
     {
 
         $center = new ShiniCenter();
-        $form = $this->createForm(ShiniCenterType::class,$center);
+        $form = $this->createForm(ShiniCenterType::class, $center);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             //$center->setCode();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($center);
             $entityManager->flush();
-            $this->addFlash('success','Le centre est bien créée');
+            $this->addFlash('success', 'Le centre est bien créée');
             return $this->redirectToRoute('shini_staff_index');
         }
 
 
+        return $this->render('shini_staff/newCenter.html.twig', [
 
-
-        return $this->render('shini_staff/newCenter.html.twig',[
-
-            'centre'=>$center,
-            'form'=> $form->createView()
+            'centre' => $center,
+            'form' => $form->createView()
         ]);
     }
 
@@ -212,36 +209,35 @@ class ShiniStaffController extends AbstractController
      * @return Response
      * @Route("/create",name="create.new.staff")
      */
-    public function createNewStaff(Request $request, UserPasswordEncoderInterface $userPasswordEncoder,ShiniCenterRepository $shiniCenterRepository):Response
+    public function createNewStaff(Request $request, UserPasswordEncoderInterface $userPasswordEncoder, ShiniCenterRepository $shiniCenterRepository): Response
     {
         $shiniStaff = new ShiniStaff();
         $shiniCenter = $shiniCenterRepository->findAll();
 
         //dd($shiniCenter);
 
-        $form = $this->createForm(ShiniStaffType::class,$shiniStaff, [
-            'validation_groups'=>['insertion', 'Default']
+        $form = $this->createForm(ShiniStaffType::class, $shiniStaff, [
+            'validation_groups' => ['insertion', 'Default']
         ]);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             //$shiniStaff->setPassword($userPasswordEncoder->encodePassword($shiniStaff,$shiniStaff->getPassword()));
 
-            $em= $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($shiniStaff);
             $em->flush();
-            $this->addFlash('success','Le membre est créé');
+            $this->addFlash('success', 'Le membre est créé');
 
             return $this->redirectToRoute('shini_staff_index');
 
 
         }
 
-        return $this->render('shini_staff/newStaff.html.twig',[
+        return $this->render('shini_staff/newStaff.html.twig', [
 
-            'form'=> $form->createView()
+            'form' => $form->createView()
         ]);
     }
 
@@ -250,40 +246,37 @@ class ShiniStaffController extends AbstractController
      * @return Response
      * @Route("/create/offer",name="shiniStaff.new.offer")
      */
-    public function createNewOffer(Request $request):Response
+    public function createNewOffer(Request $request): Response
     {
 
         $shiniOffer = new ShiniOffer();
         $form = $this->createForm(ShiniOfferType::class, $shiniOffer);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $shiniOffer->setStaffAdviser($this->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($shiniOffer);
             $em->flush();
-            $this->addFlash('success','Votre Offre est créée');
-            if($shiniOffer->getShown())
-            {
-                $this->addFlash('info','votre offre est publiée');
+            $this->addFlash('success', 'Votre Offre est créée');
+            if ($shiniOffer->getShown()) {
+                $this->addFlash('info', 'votre offre est publiée');
 
-            }else{
-                $this->addFlash('danger','votre offre n\'est pas publiée');
+            } else {
+                $this->addFlash('danger', 'votre offre n\'est pas publiée');
             }
-            if($shiniOffer->getOnfirstpage())
-            {
-                $this->addFlash('info','votre offre est publiée à la une');
-            }else{
-                $this->addFlash('danger','votre offre n\'est pas à la une');
+            if ($shiniOffer->getOnfirstpage()) {
+                $this->addFlash('info', 'votre offre est publiée à la une');
+            } else {
+                $this->addFlash('danger', 'votre offre n\'est pas à la une');
             }
 
             return $this->redirectToRoute('shini.offer.index');
         }
 
-        return $this->render('shini_staff/offerForm.html.twig',[
+        return $this->render('shini_staff/offerForm.html.twig', [
 
-            'form'=> $form->createView()
+            'form' => $form->createView()
         ]);
 
     }
@@ -291,11 +284,13 @@ class ShiniStaffController extends AbstractController
 
     /**
      * @Route("/ShiniPlayer/list", name="shini.player.list", methods={"GET"})
+     * @param Request $request
      * @param ShiniPlayerRepository $shiniPlayerRepository
+     * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function playersList(ShiniPlayerRepository $shiniPlayerRepository): Response
+    public function playersList(Request $request, ShiniPlayerRepository $shiniPlayerRepository, PaginatorInterface $paginator): Response
     {
-        return $this->render('shini_staff/list_players.html.twig', ['shini_players' => $shiniPlayerRepository->findAll()]);
+        return $this->render('shini_staff/list_players.html.twig', ['shini_players' => $paginator->paginate($shiniPlayerRepository->findAllQuery(), $request->query->getInt('page', 1), 10)]);
     }
 }

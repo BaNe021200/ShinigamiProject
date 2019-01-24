@@ -31,11 +31,13 @@ class ShiniPlayerAccount
 
     /**
      * ShiniPlayerAccount constructor.
-     *
+     * @param \App\Entity\ShiniPlayer $player
      */
-    public function __construct()
+    public function __construct(ShiniPlayer $player)
     {
         $this->offers = new ArrayCollection();
+
+        $this->player = $player;
     }
 
     public function getId(): ?int

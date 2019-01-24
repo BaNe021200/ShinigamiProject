@@ -21,7 +21,7 @@ class ShiniPlayerType extends AbstractType
     {
         $builder
             ->add('name',TextType::class,[
-                'label' => "Prénom",
+                'label' => "Prénom *",
                 'attr'=>[
                     'placeholder'=>"Votre prénom"
                 ]

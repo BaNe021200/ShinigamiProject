@@ -2,22 +2,44 @@
 
 {% block body %}
 
-    <h1>Search user by code</h1>
+
     <div class="container">
-        <form action="{{ path('found.Player.By.Nickname') }}" method="post" >
+        <h2>Chercher un gars par son blaze</h2>
+        {{ form_start(form) }}
+        {#<form action="{{ path('found.Player.By.Nickname') }}" method="post" >#}
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <button class="btn btn-success" type="submit" id="basic-addon1">rechercher</button>
                 </div>
-                <input type="text" name="foundPlayerByNickname" class="form-control" placeholder="User Pseudo" aria-label="UserPseudo"
-                       aria-describedby="basic-addon1">
+                {{ form_widget(form.nickName) }}
+                {#<input type="text" name="foundPlayerByNickname" class="form-control" placeholder="User Pseudo" aria-label="UserPseudo"
+                       aria-describedby="basic-addon1">#}
+
+
             </div>
-        </form>
+    {{ form_end(form) }}
+        {#</form>#}
+        <h2>Chercher un gars par son code</h2>
+        {{ form_start(formCode) }}
+        {#<form action="{{ path('found.Player.By.Nickname') }}" method="post" >#}
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button class="btn btn-success" type="submit" id="basic-addon1">rechercher</button>
+            </div>
+            {{ form_widget(formCode.cardCode) }}
+            {#<input type="text" name="foundPlayerByNickname" class="form-control" placeholder="User Pseudo" aria-label="UserPseudo"
+                   aria-describedby="basic-addon1">#}
+
+
+        </div>
+        {{ form_end(formCode) }}
+
+
     </div>
 
 {% endblock body %}
 
 {% block title %}
-    Search User by Code
+    Search User
 {% endblock title %}
 

@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 
+use App\Form\ShiniLoginType;
 use App\Form\ShiniPlayerLoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,7 +33,7 @@ class ShiniSecurityController extends AbstractController
            }
        }
 
-       $form = $this->createForm(ShiniPlayerLoginType::class,[
+       $form = $this->createForm(ShiniLoginType::class,[
          'email'=>$authenticationUtils->getLastUsername()
        ]);
 

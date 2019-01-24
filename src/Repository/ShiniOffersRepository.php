@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ShiniOffer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -17,6 +18,14 @@ class ShiniOffersRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, ShiniOffer::class);
+    }
+
+    public function findAllQuery():Query
+    {
+       return $this->createQueryBuilder('offers')
+           ->select('offers')
+           ->getQuery()
+       ;
     }
 
 

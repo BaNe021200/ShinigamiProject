@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\ShiniPlayer;
+use App\Form\SearchPlayerCodeType;
+use App\Form\SearchPlayerType;
 use App\Form\ShiniPlayerEditType;
 use App\Form\ShiniPlayerType;
 use App\Repository\ShiniPlayerRepository;
@@ -34,6 +36,7 @@ class ShiniPlayerController extends AbstractController
      * @param Request $request
      * @param UserPasswordEncoderInterface $userPasswordEncoder
      * @return Response
+     * @throws \Exception
      */
     public function new(Request $request, UserPasswordEncoderInterface $userPasswordEncoder): Response
     {
@@ -43,11 +46,7 @@ class ShiniPlayerController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //$shiniPlayer->setPassword($userPasswordEncoder->encodePassword($shiniPlayer,$shiniPlayer->getPassword()));
-            /*$clientCode = rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
-            $centerCodeForCheckSum = intval(self::CENTER_CODE);
-            $clientCodeForCheckSum = intval($clientCode);
-            $checksum =($centerCodeForCheckSum+$clientCodeForCheckSum)%9;*/
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($shiniPlayer);
             $entityManager->flush();
@@ -116,22 +115,60 @@ class ShiniPlayerController extends AbstractController
     }
 
     /**
+     * @param Request $request
+     * @param ShiniPlayerRepository $shiniPlayerRepository
      * @return Response
      * @Route("/searchByNickname",name="searchByNickname")
      */
-    public function searchPlayerByNickname()
+    public function searchPlayerByNickname(Request $request, ShiniPlayerRepository $shiniPlayerRepository)
     {
-       return $this->render('shini_player/searchPlayerByNickname.twig');
+       $form= $this->createForm(SearchPlayerType::class);
+
+       $form->handleRequest($request);
+
+       if ($form->isSubmitted() && $form->isValid())
+       {
+           $data = $form->getData();
+           $shiniPlayerPseudo = $data['nickName'];
+
+
+           $shiniPlayer = $shiniPlayerRepository->findOneBy(['nickName' =>$shiniPlayerPseudo]);
+
+
+           if($shiniPlayer=== null)
+           {
+               //dd($shiniPlayerPseudo);
+               $this->addFlash('danger','l\'utilisateur '.$shiniPlayerPseudo. ' n\'existe pas');
+               return $this->redirectToRoute('searchByNickname');
+           }
+
+           return $this->render('shini_player/show.html.twig',['shini_player'=>$shiniPlayer]);
+       }
+        $formCode = $this->createForm(SearchPlayerCodeType::class);
+        $formCode->handleRequest($request);
+        if($formCode->isSubmitted() && $formCode->isValid())
+        {
+            $data = $formCode->getData();
+            $cardCode = $data['cardCode'];
+            $shiniPlayerCardCode = $shiniPlayerRepository->findOneBy(['cardCode' =>$cardCode]);
+            if($shiniPlayerCardCode=== null)
+            {
+                $this->addFlash('danger','Il n\'y a pas d\'enregistrement corresondant au numéro '.$cardCode);
+                return $this->redirectToRoute('search.by.card.code');
+            }
+            return $this->render('shini_player/show.html.twig',['shini_player'=>$shiniPlayerCardCode]);
+        }
+
+        return $this->render('shini_player/searchPlayerByNickname.twig',[
+
+            'form' => $form->createView(),
+            'formCode' => $formCode->createView()
+        ]);
     }
 
 
-    /**
-     * @param Request $request
-     * @param ShiniPlayerRepository $shiniPlayerRepository
-     * @Route("/foundPlayerByNickname",name="found.Player.By.Nickname")
-     * @return Response
-     */
-    public function findPlayerByNickname(Request $request, ShiniPlayerRepository $shiniPlayerRepository)
+
+    /*public function findPlayerByNickname(Request $request, ShiniPlayerRepository $shiniPlayerRepository)
     {
         $shiniPlayerPseudo = $request->request->get('foundPlayerByNickname');
 
@@ -148,26 +185,43 @@ class ShiniPlayerController extends AbstractController
 
             return $this->render('shini_player/show.html.twig',['shini_player'=>$ShiniPlayer]);
 
-        }
-
-    /**
-     * @return Response
-     * @Route("/searchByCodeCard",name="search.by.card.code")
-     */
-    public function searchPlayerByCardCode()
-    {
-
-
-        return $this->render('shini_player/searchPlayerByCardCode.twig');
-    }
+    }*/
 
     /**
      * @param Request $request
      * @param ShiniPlayerRepository $shiniPlayerRepository
      * @return Response
-     * @Route("/foundPlayerbyCardCode",name="found.player.by.card.code")
-     *
+     * @Route("/searchByCodeCard",name="search.by.card.code")
      */
+    public function searchPlayerByCardCode(Request $request, ShiniPlayerRepository $shiniPlayerRepository)
+    {
+        $formCode = $this->createForm(SearchPlayerCodeType::class);
+        $formCode->handleRequest($request);
+        if($formCode->isSubmitted() && $formCode->isValid())
+        {
+            $data = $formCode->getData();
+            $cardCode = $data['cardCode'];
+            $shiniPlayer = $shiniPlayerRepository->findOneBy(['cardCode' =>$cardCode]);
+            if($shiniPlayer=== null)
+            {
+                $this->addFlash('danger','Il n\'y a pas d\'enregistrement corresondant au numéro '.$cardCode);
+                return $this->redirectToRoute('searchByNickname');
+            }
+            return $this->render('shini_player/show.html.twig',['shini_player'=>$shiniPlayer]);
+        }
+
+        return $this->render('shini_player/searchPlayerByNickname.twig',[
+            'formCode' => $formCode->createView()
+        ]);
+    }
+
+
+    /*@param Request $request
+    @param ShiniPlayerRepository $shiniPlayerRepository
+    @return Response
+    @Route("/foundPlayerbyCardCode",name="found.player.by.card.code")
+
+
     public function findPlayerByCode(Request $request, ShiniPlayerRepository $shiniPlayerRepository)
     {
         $cardCode = $request->request->get('foundPlayerByCardCode');
@@ -181,5 +235,5 @@ class ShiniPlayerController extends AbstractController
         }
 
         return $this->render('shini_player/show.html.twig',['shini_player'=>$shiniplayer]);
-    }
+    }*/
 }

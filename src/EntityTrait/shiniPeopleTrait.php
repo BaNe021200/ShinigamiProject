@@ -51,7 +51,7 @@ trait shiniPeopleTrait
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank(message="N'oubliez pas d'entrer votre mot de passe", groups={"insertion"})
-     * @Assert\Regex(pattern="/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([!@#$%^&*\w]{8,20})$/",message="votre mot de passe est invalide : il doit contenir au moins une majuscule, une minuscule et un de ces caractères spéciaux (!@#$%^&*)")
+     * @Assert\Regex(pattern="/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_#&])([!@#$%^&*\w]{8,20})$/",message="votre mot de passe est invalide : il doit contenir au moins une majuscule, une minuscule et un de ces caractères spéciaux (!@#$%^&*)")
      * @Assert\Length(min="8", minMessage="votre mot de passe doit contenir {{ limit }} caractères au minimum et 20 au max",max="20",maxMessage="votre mot de passe est trop long il ne doit pas contenir plus de {{ limit }} caractères")
      *
      */
@@ -62,11 +62,12 @@ trait shiniPeopleTrait
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="N'oubliez pas d'entrer votre email")
+     * @Assert\Email(message="Veuillez entrer un email valide")
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=5, nullable=true)
+     * @ORM\Column(type="string", length=10, nullable=true)
      *
      */
     private $postal_code;

@@ -57,8 +57,19 @@ class ShiniPlayer implements UserInterface
     private $games;
 
     /**
+     * @ORM\Column(type="string", length=255,nullable=true)
+     */
+    private $confirmation_token;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $confirmed_at;
+
+    /**
      * ShiniPlayer constructor.
      * @param string $role
+     * @throws \Exception
      */
     public function __construct(string $role = 'ROLE_PLAYER')
     {
@@ -155,5 +166,29 @@ class ShiniPlayer implements UserInterface
     public function eraseCredentials()
     {
 
+    }
+
+    public function getConfirmationToken(): ?string
+    {
+        return $this->confirmation_token;
+    }
+
+    public function setConfirmationToken($confirmation_token): self
+    {
+        $this->confirmation_token = $confirmation_token;
+
+        return $this;
+    }
+
+    public function getConfirmedAt(): ?\DateTimeInterface
+    {
+        return $this->confirmed_at;
+    }
+
+    public function setConfirmedAt(\DateTimeInterface $confirmed_at): self
+    {
+        $this->confirmed_at = $confirmed_at;
+
+        return $this;
     }
 }
