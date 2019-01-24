@@ -151,7 +151,11 @@ class ShiniStaffController extends AbstractController
 
         $staff = $this->getUser();
 
-        $shinicenter = $shiniCenterRepository->findOneBy(['code' => 360]);
+
+
+
+
+        //$shinicenter = $shiniCenterRepository->findCenterbyStaffId($staff->getId());
 
 
         //$clientCode = rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
@@ -159,7 +163,7 @@ class ShiniStaffController extends AbstractController
         $centerCodeForCheckSum = intval(self::CENTER_CODE);
         $clientCodeForCheckSum = intval($clientCode);
         $checksum = ($centerCodeForCheckSum + $clientCodeForCheckSum) % 9;
-        $card->setCenter($shinicenter);
+        $card->setCenter($staff->getCenter());
         $card->setPlayerCode($clientCode);
         $card->setChecksum($checksum);
         $card->setPlayer($player);

@@ -6,12 +6,14 @@ use App\Entity\ShiniCenter;
 use App\Entity\ShiniOffer;
 use App\Entity\ShiniPlayer;
 use App\Entity\ShiniStaff;
+use App\Entity\ShiniPlayerAccount;
 use App\Repository\ShiniPlayerRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
 use Faker\Generator;
+
 
 class AppFixtures extends Fixture
 {
@@ -25,11 +27,10 @@ class AppFixtures extends Fixture
 
 
         $faker = Factory::create('fr_FR');
-        $this->generatePlayers($manager,$faker);
-        //$centers = $this->generateCenters($manager,$faker);
-
-        //$staffAdvisers = $this->generateStaff($manager,$faker, $centers);
-        //$this->generateOffer($manager,$faker,$staffAdvisers);
+        //$this->generatePlayers($manager,$faker);
+        $centers = $this->generateCenters($manager,$faker);
+        $staffAdvisers = $this->generateStaff($manager,$faker, $centers);
+        $this->generateOffer($manager,$faker,$staffAdvisers);
 
 
 
@@ -38,22 +39,28 @@ class AppFixtures extends Fixture
     public function generatePlayers(ObjectManager $manager,Generator $faker)
     {
 
-        for($i=0; $i<49; $i++)
+        for($i=0; $i<1; $i++)
         {
             $player= new ShiniPlayer();
+            $account= new ShiniPlayerAccount($player);
             $player->setName($faker->firstName)
                 ->setLastname($faker->lastName)
                 ->setNickName($faker->userName)
                 ->setEmail($faker->email)
                 ->setPassword('o@bPShxT@u@9GuH%Ji3Y')
+
                 //->setPassword($faker->regexify("/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([!@#$%^&*\w]{8,20})$/"))
                 ->setAddress($faker->buildingNumber.' '.$faker->streetName)
                 ->setCity($faker->city)
                 ->setPostalCode($faker->postcode(5))
                 ->setPhone($faker->phoneNumber(10))
                 ->setBirthday($faker->dateTimeThisCentury)
+
             ;
+            //$account->setPlayer($player);
             $manager->persist($player);
+            $manager->persist($account);
+
         }
 
 
@@ -82,7 +89,7 @@ class AppFixtures extends Fixture
 
     public function generateOffer(ObjectManager $manager,Generator $faker, $staffAdvisers)
     {
-        for($i=0; $i<10; $i++)
+        for($i=0; $i<1; $i++)
         {
             $offer = new ShiniOffer();
             $offer->setName($faker->word(1))
@@ -103,7 +110,7 @@ class AppFixtures extends Fixture
     {
 
         $staffAdvisers = [];
-        for($i=0; $i<50; $i++)
+        for($i=0; $i<1; $i++)
         {
             $staff = new ShiniStaff();
             $staff->setName($faker->firstName)

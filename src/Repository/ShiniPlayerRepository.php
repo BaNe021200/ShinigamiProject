@@ -97,7 +97,8 @@ class ShiniPlayerRepository extends ServiceEntityRepository implements UserProvi
     public function loadUserByUsername($username)
     {
         $user = $this->createQueryBuilder('s')
-            ->where('s.email = :username AND s.confirmed_at IS NOT NULL')
+            ->join('s.account','account')
+            ->where('s.email = :username AND account.confirmed_at IS NOT NULL')
             ->setParameter('username', $username)
             ->getQuery()
             ->getOneOrNullResult();

@@ -35,7 +35,7 @@ class ShiniOfferController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $shiniOffer = new ShiniOffer();
+        /*$shiniOffer = new ShiniOffer();
         $form = $this->createForm(ShiniOffer1Type::class, $shiniOffer);
         $form->handleRequest($request);
 
@@ -50,7 +50,7 @@ class ShiniOfferController extends AbstractController
         return $this->render('shini_offer/new.html.twig', [
             'shini_offer' => $shiniOffer,
             'form' => $form->createView(),
-        ]);
+        ]);*/
     }
 
     /**

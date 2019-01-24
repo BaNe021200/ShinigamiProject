@@ -2,8 +2,10 @@
 namespace App\Controller;
 use App\Entity\ShiniOffer;
 use App\Entity\ShiniPlayer;
+use App\Entity\ShiniPlayerAccount;
 use App\Form\ShiniLaserSignInType;
 use App\Form\ShiniLoginType;
+use App\Repository\ShiniAccountRepository;
 use App\Repository\ShiniOffersRepository;
 use App\Repository\ShiniPlayerRepository;
 use App\Service\EmailService;
@@ -29,6 +31,7 @@ use Symfony\Component\Validator\Constraints\Date;
 class ShiniGamiController extends AbstractController
 {
     /**
+     * Page d'accueil générale affiche les offres à la une
      * @Route("/", name="shini_gami")
      * @param ShiniOffersRepository $offersRepository
      * @return Response
@@ -42,6 +45,7 @@ class ShiniGamiController extends AbstractController
     }
 
     /**
+     * Présentation de ShiniGamiLaser
      * @Route("/about",name="about")
      */
     public function about()
@@ -52,6 +56,8 @@ class ShiniGamiController extends AbstractController
     }
 
     /**
+     * regroupe toutes les offres existantes en BDD
+     *
      * @Route("/offers",name="offers")
      * @param ShiniOffersRepository $offersRepository
      * @return Response
@@ -66,6 +72,7 @@ class ShiniGamiController extends AbstractController
         ]);
     }
     /**
+     * Affiche une offre par son Id
      * @Route("/{slug}-{id}",name="shiniGami.offer.show", methods={"GET"},requirements={"slug": "[a-z0-9\-]*"})
      * @param ShiniOffer $shiniOffer
      * @return Response
@@ -77,6 +84,7 @@ class ShiniGamiController extends AbstractController
         ]);
     }
     /**
+     * Affiche le  formulaire de contact
      * @Route("/contact",name="contact")
      */
     public function contact()
@@ -85,6 +93,7 @@ class ShiniGamiController extends AbstractController
     }
 
     /**
+     * formulaire d'inscription et de connexion gestion
      * @Route("/signInUp",name="signInUp", methods={"GET","POST"})
      * @Route("/signInUp/{logout}")
      * @param Request $request
@@ -97,19 +106,10 @@ class ShiniGamiController extends AbstractController
      */
     public function signInUp(Request $request, UserPasswordEncoderInterface $userPasswordEncoder, AuthenticationUtils $authenticationUtils, EmailService $email, $logout=null): Response
     {
-        /*$myTranslator = new Translator('fr_FR');
-        $myTranslator->addResource('array', [
-            'Invalid credentials' => 'Utilisateur inconnu au bataillon !',
-        ], 'fr_FR');*/
-
-        //$myTranslator->addResource('yml', 'translations/security.fr.yml', 'fr_FR');
 
         if($logout ==='logout')
         {
-            /*$this->addFlash('info','Au revoir vous êtes maintenant déconnecté !');
-
-            return $this->redirectToRoute('home');*/
-
+          # affiche une modale lors de la déconnection. Passe par la deuxième route
           return $this->render('shini_player/logout.html.twig');
 
         }
@@ -138,8 +138,12 @@ class ShiniGamiController extends AbstractController
             //$shiniPlayer->setPassword($userPasswordEncoder->encodePassword($shiniPlayer,$shiniPlayer->getPassword()));
             $token = uniqid('', true);
             $entityManager = $this->getDoctrine()->getManager();
-            $shiniPlayer->setConfirmationToken($token);
+            #$shiniPlayer->setConfirmationToken($token);
+            $account = new  ShiniPlayerAccount($shiniPlayer);
+
+            $account->setConfirmationToken($token);
             $entityManager->persist($shiniPlayer);
+            $entityManager->persist($account);
             $entityManager->flush();
             $this->addFlash('success', 'Bienvenue parmi nous');
             $email->email($shiniPlayer);
@@ -174,7 +178,7 @@ class ShiniGamiController extends AbstractController
      * @param $userId
      * @param $token
      * @param TokenStorageInterface $storage
-     * @param ShiniPlayerRepository $repository
+     * @param ShiniPlayerRepository $playerRepository
      * @param ObjectManager $em
      * @param SessionInterface $session
      * @param EventDispatcherInterface $eventDispatcher
@@ -182,14 +186,16 @@ class ShiniGamiController extends AbstractController
      * @throws \Exception
      * @Route("/confirm/{userId}-{token}",name="email.confirmation",methods={"GET"})
      */
-    public function emailConfirm(Request $request, $userId, $token, TokenStorageInterface $storage, ShiniPlayerRepository $repository,ObjectManager $em, SessionInterface $session,EventDispatcherInterface $eventDispatcher)
+    public function emailConfirm(Request $request, $userId, $token, TokenStorageInterface $storage,ShiniPlayerRepository $playerRepository ,ObjectManager $em, SessionInterface $session,EventDispatcherInterface $eventDispatcher)
     {
-        $player = $repository->find($userId);
 
-        if ($player && $player->getConfirmationToken() === $token) {
+        $player = $playerRepository->find($userId);
+        $playerAccount = $player->getAccount();
+
+        if ($playerAccount && ($playerAccount->getConfirmationToken() === $token)) {
             $dateConfirm = new \DateTime();
-            $player->setConfirmationToken(null);
-            $player->setConfirmedAt($dateConfirm);
+            $playerAccount->setConfirmationToken(null);
+            $playerAccount->setConfirmedAt($dateConfirm);
 
             $em->flush();
             $this->addFlash('info','bienvenue, vous maintenant authentifié');

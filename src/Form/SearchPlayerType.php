@@ -22,9 +22,9 @@ class SearchPlayerType extends AbstractType
     {
        $builder
        ->add('nickName',TextType::class,[
-           'required' =>false,
+
            'attr'=>[
-               'placeholder' => 'entrez votre blaze'
+               'placeholder' => 'entrez votre le nom de l\'utilisateur'
            ]
        ])
 

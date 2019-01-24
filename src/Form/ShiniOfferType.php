@@ -87,7 +87,7 @@ class ShiniOfferType extends AbstractType
                     'class' =>'btn btn-success'
                 ]
             ])
-            ->addEventSubscriber(new ImageSaver())
+            //->addEventSubscriber(new ImageSaver())
         ;
     }
 

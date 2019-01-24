@@ -51,11 +51,11 @@
         <script>  $('#logout').modal('show');</script>
 
         <script> document.getElementById('dismissModal').addEventListener('click',function () {
-                window.location.href="/home"
+                window.location.href="{{ path('home') }}"
             });
         </script>
         <script> document.getElementById('dismissModalCross').addEventListener('click',function () {
-                window.location.href="/home"
+                window.location.href="{{ path('home') }}"
             });
         </script>
 

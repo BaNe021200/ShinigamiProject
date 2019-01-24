@@ -10,6 +10,7 @@ namespace App\Service;
 
 
 use App\Entity\ShiniPlayer;
+use App\Entity\ShiniPlayerAccount;
 use App\Repository\ShiniPlayerRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Swift_Mailer;
@@ -54,7 +55,7 @@ class EmailService
 
     public function email(ShiniPlayer $shiniPlayer)
     {
-       $token = $shiniPlayer->getConfirmationToken();
+       $token = $shiniPlayer->getAccount()->getConfirmationToken();
 
 
 

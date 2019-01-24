@@ -44,8 +44,8 @@ class ShiniPlayer implements UserInterface
 
     /**
      * @ORM\OneToOne(targetEntity="ShiniPlayerAccount")
-     * @ORM\JoinColumn(nullable=true)
-     *
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     * @var ShiniPlayerAccount|null $account
      */
     private $account;
 
@@ -56,15 +56,7 @@ class ShiniPlayer implements UserInterface
      */
     private $games;
 
-    /**
-     * @ORM\Column(type="string", length=255,nullable=true)
-     */
-    private $confirmation_token;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $confirmed_at;
 
     /**
      * ShiniPlayer constructor.
@@ -74,7 +66,7 @@ class ShiniPlayer implements UserInterface
     public function __construct(string $role = 'ROLE_PLAYER')
     {
         #$this->cards = new ArrayCollection();
-        #$this->account = new ArrayCollection();
+
         $this->games = new ArrayCollection();
         $this->roles = new ArrayCollection();
         $this->addRole($role);
@@ -111,6 +103,24 @@ class ShiniPlayer implements UserInterface
     }
 
     /**
+     * @return ShiniPlayerAccount
+     */
+    public function getAccount(): ?ShiniPlayerAccount
+    {
+        return $this->account;
+    }
+
+    /**
+     * @param ShiniPlayerAccount $account
+     * @return ShiniPlayer
+     */
+    public function setAccount(?ShiniPlayerAccount $account): ShiniPlayer
+    {
+        $this->account = $account;
+        return $this;
+    }
+
+    /**
      * @param $card
      * @return ShiniPlayer
      */
@@ -120,17 +130,7 @@ class ShiniPlayer implements UserInterface
         return $this;
     }
 
-    /*public function getAccount(): ?ArrayCollection
-    {
-        return $this->account;
-    }
 
-    public function setAccount(int $account): self
-    {
-        $this->account = $account;
-
-        return $this;
-    }*/
 
     public function getGames():?ArrayCollection
     {
@@ -168,27 +168,5 @@ class ShiniPlayer implements UserInterface
 
     }
 
-    public function getConfirmationToken(): ?string
-    {
-        return $this->confirmation_token;
-    }
 
-    public function setConfirmationToken($confirmation_token): self
-    {
-        $this->confirmation_token = $confirmation_token;
-
-        return $this;
-    }
-
-    public function getConfirmedAt(): ?\DateTimeInterface
-    {
-        return $this->confirmed_at;
-    }
-
-    public function setConfirmedAt(\DateTimeInterface $confirmed_at): self
-    {
-        $this->confirmed_at = $confirmed_at;
-
-        return $this;
-    }
 }

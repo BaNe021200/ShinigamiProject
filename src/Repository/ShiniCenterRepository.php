@@ -47,4 +47,16 @@ class ShiniCenterRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    public function findCenterbyStaffId($staffId):?ShiniCenter
+    {
+        return $this->createQueryBuilder('center')
+            ->select('center.code')
+            ->where('center.staff = :staff')
+            ->setParameter('staff', $staffId)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

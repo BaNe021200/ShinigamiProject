@@ -5,6 +5,10 @@ namespace App\Repository;
 use App\Entity\ShiniPlayerAccount;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
  * @method ShiniPlayerAccount|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +51,7 @@ class ShiniAccountRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+
 }

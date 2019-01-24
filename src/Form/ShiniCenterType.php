@@ -26,7 +26,7 @@ class ShiniCenterType extends AbstractType
             ->add('submit', SubmitType::class,[
                 'label' => 'Soumettre',
                 ])
-            ->addEventSubscriber(new ImageSaver())
+            //->addEventSubscriber(new ImageSaver())
         ;
     }
 
