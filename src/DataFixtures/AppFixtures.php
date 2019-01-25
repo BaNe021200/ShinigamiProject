@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\ShiniAdmin;
 use App\Entity\ShiniCenter;
 use App\Entity\ShiniOffer;
 use App\Entity\ShiniPlayer;
@@ -24,15 +25,18 @@ class AppFixtures extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-
-
         $faker = Factory::create('fr_FR');
-        //$this->generatePlayers($manager,$faker);
+
+        $this->generatePlayers($manager,$faker);
         $centers = $this->generateCenters($manager,$faker);
+
+        // A Staff is linked to an offer
         $staffAdvisers = $this->generateStaff($manager,$faker, $centers);
         $this->generateOffer($manager,$faker,$staffAdvisers);
 
+        $this->generateAdmin($manager,$faker);
 
+        $this->generateWellKnownUser($manager,$faker, $centers);
 
     }
 
@@ -43,29 +47,25 @@ class AppFixtures extends Fixture
         {
             $player= new ShiniPlayer();
             $account= new ShiniPlayerAccount($player);
+            $account->setConfirmedAt(new \DateTime());
             $player->setName($faker->firstName)
                 ->setLastname($faker->lastName)
                 ->setNickName($faker->userName)
                 ->setEmail($faker->email)
-                ->setPassword('o@bPShxT@u@9GuH%Ji3Y')
-
+                ->setPassword('Aa!00000')
+                //->setPassword('o@bPShxT@u@9GuH%Ji3Y')
                 //->setPassword($faker->regexify("/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([!@#$%^&*\w]{8,20})$/"))
                 ->setAddress($faker->buildingNumber.' '.$faker->streetName)
                 ->setCity($faker->city)
                 ->setPostalCode($faker->postcode(5))
                 ->setPhone($faker->phoneNumber(10))
                 ->setBirthday($faker->dateTimeThisCentury)
-
             ;
             //$account->setPlayer($player);
             $manager->persist($player);
             $manager->persist($account);
-
         }
-
-
         $manager->flush();
-
     }
 
     public function generateCenters(ObjectManager $manager,Generator $faker)
@@ -80,7 +80,6 @@ class AppFixtures extends Fixture
             $center->setCode($i);
             $centers[] = $center;
             $manager->persist($center);
-
         }
 
         $manager->flush();
@@ -132,4 +131,82 @@ class AppFixtures extends Fixture
         return $staffAdvisers;
     }
 
+    public function generateAdmin(ObjectManager $manager,Generator $faker)
+    {
+        for($i=0; $i<3; $i++)
+        {
+            $admin= new ShiniAdmin();
+            $admin->setName($faker->firstName)
+                ->setLastname($faker->lastName)
+                ->setNickName('Admin_'.$i)
+                ->setEmail($faker->email)
+                ->setPassword('Aa!00000')
+                ->setAddress($faker->buildingNumber.' '.$faker->streetName)
+                ->setCity($faker->city)
+                ->setPostalCode($faker->postcode(5))
+                ->setPhone($faker->phoneNumber(10))
+                ->setBirthday($faker->dateTimeThisCentury)
+            ;
+            $manager->persist($admin);
+        }
+        $manager->flush();
+    }
+
+    /**
+     * Create three well known user
+     *
+     * @param ObjectManager $manager
+     * @throws \Exception
+     *
+     */
+    public function generateWellKnownUser(ObjectManager $manager,Generator $faker, $centers){
+
+        $admin= new ShiniAdmin();
+        $admin->setName($faker->firstName)
+            ->setLastname($faker->lastName)
+            ->setNickName('Admin')
+            ->setEmail('admin@shinigami.fr')
+            ->setPassword('Aa!00000')
+            ->setAddress($faker->buildingNumber.' '.$faker->streetName)
+            ->setCity($faker->city)
+            ->setPostalCode($faker->postcode(5))
+            ->setPhone($faker->phoneNumber(10))
+            ->setBirthday($faker->dateTimeThisCentury)
+        ;
+
+        $staff = new ShiniStaff();
+        $staff->setName($faker->firstName)
+            ->setLastname($faker->lastName)
+            ->setNickName('Staff')
+            ->setEmail('staff@shinigami.fr')
+            ->setPassword('Aa!00000')
+            ->setCenter($centers[0])
+            //->setPassword($faker->regexify("/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([!@#$%^&*\w]{8,20})$/"))
+            ->setAddress($faker->buildingNumber.' '.$faker->streetName)
+            ->setCity($faker->city)
+            ->setPostalCode($faker->postcode(5))
+            ->setPhone($faker->phoneNumber(10))
+            ->setBirthday($faker->dateTimeThisCentury);
+
+        $player= new ShiniPlayer();
+        $account= new ShiniPlayerAccount($player);
+        $account->setConfirmedAt(new \DateTime());
+        $player->setName($faker->firstName)
+            ->setLastname($faker->lastName)
+            ->setNickName('Player')
+            ->setEmail('player@shinigami.fr')
+            ->setPassword('Aa!00000')
+            ->setAddress($faker->buildingNumber.' '.$faker->streetName)
+            ->setCity($faker->city)
+            ->setPostalCode($faker->postcode(5))
+            ->setPhone($faker->phoneNumber(10))
+            ->setBirthday($faker->dateTimeThisCentury)
+        ;
+        //$account->setPlayer($player);
+        $manager->persist($player);
+        $manager->persist($account);
+        $manager->persist($staff);
+        $manager->persist($admin);
+        $manager->flush();
+    }
 }
