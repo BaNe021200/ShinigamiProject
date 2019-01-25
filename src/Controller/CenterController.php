@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Actions related to ShiniGami-Laser centers.
+ * Routes related to ShiniGami-Laser centers.
  *
  * @Route("/center", name="shini.center")
  *
@@ -30,7 +30,7 @@ class CenterController extends AbstractController
      */
     public function list(ShiniCenterRepository $rep): Response
     {
-        return $this->render('center/list.html.twig', ['centers' => $rep->findAll()]);
+        return $this->render('page/list.html.twig', ['items' => $rep->findAll()]);
     }
 
     /**
@@ -43,7 +43,7 @@ class CenterController extends AbstractController
      */
     public function show(ShiniCenter $center): Response
     {
-        return $this->render('shini_center/show.html.twig', ['center' => $center]);
+        return $this->render('center/show.html.twig', ['center' => $center]);
     }
 
     /**
@@ -66,10 +66,10 @@ class CenterController extends AbstractController
             $entityManager->persist($center);
             $entityManager->flush();
             $this->addFlash('success','Le centre est bien créé');
-            return $this->redirectToRoute('shini.center.index');
+            return $this->redirectToRoute('shini.center.list');
         }
 
-        return $this->render('shini_center/newCenter.html.twig',[
+        return $this->render('center/newCenter.html.twig',[
             'centre'=>$center,
             'form'=> $form->createView()
         ]);
@@ -97,8 +97,8 @@ class CenterController extends AbstractController
             return $this->redirectToRoute('shini.center.show', ['id' => $center->getId()]);
         }
 
-        return $this->render('shini_center/edit.html.twig', [
-            'shini_center' => $center,
+        return $this->render('center/edit.html.twig', [
+            'center' => $center,
             'form' => $form->createView(),
         ]);
     }
@@ -120,7 +120,6 @@ class CenterController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('shini.center.index');
+        return $this->redirectToRoute('shini.center.list');
     }
-
 }

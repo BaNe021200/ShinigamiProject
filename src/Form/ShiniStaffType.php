@@ -33,15 +33,11 @@ class ShiniStaffType extends ShiniPlayerType
                     ],
                 'multiple' => true,
                 'expanded' =>true,
-
             ])
-
             ->add('center', EntityType::class, [
                 'class' => ShiniCenter::class,
                 'choice_label' => 'code',
             ])
-            ->addEventSubscriber(new ImageSaver())
-
         ;
 
         $builder->get('roles')->addModelTransformer(new CollectionToArrayTransformer());

@@ -4,7 +4,7 @@ namespace App\Entity;
 
 
 use App\EntityTrait\shiniPeopleTrait;
-use App\ImageSaver\ImageSaverTrait;
+use App\Service\ImageSaver\ImageSaverTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -70,7 +70,7 @@ class ShiniPlayer implements UserInterface
         $this->games = new ArrayCollection();
         $this->roles = new ArrayCollection();
         $this->addRole($role);
-        $this->folder = 'player';
+        $this->setFolder('player');
     }
 
     public function getId(): ?int

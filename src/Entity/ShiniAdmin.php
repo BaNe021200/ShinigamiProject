@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @UniqueEntity(fields={"email"},errorPath="email",message="cet email existe dèjà !")
  * @UniqueEntity(fields={"nickName"},errorPath="nickName",message="Ce pseudo existe déjà !")
  */
-class ShiniStaff implements UserInterface
+class ShiniAdmin implements UserInterface
 {
     use shiniPeopleTrait;
     use ImageSaverTrait;
@@ -29,50 +29,18 @@ class ShiniStaff implements UserInterface
 
 
     /**
-     * @ORM\OneToMany(targetEntity="ShiniOffer",mappedBy="staffAdviser")
-     */
-    private $offers;
-
-
-
-    /**
-     * @ORM\ManyToOne(targetEntity="ShiniCenter",inversedBy="staff")
-     */
-    private $center;
-
-    /**
      * ShiniStaff constructor.
      * @param string $role
      */
-    public function __construct(string $role = 'ROLE_STAFF')
+    public function __construct(string $role = 'ROLE_ADMIN')
     {
-        $this->offers = new ArrayCollection();
-        $this->roles = new ArrayCollection();
         $this->addRole($role);
-        $this->setFolder('staff');
+        $this->setFolder('admin');
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOffers()
-    {
-        return $this->offers;
-    }
-
-    /**
-     * @param mixed $offers
-     * @return ShiniStaff
-     */
-    public function setOffers($offers)
-    {
-        $this->offers = $offers;
-        return $this;
     }
 
     public function getSalt()
@@ -89,18 +57,4 @@ class ShiniStaff implements UserInterface
     {
 
     }
-
-    public function getCenter(): ?ShiniCenter
-    {
-        return $this->center;
-    }
-
-    public function setCenter(ShiniCenter $center): self
-    {
-        $this->center = $center;
-
-        return $this;
-    }
-
-
 }

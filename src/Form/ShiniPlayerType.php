@@ -3,10 +3,12 @@
 namespace App\Form;
 
 use App\Entity\ShiniPlayer;
-use App\ImageSaver\ImageSaver;
+use App\Service\ImageSaver\ImageSaver;
+use App\Service\ImageSaver\ImageSaverType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -91,22 +93,20 @@ class ShiniPlayerType extends AbstractType
                 'first_options'  => ['label' => 'Mot de passe','attr'=>['placeholder'=>'Mot de passe']],
                 'second_options' => ['label' => 'Confirmez le mot de passe','attr'=>['placeholder'=>'Confirmez votre mot de passe']],
             ))
-            /*->add('cards')*/
+            ->add('image', ImageSaverType::class)
             ->add('submit', SubmitType::class,[
                 'label'=> "Soumettre",
                 'attr'=> [
                     'class' => 'btn btn-success center'
-
                 ]
             ])
-            /*->addEventSubscriber(new ImageSaver())*/
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ShiniPlayer::class,
+            'data_class' => ShiniPlayer::class
         ]);
     }
 }

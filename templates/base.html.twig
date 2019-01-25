@@ -7,22 +7,30 @@
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>
-            {% block title %}
-                {% block page_title '' %} | {% block site_title 'Shinigami Laser' %}
-            {% endblock %}
+            {% block page_title '' %} | Shinigami Laser
         </title>
         {% block stylesheets '' %}
     </head>
 
     <body class="bg-dark">
-        {% block logo '' %}
-        {% block navbar  '' %}
+        {# top #}
+        <section class="container-fluid py-3 col-10 col-xl-8">
+            {% block top '' %}
+        </section>
 
-        {% block messages '' %}
+        {# center #}
+        <section id="page" class="container-fluid justify-content-center py-3 bg-light col-10 col-xl-8 rounded border-top border-right">
+            {#<div class="image image-overlay image-cover skrollable skrollable-between" style="background-image: url({{ asset ('assets/css/images/portfolio-bg-2.jpg') }}); transform: translateY(0px);" data-top-top="transform: translateY(0px);" data-top-bottom="transform: translateY(-250px);"></div>#}
+            <div class="container">
+                {% block messages '' %}
+                {% block page '' %}
+             </div>
+        </section>
 
-        {% block page '' %}
-
-        {% block footer '' %}
+        {# footer #}
+        <section class="container-fluid justify-content-center py-5">
+            {% block footer '' %}
+        </section>
 
         {% block javascripts '' %}
         {% block final_javascripts '' %}

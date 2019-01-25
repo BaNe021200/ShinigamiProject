@@ -1,60 +1,61 @@
 {% extends 'layout.html.twig' %}
 
+{% block page_title %}
+    s'incrire ou se connecter
+{% endblock %}
+
 {% set active = 'signIn' %}
 
 {% block page %}
+<section class="pt-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center align-items-end vh-50 pb-5">
+            <div>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link{{ active == 'logIn' ? ' active' : ''}}" data-toggle="tab" href="#connexion">Se connecter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{{ active == 'signIn' ? ' active' : ''}}" data-toggle="tab" href="#signIn">S'incrire</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane{{ active == 'logIn' ? ' active' : ''}}" id="connexion">
+                        {% if error %}
+                          <div class="alert alert-danger">
+                              {{ error.messageKey | trans(error.messageData, 'security') }}
+                          </div>
+                        {% endif %}
+                        {#{% for message in app.flashes('notice') %}
+                            <div class="alert alert-success">{{ message }}</div>
+                        {% endfor %}#}
+                        {{ form(formSignIn) }}
+                    </div>
+                    <div class="tab-pane{{ active == 'signIn' ? ' active' : ''}}" id="signIn">
+                        {{ form_start(formSignUp, {attr:{novalidate: 'novalidate' }}) }}
 
+                        <div class="row">
+                            <div class="col-md-6">{{ form_row(formSignUp.name) }}</div>
+                            <div class="col-md-6">{{ form_row(formSignUp.lastname) }}</div>
+                        </div>
 
-    <div>
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link{{ active == 'logIn' ? ' active' : ''}}" data-toggle="tab" href="#connexion">Se connecter</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link{{ active == 'signIn' ? ' active' : ''}}" data-toggle="tab" href="#signIn">S'incrire</a>
-                </li>
+                        <div class="row">
+                            <div class="col-md-6">{{ form_row(formSignUp.nickName) }}</div>
+                            <div class="col-md-6">{{ form_row(formSignUp.email) }}</div>
+                        </div>
 
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane{{ active == 'logIn' ? ' active' : ''}}" id="connexion">
-                    {% if error %}
-                      <div class="alert alert-danger">
-                          {{ error.messageKey | trans(error.messageData, 'security') }}
-                      </div>
-                    {% endif %}
-                    {#{% for message in app.flashes('notice') %}
-                        <div class="alert alert-success">{{ message }}</div>
-                    {% endfor %}#}
-                    {{ form(formSignIn) }}
-
+                        <div class="row">
+                            <div class="col-md-6">{{ form_row(formSignUp.password.first) }}</div>
+                            <div class="col-md-6">{{ form_row(formSignUp.password.second) }}</div>
+                        </div>
+                        {{ form_end(formSignUp) }}
+                    </div>
                 </div>
-                <div class="tab-pane{{ active == 'signIn' ? ' active' : ''}}" id="signIn">
-                    {{ form_start(formSignUp, {attr:{novalidate: 'novalidate' }}) }}
-
-                    <div class="row">
-                        <div class="col-md-6">{{ form_row(formSignUp.name) }}</div>
-                        <div class="col-md-6">{{ form_row(formSignUp.lastname) }}</div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">{{ form_row(formSignUp.nickName) }}</div>
-                        <div class="col-md-6">{{ form_row(formSignUp.email) }}</div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">{{ form_row(formSignUp.password.first) }}</div>
-                        <div class="col-md-6">{{ form_row(formSignUp.password.second) }}</div>
-                    </div>
-
-                    {{ form_end(formSignUp) }}
-
-
-                </div>
-
             </div>
-
+        </div>
     </div>
-
+</section>
+{% endblock %}
 
 
     {#<div id="exTab2">
@@ -80,17 +81,3 @@
             </div>
         </div>
     </div>#}
-
-
-
-{% endblock %}
-
-{% block page_title %}
-    s'incrire ou se connecter
-{% endblock %}
-
-{% block javascripts %}
-   {{ parent() }}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-{% endblock %}

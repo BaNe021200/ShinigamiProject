@@ -1,0 +1,14 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_title %}
+    Accueil
+{% endblock page_title %}
+
+{% block page %}
+    <section class="row bg-dark justify-content-center">
+    {{ include ('components/_carrousel.twig') }}
+    </section>
+    <section class="row">
+        <p style="height:600px">Du texte de présentation.</p>
+    </section>
+{% endblock %}

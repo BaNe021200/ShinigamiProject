@@ -1,0 +1,8 @@
+{# Actions on a sigle entity (user, offer, center, whatever #}
+
+{% if is_granted('ROLE_STAFF') %}
+    {% if prefix == 'shini.offer' or prefix == 'shini.center' %}
+        <a class="dropdown-item" href="{{ path( prefix ~'.edit', { 'id' : item.id }) }}">Modifier</a>
+    {% endif %}
+    <a class="dropdown-item" href="{{ path( prefix ~'.delete', { 'id' : item.id }) }}">Supprimer</a>
+{% endif %}

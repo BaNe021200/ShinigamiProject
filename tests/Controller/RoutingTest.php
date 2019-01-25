@@ -5,7 +5,7 @@ namespace App\Tests;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * Class RoutingTest : Test App routing.
+ * Class ImageSaverTest : Test App routing.
  * @package App\Tests
  */
 class RoutingTest extends WebTestCase

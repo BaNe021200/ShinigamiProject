@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\ShiniOffer;
 use App\ImageSaver\ImageSaver;
+use App\Service\ImageSaver\ImageSaverType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -71,8 +72,13 @@ class ShiniOfferType extends AbstractType
                     'data-off'=>'non',
                     'data-onstyle'=>"success",
                     'data-offstyle'=>"danger",
-                    'novalidate' => 'novalidate',
-
+                    'novalidate' => 'novalidate'
+                ]
+            ])
+            ->add('image',ImageSaverType::class,[
+                'label'=> 'soumettre',
+                'attr'=>[
+                    'class' =>'btn btn-success'
                 ]
             ])
             /*->add('staffAdviser', EntityType::class, [
@@ -87,7 +93,8 @@ class ShiniOfferType extends AbstractType
                     'class' =>'btn btn-success'
                 ]
             ])
-            //->addEventSubscriber(new ImageSaver())
+
+
         ;
     }
 

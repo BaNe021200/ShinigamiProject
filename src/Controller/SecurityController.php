@@ -9,7 +9,9 @@
 namespace App\Controller;
 
 
+use App\Entity\ShiniAdmin;
 use App\Entity\ShiniPlayer;
+use App\Entity\ShiniStaff;
 use App\Form\ShiniSignInType;
 use App\Form\ShiniLoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,7 +31,7 @@ class SecurityController extends AbstractController
 
     /**
      * Sign in or sign up actions (provided by Symfony)
-     * Redirect to page of the user (player or a staff member).
+     * Redirect to page of the actions (player or a staff member).
      *
      * @param Request $request
      * @param UserPasswordEncoderInterface $userPasswordEncoder
@@ -40,30 +42,40 @@ class SecurityController extends AbstractController
      */
     public function signInUp(Request $request, UserPasswordEncoderInterface $userPasswordEncoder, AuthenticationUtils $authenticationUtils):Response
     {
-        //TODO: UserPasswordEncoderInterface n'est pas utilisé, a supprimé ?
-        if($this->getUser())
+
+        $user = $this->getUser();
+        if($user)
         {
-            if((in_array('ROLE_PLAYER', $this->getUser()->getRoles())))
+            if (is_a($user, ShiniPlayer::class))
             {
-                return $this->redirectToRoute('shini.player.connect');
+                return $this->redirectToRoute('shini.player.profile');
             }
-            else
+            if (is_a($user, ShiniStaff::class))
             {
-                return $this->redirectToRoute('shini.staff.connect');
+                return $this->redirectToRoute('shini.staff.profile');
+            }
+            else if (is_a($user, ShiniAdmin::class))
+            {
+                return $this->redirectToRoute('shini.admin.profile');
             }
         }
 
-        $shiniPlayer = new ShiniPlayer();
-        $formSignUp = $this->createForm(ShiniSignInType::class, $shiniPlayer);
+        // Only player can susbcribe online,
+        // staffs are created by admin,
+        // and admin is created by...(ni dieu, ni maître).
+        
+        $player = new ShiniPlayer();
+        $formSignUp = $this->createForm(ShiniSignInType::class, $player);
         $formSignUp->handleRequest($request);
 
         if ($formSignUp->isSubmitted() && $formSignUp->isValid()){
-
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($shiniPlayer);
+            $entityManager->persist($player);
             $entityManager->flush();
-            $this->addFlash('success','Félicitation, vous pouvez vous connecter');
 
+            // Todo : Ajouter ce flash dans la redirection.
+            //$this->addFlash('success','Félicitation, vous pouvez vous connecter');
+            return $this->redirectToRoute('shini.player.profile');
         }
 
         $formSignIn = $this->createForm(ShiniLoginType::class,[
@@ -71,16 +83,14 @@ class SecurityController extends AbstractController
         ]);
 
         $error = $authenticationUtils->getLastAuthenticationError();
-
-        //TODO: supprimer cette variable inutilisée ?
+        
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('shini_gami/connexion.htlm.twig',[
-            'player'=> $shiniPlayer,
+            'player'=> $player,
             'formSignUp'=> $formSignUp->createView(),
             'formSignIn'=> $formSignIn->createView(),
             'error' => $error
-
         ]);
     }
 

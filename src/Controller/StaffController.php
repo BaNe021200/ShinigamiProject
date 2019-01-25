@@ -2,13 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\ShiniCard;
-use App\Entity\ShiniPlayer;
+use App\Entity\ShiniAdmin;
 use App\Entity\ShiniStaff;
-use App\Form\ShiniStaffEditType;
 use App\Form\ShiniStaffType;
 use App\Repository\ShiniCenterRepository;
-use App\Repository\ShiniPlayerRepository;
 use App\Repository\ShiniStaffRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,27 +14,33 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
+ * Staff routes reachable with ROLE_STAFF.
+ *
  * @Route("/staff", name="shini.staff")
  */
 class StaffController extends AbstractController
 {
-    const CENTER_CODE = '360';
-
     /**
-     * Show own profile to the connected staff
+     * ShiniStaff Show/edit his own profile
+     * Nobody else can edit his profile.
      *
      * @return Response
      *
-     * @Route("/", name=".connect", methods={"GET"})
+     * @Route("/", name=".profile", methods={"GET"})
      */
-    public function connect(Request $request): Response
+    public function showEditProfile(Request $request): Response
     {
-        //TODO: vérifier la connection de l'utilisateur, sinon retourner sur accueil silencieusement
-        // Symfony renvoi vers la page de connexion si un utilisateur non accrédité accède à cette page
+        $user = $this->getUser();
 
-        $staff = $this->getUser();
+        switch (get_class($user))
+        {
+            case ShiniAdmin::class:
+                //todo: faire un messsage pour signaler la redirection;
+                $this->redirectToRoute('shini.admin.profile');
+                break;
+        }
 
-        $form = $this->createForm(ShiniStaffType::class, $staff, [
+        $form = $this->createForm(ShiniStaffType::class, $user, [
             'validation_groups'=>['Default']
         ]);
 
@@ -47,16 +50,15 @@ class StaffController extends AbstractController
         {
             //$shiniStaff->setPassword($userPasswordEncoder->encodePassword($shiniStaff,$shiniStaff->getPassword()));
             $em= $this->getDoctrine()->getManager();
-            $em->persist($staff);
+            $em->persist($user);
             $em->flush();
             $this->addFlash('success','Votre profil a été mis à jour');
 
-            return $this->redirectToRoute('profile.html.twig');
+/*            return $this->redirectToRoute('user_profile.html.twig');*/
         }
 
-        return $this->render('profile.html.twig',[
-            'form'=> $form->createView(),
-            'user' => $staff
+        return $this->render('page/user_profile.html.twig',[
+            'form'=> $form->createView()
         ]);
     }
 
@@ -70,11 +72,11 @@ class StaffController extends AbstractController
      */
     public function show(ShiniStaff $staff): Response
     {
-        return $this->render('staff/show.html.twig', ['staff' => $staff]);
+        return $this->render('page/show.html.twig', ['staff' => $staff]);
     }
 
     /**
-     * List all staff (ROLE_STAFF only).
+     * List all staff (ROLE_STAFF).
      *
      * @param ShiniStaffRepository $rep
      * @return Response
@@ -83,7 +85,9 @@ class StaffController extends AbstractController
      */
     public function list(ShiniStaffRepository $rep): Response
     {
-        return $this->render('staff/index.html.twig', ['shini_staffs' => $rep->findStaffWithCenter()]);
+        return $this->render('page/list.html.twig', [
+            'items' => $rep->findStaffWithCenter()
+            ]);
     }
 
     /**
@@ -115,41 +119,11 @@ class StaffController extends AbstractController
             $em->flush();
             $this->addFlash('success','Le membre est créé');
 
-            return $this->redirectToRoute('shini.staff.index');
+            return $this->redirectToRoute('shini.staff.profile');
         }
 
         return $this->render('staff/newStaff.html.twig',[
             'form'=> $form->createView()
-        ]);
-    }
-
-    /**
-     * Staff edit his own page, or admin do it for him.
-     *
-     * @param Request $request
-     * @param ShiniStaff $shiniStaff
-     * @return Response
-     *
-     * @Route("/{id}/edit", name=".edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, ShiniStaff $staff): Response
-    {
-        $form = $this->createForm(ShiniStaffEditType::class, $staff);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-
-
-            $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success','Votre profil est modifié');
-
-            return $this->redirectToRoute('shini.staff.index', ['id' => $staff->getId()]);
-        }
-
-        return $this->render('staff/edit.html.twig', [
-            'staff' => $staff,
-            'form' => $form->createView(),
         ]);
     }
 
@@ -170,7 +144,6 @@ class StaffController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('shini.staff.list');
+        return $this->redirectToRoute('shini.list');
     }
-
 }

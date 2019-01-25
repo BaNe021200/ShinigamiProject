@@ -21,19 +21,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class OfferController extends AbstractController
 {
     /**
-     * List all offers.
-     *
-     * @param ShiniOffersRepository $shiniOffersRepository
-     * @return Response
-     *
-     * @Route("/", name=".index", methods={"GET"})
-     */
-    public function index(ShiniOffersRepository $shiniOffersRepository): Response
-    {
-        return $this->render('offer/index.html.twig', ['shini_offers' => $shiniOffersRepository->findAll()]);
-    }
-
-    /**
      * Show an offer.
      *
      * @param ShiniOffer $offer offer to show
@@ -49,6 +36,19 @@ class OfferController extends AbstractController
     }
 
     /**
+     * List all offers.
+     *
+     * @param ShiniOffersRepository $shiniOffersRepository
+     * @return Response
+     *
+     * @Route("/", name=".list", methods={"GET"})
+     */
+    public function list(ShiniOffersRepository $shiniOffersRepository): Response
+    {
+        return $this->render('page/list.html.twig', ['items' => $shiniOffersRepository->findAll()]);
+    }
+
+    /**
      * List offers tagged 'visible'.
      *
      * @param ShiniOffersRepository $offersRepository
@@ -60,9 +60,8 @@ class OfferController extends AbstractController
     {
         $shiniOffers = $offersRepository->findVisible();
 
-        return $this->render('shini_gami/offers.html.twig',[
-            'offer' =>'offer',
-            'shini_offers' =>$shiniOffers
+        return $this->render('page/list.html.twig',[
+            'items' =>$shiniOffers
         ]);
     }
 
@@ -101,10 +100,10 @@ class OfferController extends AbstractController
                 $this->addFlash('danger','votre offre n\'est pas à la une');
             }
 
-            return $this->redirectToRoute('shini.offer.index');
+            return $this->redirectToRoute('shini.offer.list');
         }
 
-        return $this->render('offer/new.html.twig', [
+        return $this->render('page/new_offer.html.twig', [
             'offer' => $offer,
             'form' => $form->createView(),
         ]);
@@ -143,7 +142,7 @@ class OfferController extends AbstractController
                 $this->addFlash('danger','votre offre n\'est pas à la une');
             }
 
-            return $this->redirectToRoute('shini.offer.index', ['id' => $offer->getId()]);
+            return $this->redirectToRoute('shini.offer.show', ['id' => $offer->getId()]);
         }
 
         return $this->render('offer/edit.html.twig', [
@@ -169,7 +168,6 @@ class OfferController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('shini.offer.index');
+        return $this->redirectToRoute('shini.offer.list');
     }
-
 }

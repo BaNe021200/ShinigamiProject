@@ -25,12 +25,11 @@ class IndexController extends AbstractController
      */
     public function index(ShiniOffersRepository $offersRepository):Response
     {
-
         $offerOnLine = $offersRepository->findOnLine();
 
-        return $this->render('shini_gami/index.html.twig', [
+        return $this->render('page/index.html.twig', [
             'onLines'=>$offerOnLine,
-
+            'current'=>'index'
         ]);
     }
 
@@ -39,8 +38,8 @@ class IndexController extends AbstractController
      */
     public function about()
     {
-       return $this->render('shini_gami/about.htlm.twig',[
-           'about' =>'about'
+       return $this->render('page/about.html.twig',[
+           'current' =>'about'
        ]);
     }
 
@@ -49,7 +48,7 @@ class IndexController extends AbstractController
      */
     public function contact()
     {
-        return $this->render('shini_gami/contact.htlm.twig',['contact'=>'contact']);
+        return $this->render('page/contact.html.twig',['current'=>'contact']);
     }
 
 }

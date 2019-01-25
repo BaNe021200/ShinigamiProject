@@ -6,8 +6,9 @@
  * Time: 10:50
  */
 
-namespace App\ImageSaver;
+namespace App\Service\ImageSaver;
 
+use Symfony\Component\Asset\Packages;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormError;
@@ -23,6 +24,18 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class ImageSaver implements EventSubscriberInterface
 {
+    private $package;
+
+    /**
+     * ImageSaver constructor.
+     * @param $package
+     */
+    public function __construct(Packages $package)
+    {
+        // Arriving from ImageSaverType
+        $this->package = $package;
+    }
+
     /**
      * The events subscribed
      * PRE_SET_DATA : add the filetype before creation of the form
@@ -32,51 +45,72 @@ class ImageSaver implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            FormEvents::PRE_SET_DATA => 'addImageField',
+            FormEvents::PRE_SET_DATA => 'populatePlaceHolder',
             FormEvents::POST_SUBMIT   => 'saveImage',
         );
     }
 
     /**
-     * Add a FileType field before submit button
+     * Add image to the FileType Field
      * @param FormEvent $event
      */
-    public function addImageField(FormEvent $event)
+    public function populatePlaceHolder(FormEvent $event)
     {
-        $entity = $event->getData();
-        $form = $event->getForm();
+        $field = $event->getForm();
+        $form = $field->getParent();
+        $entity = $form->getData();
 
-        // If the entity have an image pass it to dropify
-        if ($imageUrl = $entity->getImageName())
+        // How to change form options dynamically
+        // https://stackoverflow.com/questions/40267844/how-to-use-setattribute-on-symfony-form-field
+        // Get all options
+        $options = $field->getConfig()->getOptions();
+        dump($options);
+
+
+        // Entity have an image, grab it.
+/*        if ($imageUrl = $entity->getImageName())
         {
             $directory = $entity->getFolder();
-            $imageUrl = "${directory}/${imageUrl}";
-        }
+            $imageName = $entity->getImageName();
+            $imageUrl = $this->package->getUrl("${directory})/${imageName}");
+            $options['attr']['data-default-file'] = "$imageUrl";
 
-        $options = [
-            'image_url' => "$imageUrl"
-        ];
+            // Load new options to the ImageSaver field
+            $form->add('image', ImageSaverType::class, $options);
+            // then dropify the field, if there is not another class attribute
 
-        // move submit to end of form.
-        if ($submit = $form->get('submit'))
+        }*/
+        /* Inutile pour le moment, mis par défaut dans le ImageSaverType
+           if( 0 === count($options['attr']))
+           {
+               $options['attr']['class'] = 'dropify';
+               $options['attr']['data-default-file'] = "$imageUrl";
+           }
+         */
+        // move submit to end of form if it exist.
+        // Part 1: remove the field
+/*
+        if ($hasSubmit = $form->has('submit'))
         {
+            $submit = $form->get('submit');
             $form->remove('submit');
         }
+*/
 
-        $form->add('ImageSaver', FileType::class,  [
-            'label' => 'Charger une image pour votre profile',
-            'mapped' => false
-/*            'attr' => [
-                'class' => 'dropify',
-                // TODO : gérer l'image qui a été ajoutée au moment de l'inscription
-                'data-default-file' => $options['image_url']
-            ]*/
-        ])
-        ->add($submit);
+
+
+
+        // Part 2: re-inject it.
+/*
+       if ($hasSubmit)
+        {
+            $form->add($submit);;
+        }
+       */
     }
 
     /**
-     * Save an image to the right folder (offer or player)
+     * Save an image in entity folder
      * @param FormEvent $event
      */
     public function saveImage(FormEvent $event)
@@ -120,13 +154,13 @@ class ImageSaver implements EventSubscriberInterface
             return;
         }
 
-        // Never trust user input...
+        // Never trust actions input...
         $image = $this->sanitifyImage($image);
 
         // Create a name for this image
         $filename = md5(uniqid()).'.'.$extension;
         $folder = $entity->getFolder();
-
+        dump($entity);
         // Move image to right folder
         try
         {

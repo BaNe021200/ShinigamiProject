@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\ImageSaver\ImageSaverTrait;
+use App\Service\ImageSaver\ImageSaverTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ShiniPlayerAccount;
