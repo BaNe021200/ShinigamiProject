@@ -3,6 +3,7 @@ namespace App\Controller;
 use App\Entity\ShiniOffer;
 use App\Entity\ShiniPlayer;
 use App\Entity\ShiniPlayerAccount;
+use App\Form\models\ContactType;
 use App\Form\ShiniLaserSignInType;
 use App\Form\ShiniLoginType;
 use App\Repository\ShiniAccountRepository;
@@ -14,6 +15,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -25,6 +31,11 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\EmailValidator;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
+
 /**
  * @Route("/shiniGami")
  */
@@ -83,13 +94,33 @@ class ShiniGamiController extends AbstractController
             'shini_offer' => $shiniOffer
         ]);
     }
+
     /**
      * Affiche le  formulaire de contact
      * @Route("/contact",name="contact")
+     * @param Request $request
+     * @return Response
      */
-    public function contact()
+    public function contact(Request $request, EmailService $emailService)
     {
-        return $this->render('shini_gami/contact.htlm.twig', ['contact' => 'contact']);
+        $form = $this->createForm(ContactType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $data = $form->getData();
+            $emailService->emailContactStaff($data);
+
+            $this->addFlash('info','Votre message à bien été transmis à notre équipe');
+            return $this->redirectToRoute('home');
+
+        }
+
+        return $this->render('shini_gami/contact.htlm.twig', [
+
+            'form'=>$form->createView()
+
+        ]);
     }
 
     /**
@@ -146,7 +177,7 @@ class ShiniGamiController extends AbstractController
             $entityManager->persist($account);
             $entityManager->flush();
             $this->addFlash('success', 'Bienvenue parmi nous');
-            $email->email($shiniPlayer);
+            $email->emailRegistry($shiniPlayer);
             return $this->redirectToRoute('signInUp');
         }
         $formSignIn = $this->createForm(ShiniLoginType::class, [

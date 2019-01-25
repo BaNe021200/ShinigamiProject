@@ -15,6 +15,7 @@ use App\Repository\ShiniPlayerRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Swift_Mailer;
 use Swift_Message;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -53,7 +54,7 @@ class EmailService
     }
 
 
-    public function email(ShiniPlayer $shiniPlayer)
+    public function emailRegistry(ShiniPlayer $shiniPlayer)
     {
        $token = $shiniPlayer->getAccount()->getConfirmationToken();
 
@@ -74,4 +75,29 @@ class EmailService
 
         $this->mailer->send($message);
     }
+
+    public function emailContactStaff($data)
+    {
+
+
+        $message = (new Swift_Message('Hello Email'))
+            ->setFrom($data['email'])
+            ->setTo('benoit.rouley@gmail.com')
+            ->setBody(
+                $this->twig->render('emails/contactReceived.html.twig',[
+
+                    'data'=>$data
+                ]),
+                'text/html'
+            );
+
+        if( ! $this->mailer->send($message)){
+            dd('fail');
+        }
+
+
+
+
+    }
+
 }

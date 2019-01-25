@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<h3>bonjour, vous avez reçu mail de contact</h3>
+
+<form name="sentMessage" id="contactForm" novalidate>
+    <div class="control-group">
+        <div class="form-group floating-label-form-group controls">
+            <label>Name</label>
+            <input type="text" class="form-control" placeholder="Name" id="name" value="{{ data.name }}">
+            <p class="help-block text-danger"></p>
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="form-group floating-label-form-group controls">
+            <label>Email Address</label>
+            <input type="email" class="form-control" placeholder="Email Address" id="email" value="{{ data.email }}">
+            <p class="help-block text-danger"></p>
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="form-group col-xs-12 floating-label-form-group controls">
+            <label>Phone Number</label>
+            <input type="tel" class="form-control" placeholder="Phone Number" id="phone" value="{{ data.phoneNumber }}">
+            <p class="help-block text-danger"></p>
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="form-group floating-label-form-group controls">
+            <label>Message</label>
+            <textarea rows="5" class="form-control" placeholder="Message" id="message" required data-validation-required-message="Please enter a message.">{{ data.message }}</textarea>
+            <p class="help-block text-danger"></p>
+        </div>
+    </div>
+    <br>
+    <div id="success"></div>
+
+</form>
+</body>
+</html>
