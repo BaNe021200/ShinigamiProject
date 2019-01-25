@@ -1,4 +1,4 @@
-{% extends 'shini_staff/layout.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block body %}
 
@@ -9,12 +9,12 @@
     {% endfor %}#}
 
     <div class="container">
-        <form action="{{ path('foundPlayerByPseudoInStaffWay') }}" method="post" >
+        <form action="{{ path('found.player.by.card.code') }}" method="post" >
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <button class="btn btn-success" id="basic-addon1">rechercher</button>
                 </div>
-                <input type="text" name="foundPlayerByNickname" class="form-control" placeholder="User Pseudo" aria-label="UserPseudo"
+                <input type="text" name="foundPlayerByCardCode" class="form-control" placeholder="code de la carte à six chiffres" aria-label="UserPseudo"
                        aria-describedby="basic-addon1">
             </div>
         </form>

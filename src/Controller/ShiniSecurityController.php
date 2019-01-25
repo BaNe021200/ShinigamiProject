@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 
+use App\Form\ShiniLoginType;
 use App\Form\ShiniPlayerLoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,11 +29,11 @@ class ShiniSecurityController extends AbstractController
            if((in_array('ROLE_STAFF', $this->getUser()->getRoles())) ||(in_array('ROLE_ADMIN', $this->getUser()->getRoles()))) {
                return $this->redirectToRoute('shini_staff_index');
            } else {
-               return $this->redirectToRoute('shini_player_index');
+               return $this->redirectToRoute('shini.player.list');
            }
        }
 
-       $form = $this->createForm(ShiniPlayerLoginType::class,[
+       $form = $this->createForm(ShiniLoginType::class,[
          'email'=>$authenticationUtils->getLastUsername()
        ]);
 

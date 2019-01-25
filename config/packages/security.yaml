@@ -7,9 +7,8 @@ security:
     providers:
         in_memory: { memory: ~ }
         player_provider:
-            entity:
-                class: App\Entity\ShiniPlayer
-                property: email
+            id : App\Repository\ShiniPlayerRepository
+
         staff_provider:
             entity:
                 class: App\Entity\ShiniStaff
@@ -46,7 +45,7 @@ security:
 
             logout:
                 path: /logOut
-                target: /shiniGami/signInUp#connexion
+                target: /shiniGami/signInUp/logout
                 #always_use_default_target_path: true
 
     # Easy way to control access for large sections of your site

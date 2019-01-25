@@ -71,9 +71,15 @@ class ShiniOfferType extends AbstractType
                     'data-off'=>'non',
                     'data-onstyle'=>"success",
                     'data-offstyle'=>"danger",
-                    'novalidate' => 'novalidate'
+                    'novalidate' => 'novalidate',
+
                 ]
             ])
+            /*->add('staffAdviser', EntityType::class, [
+                'label'=>'publié par',
+                'class' => ShiniStaff::class,
+                'choice_label' => 'nickName'
+            ])*/
 
             ->add('submit',SubmitType::class,[
                 'label'=> 'soumettre',
@@ -81,7 +87,7 @@ class ShiniOfferType extends AbstractType
                     'class' =>'btn btn-success'
                 ]
             ])
-            ->addEventSubscriber(new ImageSaver())
+            //->addEventSubscriber(new ImageSaver())
         ;
     }
 

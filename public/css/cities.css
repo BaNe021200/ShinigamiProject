@@ -1,0 +1,15 @@
+#output {
+    clear: both;
+    padding: 5px 15px;
+    max-height: 400px;
+    overflow-y: scroll;
+}
+#output a {
+    display: block;
+    text-decoration: none;
+    color: #4565ac;
+    padding: 2px;
+}
+#output a:hover {
+    background: #c5e5fc;
+}

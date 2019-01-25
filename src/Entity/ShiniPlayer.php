@@ -36,7 +36,7 @@ class ShiniPlayer implements UserInterface
     private $cardCode;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ShiniCard",inversedBy="player")
+     * @ORM\OneToMany(targetEntity="ShiniCard",mappedBy="player")
      * @ORM\JoinColumn(nullable=true)
      *
      */
@@ -44,8 +44,8 @@ class ShiniPlayer implements UserInterface
 
     /**
      * @ORM\OneToOne(targetEntity="ShiniPlayerAccount")
-     * @ORM\JoinColumn(nullable=true)
-     *
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     * @var ShiniPlayerAccount|null $account
      */
     private $account;
 
@@ -56,14 +56,17 @@ class ShiniPlayer implements UserInterface
      */
     private $games;
 
+
+
     /**
      * ShiniPlayer constructor.
      * @param string $role
+     * @throws \Exception
      */
     public function __construct(string $role = 'ROLE_PLAYER')
     {
         #$this->cards = new ArrayCollection();
-        #$this->account = new ArrayCollection();
+
         $this->games = new ArrayCollection();
         $this->roles = new ArrayCollection();
         $this->addRole($role);
@@ -100,6 +103,24 @@ class ShiniPlayer implements UserInterface
     }
 
     /**
+     * @return ShiniPlayerAccount
+     */
+    public function getAccount(): ?ShiniPlayerAccount
+    {
+        return $this->account;
+    }
+
+    /**
+     * @param ShiniPlayerAccount $account
+     * @return ShiniPlayer
+     */
+    public function setAccount(?ShiniPlayerAccount $account): ShiniPlayer
+    {
+        $this->account = $account;
+        return $this;
+    }
+
+    /**
      * @param $card
      * @return ShiniPlayer
      */
@@ -109,17 +130,7 @@ class ShiniPlayer implements UserInterface
         return $this;
     }
 
-    /*public function getAccount(): ?ArrayCollection
-    {
-        return $this->account;
-    }
 
-    public function setAccount(int $account): self
-    {
-        $this->account = $account;
-
-        return $this;
-    }*/
 
     public function getGames():?ArrayCollection
     {
@@ -156,4 +167,6 @@ class ShiniPlayer implements UserInterface
     {
 
     }
+
+
 }

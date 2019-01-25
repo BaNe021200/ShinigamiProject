@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\ShiniOffer;
 use App\Form\ShiniOffer1Type;
 use App\Repository\ShiniOffersRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,12 +18,14 @@ class ShiniOfferController extends AbstractController
 {
     /**
      * @Route("/", name="shini.offer.index", methods={"GET"})
+     * @param Request $request
      * @param ShiniOffersRepository $shiniOffersRepository
+     * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function index(ShiniOffersRepository $shiniOffersRepository): Response
+    public function index(Request $request,ShiniOffersRepository $shiniOffersRepository, PaginatorInterface $paginator): Response
     {
-        return $this->render('shini_offer/index.html.twig', ['shini_offers' => $shiniOffersRepository->findAll()]);
+        return $this->render('shini_offer/index.html.twig', ['shini_offers' => $paginator->paginate($shiniOffersRepository->findAllQuery(),$request->query->getInt('page',1),5)]);
     }
 
     /**
@@ -32,7 +35,7 @@ class ShiniOfferController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $shiniOffer = new ShiniOffer();
+        /*$shiniOffer = new ShiniOffer();
         $form = $this->createForm(ShiniOffer1Type::class, $shiniOffer);
         $form->handleRequest($request);
 
@@ -47,7 +50,7 @@ class ShiniOfferController extends AbstractController
         return $this->render('shini_offer/new.html.twig', [
             'shini_offer' => $shiniOffer,
             'form' => $form->createView(),
-        ]);
+        ]);*/
     }
 
     /**

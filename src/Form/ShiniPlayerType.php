@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vicopo\Vicopo;
 
 class ShiniPlayerType extends AbstractType
 {
@@ -20,7 +21,7 @@ class ShiniPlayerType extends AbstractType
     {
         $builder
             ->add('name',TextType::class,[
-                'label' => "Prénom",
+                'label' => "Prénom *",
                 'attr'=>[
                     'placeholder'=>"Votre prénom"
                 ]
@@ -61,8 +62,12 @@ class ShiniPlayerType extends AbstractType
             ])
             ->add('city',TextType::class,[
                 'label' => "Ville",
-                'attr'=>[
-                    'placeholder'=>"Votre ville"
+                 'attr'=>[
+
+                     'placeholder'=>"Votre ville",
+
+
+
                 ]
             ])
             ->add('postalCode',TextType::class,[

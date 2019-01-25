@@ -40,7 +40,9 @@
             </tr>
             <tr>
                 <th>CardCode</th>
-                <td>{{ shini_player.cardCode }}</td>
+                <td>{% if shini_player.cardCode != 0 %}
+                        {{ "%06d"|format(shini_player.cardCode) }}
+                    {% endif %}</td>
             </tr>
             <tr>
                 <th>Roles</th>
@@ -66,7 +68,7 @@
 
 
         <div id="buttonCenter">
-            <a href="{{ path('shini.player.list') }}">
+            <a href="{{ path('shini_staff_index') }}">
                 <button class="btn btn-outline-info"><i class="fas fa-arrow-circle-left"></i> back to list</button>
             </a>
             {% endblock buttonShow %}
