@@ -8,7 +8,7 @@
     <div class="container">
         <div class="row">
 
-            <div class="col-md-6"> {% include 'shini_staff/_sideBar.html.twig' %}
+            <div class="col-md-6"> {% include 'staff/_sideBar.html.twig' %}
             </div>
 
             <div class="col-md-6">
@@ -62,7 +62,7 @@
 
                     <a href="{{ path('shini.offer.edit', {'id': shini_offer.id}) }}"><button class="btn btn-outline-warning"><i class="fas fa-user-edit  text-center"></i> edit</button></a>
 
-                    {{ include('shini_offer/_delete_form.html.twig') }}
+                    {{ include('offer/_delete_form.html.twig') }}
                 </div>
             </div>
         </div>

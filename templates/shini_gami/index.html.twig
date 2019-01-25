@@ -15,11 +15,11 @@
             {% for offer in onLines %}
 
                 <div class="post-preview text-center">
-                    <a href="{{ path('shiniGami.offer.show', {id: offer.id,slug:offer.slug}) }}">
+                    <a href="{{ path('shini.offer.show', {id: offer.id,slug:offer.slug}) }}">
                         <h2 class="post-title text-center">
                             {{ offer.name }}
                         </h2></a>
-                    <a href="{{ path('shiniGami.offer.show', {'id': offer.id,slug:offer.slug}) }}">
+                    <a href="{{ path('shini.offer.show', {'id': offer.id,slug:offer.slug}) }}">
                     <img src="../{{ offer.image }}" class="img-thumbnail img-rounded" alt=""></a>
                     <h3 class="post-subtitle text-primary text-center" style="font-weight: bold;font-size: 2rem;">
                         {{ offer.getFormattedPrice }} €

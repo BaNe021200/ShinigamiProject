@@ -33,28 +33,27 @@ security:
             # https://symfony.com/doc/current/security/form_login_setup.html
 
             form_login:
-                login_path: signInUp
-                check_path: /signIn/validate
+                login_path: security.signinup
+                check_path: /connexion/signin/validate
                 username_parameter: app_login[email]
                 password_parameter: app_login[password]
-                default_target_path: /shiniGami/signInUp
+                default_target_path: /connexion/signinup
                 always_use_default_target_path: true
 
             provider:
                 chained_provider
 
             logout:
-                path: /logOut
-                target: /shiniGami/signInUp/logout
+                path: /connexion/signout
+                target: /connexion/signinup#connexion
                 #always_use_default_target_path: true
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/shiniPlayer, roles: [ROLE_STAFF,ROLE_PLAYER] }
-        - { path: ^/shiniStaff, roles: ROLE_STAFF }
-
+        - { path: ^/player, roles: [ROLE_STAFF, ROLE_PLAYER] }
+        - { path: /staff, roles: ROLE_STAFF }
+        - { path: /admin, roles: ROLE_ADMIN }
 
     role_hierarchy:
-
         ROLE_ADMIN: ROLE_STAFF

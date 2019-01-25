@@ -1,4 +1,4 @@
-{% extends "shini_staff/list_players.html.twig" %}
+{% extends "staff/list_players.html.twig" %}
 
 
 {% block stylesheets %}
@@ -21,7 +21,7 @@
 
             <div class="col-md-3">
                 <h1>ShiniStaff index </h1>
-                {{ include('shini_staff/_sideBar.html.twig') }}
+                {{ include('staff/_sideBar.html.twig') }}
             </div>
 
             <div class="col-md-6"> {{ block('tableHeadContent') }}
@@ -44,10 +44,10 @@
                             <td>{{ shini_staff.roles ? shini_staff.roles|join(', ') : '' }}</td>
 
                             <td>
-                                <a href="{{ path('shini_staff_show', {'id': shini_staff.id}) }}">
+                                <a href="{{ path('shini.staff.show', {'id': shini_staff.id}) }}">
                                     <button class="btn btn-outline-info"><i class="fas fa-eye">&nbsp;</i>show</button>
                                 </a>
-                                <a href="{{ path('shini_staff_edit', {'id': shini_staff.id}) }}">
+                                <a href="{{ path('shini.staff.edit', {'id': shini_staff.id}) }}">
                                     <button class="btn btn-outline-warning"><i class="fas fa-user-edit"></i> edit
                                     </button>
                                 </a>

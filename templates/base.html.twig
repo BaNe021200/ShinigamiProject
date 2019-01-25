@@ -28,11 +28,11 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
             {% if is_granted('ROLE_ADMIN')  or is_granted('ROLE_STAFF') %}
-                <a class="navbar-brand" href="{{ path('shini_staff_index') }}">ShiniStaffIndex</a>
+                <a class="navbar-brand" href="{{ path('shini.staff.connect') }}">ShiniStaffIndex</a>
                 {% elseif is_granted('ROLE_PLAYER')  %}
-                    <a class="navbar-brand" href="{{ path('player.index') }}">ShiniPlayerIndex</a>
+                    <a class="navbar-brand" href="{{ path('shini.player.connect') }}">ShiniPlayerIndex</a>
                 {% else %}
-                    <a class="navbar-brand" href="{{ path('shini_gami') }}">ShiniGamiLaser</a>
+                    <a class="navbar-brand" href="{{ path('shini.index') }}">ShiniGamiLaser</a>
             {% endif %}
 
             
@@ -48,12 +48,12 @@
                     <li class="nav-item {% if about is defined and about == "about"  %}active{% endif %}">
 
 
-                        <a class="nav-link" href="{{path('about')}}">A propos <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{{path('shini.about')}}">A propos <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item {% if offer is defined and offer == "offer"  %}active{% endif %}">
-                        <a class="nav-link" href="{{ path('offers') }}">Les offres du moment</a>
+                        <a class="nav-link" href="{{ path('shini.offer.index') }}">Les offres du moment</a>
                     </li><li class="nav-item {% if contact is defined and contact == "contact"  %}active{% endif %}">
-                        <a class="nav-link" href="{{ path('contact') }}">Nous contacter</a>
+                        <a class="nav-link" href="{{ path('shini.contact') }}">Nous contacter</a>
                     </li>
 
 
@@ -79,12 +79,12 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item float-right">
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <a class="nav-link" href="{{ path('logOut') }}">
+                            <a class="nav-link" href="{{ path('security.signout') }}">
                                 Déconnexion
                             </a>
                         {% else %}
-                            <a class="nav-link" href="{{ path('signInUp') }}">
-                                Connexion/Inscription
+                            <a class="nav-link" href="{{ path('security.signinup') }}">
+                                Connexion
                             </a>
                         {% endif %}
                     </li>
@@ -102,9 +102,7 @@
        {% block body '' %}
         {% block footer '' %}
     {% block script %}
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-                crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 
 

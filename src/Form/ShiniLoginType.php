@@ -15,9 +15,24 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ShiniLoginType extends AbstractType
 {
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private $urlGen;
+
+    /**
+     * ShiniLoginType constructor.
+     * @param UrlGeneratorInterface $urlGen
+     */
+    public function __construct(UrlGeneratorInterface $urlGen)
+    {
+        $this->urlGen = $urlGen;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -36,7 +51,7 @@ class ShiniLoginType extends AbstractType
             ->add('submit',SubmitType::class,[
                 'label'=>'soumettre'
             ])
-            ->setAction('/signIn/validate')
+            ->setAction($this->urlGen->generate('security.validate'))
         ;
     }
 

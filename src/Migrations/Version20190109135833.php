@@ -15,7 +15,7 @@ final class Version20190109135833 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE shini_offer CHANGE price price INT NOT NULL');
+        $this->addSql('ALTER TABLE offer CHANGE price price INT NOT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -23,6 +23,6 @@ final class Version20190109135833 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE shini_offer CHANGE price price DOUBLE PRECISION NOT NULL');
+        $this->addSql('ALTER TABLE offer CHANGE price price DOUBLE PRECISION NOT NULL');
     }
 }

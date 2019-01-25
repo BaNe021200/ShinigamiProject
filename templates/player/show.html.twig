@@ -1,4 +1,4 @@
-{% extends 'shini_player/layout.html.twig' %}
+{% extends 'player/layout.html.twig' %}
 
 {% block title %}ShiniPlayer{% endblock %}
 
@@ -72,12 +72,12 @@
                 <button class="btn btn-outline-info"><i class="fas fa-arrow-circle-left"></i> back to list</button>
             </a>
             {% endblock buttonShow %}
-            <a href="{{ path('shini_player_edit', {'id': shini_player.id}) }}">
+            <a href="{{ path('shini.player.edit', {'id': shini_player.id}) }}">
                 <button class="btn btn-outline-warning"><i class="fas fa-user-edit  text-center"></i> edit</button>
             </a>
 
 
-            {{ include('shini_player/_delete_form.html.twig') }}</div>
+            {{ include('player/_delete_form.html.twig') }}</div>
 
     </div>
 {% endblock %}

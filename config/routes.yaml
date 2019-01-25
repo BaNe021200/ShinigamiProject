@@ -1,7 +1,8 @@
-home:
-    path: /
-    controller: App\Controller\ShiniGamiController::index
+# doublon avec indexcontroller
+#home:
+#    path: /
+#    controller: App\Controller\ShiniGamiController::index
 
-validate:
-    path: /signIn/validate
-    controller: App\Controller\ShiniGamiController::validation
+security.validate:
+    path: /connexion/signIn/validate
+    controller: App\Controller\SecurityController::validation

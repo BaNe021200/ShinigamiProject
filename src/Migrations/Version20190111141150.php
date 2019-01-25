@@ -17,9 +17,9 @@ final class Version20190111141150 extends AbstractMigration
 
         $this->addSql('ALTER TABLE shini_center ADD image_name VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE shini_game ADD image_name VARCHAR(255) DEFAULT NULL');
-        $this->addSql('ALTER TABLE shini_offer ADD image_name VARCHAR(255) DEFAULT NULL');
-        $this->addSql('ALTER TABLE shini_player ADD image_name VARCHAR(255) DEFAULT NULL');
-        $this->addSql('ALTER TABLE shini_staff ADD image_name VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE offer ADD image_name VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE player ADD image_name VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE staff ADD image_name VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -29,8 +29,8 @@ final class Version20190111141150 extends AbstractMigration
 
         $this->addSql('ALTER TABLE shini_center DROP image_name');
         $this->addSql('ALTER TABLE shini_game DROP image_name');
-        $this->addSql('ALTER TABLE shini_offer DROP image_name');
-        $this->addSql('ALTER TABLE shini_player DROP image_name');
-        $this->addSql('ALTER TABLE shini_staff DROP image_name');
+        $this->addSql('ALTER TABLE offer DROP image_name');
+        $this->addSql('ALTER TABLE player DROP image_name');
+        $this->addSql('ALTER TABLE staff DROP image_name');
     }
 }

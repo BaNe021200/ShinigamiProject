@@ -15,7 +15,7 @@ final class Version20190102133630 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE shini_player ADD password VARCHAR(64) NOT NULL, ADD password2 VARCHAR(64) NOT NULL, ADD email VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE player ADD password VARCHAR(64) NOT NULL, ADD password2 VARCHAR(64) NOT NULL, ADD email VARCHAR(255) NOT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -23,6 +23,6 @@ final class Version20190102133630 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE shini_player DROP password, DROP password2, DROP email');
+        $this->addSql('ALTER TABLE player DROP password, DROP password2, DROP email');
     }
 }
