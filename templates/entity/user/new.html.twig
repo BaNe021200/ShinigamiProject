@@ -1,0 +1,72 @@
+{% extends "layout.html.twig" %}
+
+
+{% block page_title %}
+    Créer un utilisateur
+{% endblock page_title %}
+
+{% block page %}
+
+    <!-- Avatar and pseudo-->
+    <!-- Form -->
+    <section class="bg-light pt-0">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    {{ form_start(form, {attr:{novalidate: 'novalidate' }}) }}
+                    <h4 class="mb-3 fs-10 font-weight-normal border-bottom">Identité</h4>
+                    <div class="form-row">
+                        <div class="col">{{ form_row(form.nickName) }}</div>
+                        <div class="col">{{ form_row(form.email) }}</div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">{{ form_row(form.name) }} </div>
+                        <div class="col">{{ form_row(form.lastname) }}</div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">{{ form_row(form.birthday) }}</div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">{{ form_row(form.ImageSaver) }}</div>
+                    </div>
+                    <h4 class="mb-3 fs-20 font-weight-normal border-bottom">Adresse</h4>
+                    <div class="form-row">
+                        <div class="col">{{ form_row(form.address) }}</div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">{{ form_row(form.postalCode) }}</div>
+                        <div class="col">{{ form_row(form.city) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">{{ form_row(form.password.first) }}</div>
+                        <div class="col">{{ form_row(form.password.second) }}</div>
+                    </div>
+                    <div class="form-row float-right">
+                        <div class="col">{{ form_row(form.submit) }}</div>
+                    </div>
+                    {{ form_row(form._token) }}
+                    {{ form_end(form, {'render_rest': false}) }}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block final_javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha256-SUaao5Q7ifr2twwET0iyXVy0OVnuFJhGVi5E/dqEiLU=" crossorigin="anonymous"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script>
+        $('.dropify').dropify({
+            messages: {
+                default: 'Glissez-d&eacute;posez un fichier ici ou cliquez',
+                replace: 'Glissez-d&eacute;posez un fichier ou cliquez pour remplacer',
+                remove:  'Supprimer',
+                error:   'D&eacute;sol&eacute;, le fichier est trop volumineux'
+            }
+        })
+        // Hide the extra label rendered by bootstrap_twig
+        .parents('.form-group').find('label').hide();
+    </script>
+{% endblock %}
+

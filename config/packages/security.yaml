@@ -33,19 +33,19 @@ security:
             # https://symfony.com/doc/current/security/form_login_setup.html
 
             form_login:
-                login_path: security.signinup
-                check_path: /connexion/validate
+                login_path: secure.signinup
+                check_path: secure.validate
                 username_parameter: app_login[email]
                 password_parameter: app_login[password]
-                default_target_path: security.signinup
+                default_target_path: secure.success
                 always_use_default_target_path: true
 
             provider:
                 chained_provider
 
             logout:
-                path: /connexion/signout
-                target: /connexion/signinup#connexion
+                path: secure.signout
+                target: shini.index
                 #always_use_default_target_path: true
 
     # Easy way to control access for large sections of your site

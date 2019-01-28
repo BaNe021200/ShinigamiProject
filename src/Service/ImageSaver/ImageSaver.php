@@ -64,7 +64,7 @@ class ImageSaver implements EventSubscriberInterface
         // https://stackoverflow.com/questions/40267844/how-to-use-setattribute-on-symfony-form-field
         // Get all options
         $options = $field->getConfig()->getOptions();
-        dump($options);
+        //dump($options);
 
 
         // Entity have an image, grab it.

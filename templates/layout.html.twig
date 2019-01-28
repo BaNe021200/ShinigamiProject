@@ -12,50 +12,32 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 {% endblock %}
 
 {# body elements #}
 {% block top %}
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <h1><a class="shinigami-logo font-effect-fire-animation" href="{{ path('shini.index') }}">Shinigami Laser</a></h1>
-            </div>
+    <div class="row ml-sm-4">
+            <h1><a class="shinigami-logo font-effect-fire-animation" href="{{ path('shini.index') }}">Shinigami&nbsp;Laser</a></h1>
+    </div>
+    <div class="row justify-content-between">
+        <div id="nav-left" class="ml-sm-4">
+            {% include 'components/_navbar.twig' %}
         </div>
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <nav class="navbar navbar-expand-sm navbar-dark px-sm-0 d-inline-flex">
-                    <div class="justify-content-center {#col col-sm-8 col-lg-8 ml-2 ml-md-0 #}">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav align-items-left mr-auto">
-                                {% include 'components/_menu_navbar.twig' %}
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-                <ul class="nav {#align-items-right mr-0 mr-sm-2#} mr-sm-4 mt-2 float-right">
-                    {% include 'components/_login_navbar.twig' %}
-                </ul>
-            </div>
+        <div id="nav-right">
+            {% include 'components/_navbar_user_button.twig' %}
         </div>
     </div>
 {% endblock %}
 
 
-{% block messages %}
-
-{% endblock %}
-
 {% block footer %}
     <footer class="text-small text-center">
         <p class="mb-1">&copy; 2019-2020 Shinigami Laser</p>
         <ul class="list-inline">
-            <li class="list-inline-item"><a href="#">blabla</a></li>
-            <li class="list-inline-item"><a href="#">tralala</a></li>
-            <li class="list-inline-item"><a href="#">youpla</a></li>
+            <li class="list-inline-item"><a href="#">Les offres</a></li>
+            <li class="list-inline-item"><a href="#">Salles de jeux</a></li>
+            <li class="list-inline-item"><a href="#">Contact</a></li>
         </ul>
     </footer>
 {% endblock %}

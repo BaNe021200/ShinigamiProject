@@ -32,7 +32,7 @@ class AdminController extends AbstractController
     public function showEditProfile(): Response
     {
         $admin = $this->getUser();
-        return $this->render('page/user_profile.html.twig');
+        return $this->render('entity/user/profile.html.twig');
     }
 
     /**
@@ -41,7 +41,7 @@ class AdminController extends AbstractController
      * @param Request $request
      * @return Response
      *
-     * @Route("/new-debug", name=".debug.new")
+     * #@Route("/new-debug", name=".debug.new")
      */
     public function new(Request $request):Response
     {
@@ -62,7 +62,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('shini.admin.profile');
         }
 
-        return $this->render('page/user_profile.html.twig',[
+        return $this->render('entity/user/profile.html.twig',[
             'form'=> $form->createView()
         ]);
     }

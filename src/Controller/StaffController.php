@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ShiniAdmin;
+use App\Entity\ShiniPlayer;
 use App\Entity\ShiniStaff;
 use App\Form\ShiniStaffType;
 use App\Repository\ShiniCenterRepository;
@@ -31,13 +32,16 @@ class StaffController extends AbstractController
     public function showEditProfile(Request $request): Response
     {
         $user = $this->getUser();
-
-        switch (get_class($user))
+        if($user)
         {
-            case ShiniAdmin::class:
-                //todo: faire un messsage pour signaler la redirection;
-                $this->redirectToRoute('shini.admin.profile');
-                break;
+            if (is_a($user, ShiniPlayer::class))
+            {
+                return $this->redirectToRoute('shini.player.profile');
+            }
+            else if (is_a($user, ShiniAdmin::class))
+            {
+                return $this->redirectToRoute('shini.admin.profile');
+            }
         }
 
         $form = $this->createForm(ShiniStaffType::class, $user, [
@@ -54,10 +58,10 @@ class StaffController extends AbstractController
             $em->flush();
             $this->addFlash('success','Votre profil a été mis à jour');
 
-/*            return $this->redirectToRoute('user_profile.html.twig');*/
+/*            return $this->redirectToRoute('profile.html.twig');*/
         }
 
-        return $this->render('page/user_profile.html.twig',[
+        return $this->render('entity/user/profile.html.twig',[
             'form'=> $form->createView()
         ]);
     }
@@ -122,7 +126,7 @@ class StaffController extends AbstractController
             return $this->redirectToRoute('shini.staff.profile');
         }
 
-        return $this->render('staff/newStaff.html.twig',[
+        return $this->render('entity/user/new.html.twig',[
             'form'=> $form->createView()
         ]);
     }

@@ -43,7 +43,7 @@ class AppFixtures extends Fixture
     public function generatePlayers(ObjectManager $manager,Generator $faker)
     {
 
-        for($i=0; $i<1; $i++)
+        for($i=0; $i<200; $i++)
         {
             $player= new ShiniPlayer();
             $account= new ShiniPlayerAccount($player);
@@ -88,7 +88,7 @@ class AppFixtures extends Fixture
 
     public function generateOffer(ObjectManager $manager,Generator $faker, $staffAdvisers)
     {
-        for($i=0; $i<1; $i++)
+        for($i=0; $i<10; $i++)
         {
             $offer = new ShiniOffer();
             $offer->setName($faker->word(1))

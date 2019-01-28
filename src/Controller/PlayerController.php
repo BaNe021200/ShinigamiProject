@@ -37,15 +37,16 @@ class PlayerController extends AbstractController
         // Get the user
         $user = $this->getUser();
 
-        // Is it really a player ?
-        // TODO: faire un messsage pour signaler la redirection
-        if (is_a($user, ShiniStaff::class))
+        if($user)
         {
-            return $this->redirectToRoute('shini.staff.profile');
-        }
-        else if (is_a($user, ShiniAdmin::class))
-        {
-            return $this->redirectToRoute('shini.admin.profile');
+            if (is_a($user, ShiniStaff::class))
+            {
+                return $this->redirectToRoute('shini.staff.profile');
+            }
+            else if (is_a($user, ShiniAdmin::class))
+            {
+                return $this->redirectToRoute('shini.admin.profile');
+            }
         }
 
         // Only a player can edit his profile
@@ -62,11 +63,11 @@ class PlayerController extends AbstractController
             $em->persist($user);
             $em->flush();
             $this->addFlash('success','Votre profil a été mis à jour');
-/*            return $this->render('user_profile.html.twig', [
+/*            return $this->render('profile.html.twig', [
                 'user' => $player
             ]);*/
         }
-        return $this->render('page/user_profile.html.twig',[
+        return $this->render('entity/user/profile.html.twig',[
             'form'=> $form->createView()
         ]);
     }
@@ -94,18 +95,18 @@ class PlayerController extends AbstractController
      */
     public function list(ShiniPlayerRepository $rep): Response
     {
-        return $this->render('page/list.html.twig', ['items' => $rep->findAll()]);
+        return $this->render('entity/user/list.html.twig', ['items' => $rep->findAll()]);
     }
 
     /**
      * Create a player profile (ANONYMOUS).
-     * TODO: faire que cette page soit accessible pour anonymous
+     * TODO: action à supprimer, car inutile.
      *
      * @param Request $request
      * @param UserPasswordEncoderInterface $userPasswordEncoder
      * @return Response
      *
-     * @Route("/new", name=".new", methods={"GET","POST"})
+     * #@Route("/new", name=".new", methods={"GET","POST"})
      */
     public function new(Request $request, UserPasswordEncoderInterface $userPasswordEncoder): Response
     {
@@ -127,7 +128,7 @@ class PlayerController extends AbstractController
             return $this->redirectToRoute('shini.player.index');
         }
 
-        return $this->render('page/user_new.html.twig', [
+        return $this->render('page/new.html.twig', [
             'player' => $player,
             'form' => $form->createView(),
         ]);
@@ -178,19 +179,19 @@ class PlayerController extends AbstractController
      */
     public function findPlayerByNickname(Request $request, ShiniPlayerRepository $rep)
     {
-        $shiniPlayerPseudo = $request->request->get('foundPlayerByNickname');
+        $pseudo = $request->request->get('foundPlayerByNickname');
 
 
-        $ShiniPlayer = $shiniPlayerRepository->findOneBy(['nickName' =>$shiniPlayerPseudo]);
+        $player = $rep->findOneBy(['nickName' => $rep]);
 
 
-        if($ShiniPlayer=== null)
+        if($player=== null)
         {
-            $this->addFlash('danger','l\'utilisateur '.$shiniPlayerPseudo. ' n\'existe pas');
+            $this->addFlash('danger','l\'utilisateur '.$pseudo. ' n\'existe pas');
             return $this->redirectToRoute('shini.staff.searchByNicknameInStaffWay');
         }
 
-        return $this->render('staff/showPlayerByNickname.html.twig',['player'=>$ShiniPlayer]);
+        return $this->render('staff/showPlayerByNickname.html.twig',['player'=>$player]);
 
     }
 

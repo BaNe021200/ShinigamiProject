@@ -30,7 +30,7 @@ class CenterController extends AbstractController
      */
     public function list(ShiniCenterRepository $rep): Response
     {
-        return $this->render('page/list.html.twig', ['items' => $rep->findAll()]);
+        return $this->render('entity/center/list.html.twig', ['items' => $rep->findAll()]);
     }
 
     /**
@@ -43,7 +43,7 @@ class CenterController extends AbstractController
      */
     public function show(ShiniCenter $center): Response
     {
-        return $this->render('center/show.html.twig', ['center' => $center]);
+        return $this->render('entity/center/show.html.twig', ['center' => $center]);
     }
 
     /**
@@ -69,7 +69,7 @@ class CenterController extends AbstractController
             return $this->redirectToRoute('shini.center.list');
         }
 
-        return $this->render('center/newCenter.html.twig',[
+        return $this->render('entity/center/new.html.twig',[
             'centre'=>$center,
             'form'=> $form->createView()
         ]);
@@ -97,7 +97,7 @@ class CenterController extends AbstractController
             return $this->redirectToRoute('shini.center.show', ['id' => $center->getId()]);
         }
 
-        return $this->render('center/edit.html.twig', [
+        return $this->render('entity/center/new.html.twig', [
             'center' => $center,
             'form' => $form->createView(),
         ]);

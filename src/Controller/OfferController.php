@@ -45,7 +45,7 @@ class OfferController extends AbstractController
      */
     public function list(ShiniOffersRepository $shiniOffersRepository): Response
     {
-        return $this->render('page/list.html.twig', ['items' => $shiniOffersRepository->findAll()]);
+        return $this->render('entity/offer/list.html.twig', ['items' => $shiniOffersRepository->findAll()]);
     }
 
     /**
@@ -60,7 +60,7 @@ class OfferController extends AbstractController
     {
         $shiniOffers = $offersRepository->findVisible();
 
-        return $this->render('page/list.html.twig',[
+        return $this->render('entity/offer/list.html.twig',[
             'items' =>$shiniOffers
         ]);
     }
@@ -68,7 +68,6 @@ class OfferController extends AbstractController
     /**
      * Create a new offer (ROLE_STAFF only)
      *
-     * @Security("has_role('ROLE_STAFF')")
      * @param Request $request
      * @return Response
      *
@@ -103,7 +102,7 @@ class OfferController extends AbstractController
             return $this->redirectToRoute('shini.offer.list');
         }
 
-        return $this->render('page/new_offer.html.twig', [
+        return $this->render('entity/offer/new.html.twig', [
             'offer' => $offer,
             'form' => $form->createView(),
         ]);
@@ -145,7 +144,7 @@ class OfferController extends AbstractController
             return $this->redirectToRoute('shini.offer.show', ['id' => $offer->getId()]);
         }
 
-        return $this->render('offer/edit.html.twig', [
+        return $this->render('entity/offer/edit.html.twig', [
             'offer' => $offer,
             'form' => $form->createView(),
         ]);

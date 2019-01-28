@@ -24,7 +24,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 /**
  * Symfony Security.
  *
- * @Route("/connexion", name="security")
+ * @Route("/connect", name="secure")
  */
 class SecurityController extends AbstractController
 {
@@ -38,12 +38,14 @@ class SecurityController extends AbstractController
      * @param AuthenticationUtils $authenticationUtils
      * @return Response
      *
-     * @Route("/signinup", name=".signinup", methods={"GET","POST"})
+     * @Route("/signinup/{sign<in|up>}", name=".signinup", methods={"GET","POST"})
      */
-    public function signInUp(Request $request, UserPasswordEncoderInterface $userPasswordEncoder, AuthenticationUtils $authenticationUtils):Response
+    public function signInUp(Request $request,
+                             UserPasswordEncoderInterface $userPasswordEncoder,
+                             AuthenticationUtils $authenticationUtils,
+                                string $sign = null):Response
     {
-
-        $user = $this->getUser();
+  /*      $user = $this->getUser();
         if($user)
         {
             if (is_a($user, ShiniPlayer::class))
@@ -58,7 +60,7 @@ class SecurityController extends AbstractController
             {
                 return $this->redirectToRoute('shini.admin.profile');
             }
-        }
+        }*/
 
         // Only player can susbcribe online,
         // staffs are created by admin,
@@ -86,18 +88,30 @@ class SecurityController extends AbstractController
         
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('shini_gami/connexion.htlm.twig',[
+        if ($sign == "up")
+        {
+            $form = $formSignUp->createView();
+            $title = "Rejoignez l'aventure Shinigami";
+        }
+        else
+        {
+            $form = $formSignIn->createView();
+            $title = "Connectez-vous";
+        }
+
+        return $this->render('page/signinup.html.twig',[
             'player'=> $player,
-            'formSignUp'=> $formSignUp->createView(),
-            'formSignIn'=> $formSignIn->createView(),
-            'error' => $error
+            'form'=> $form,
+            'error' => $error,
+            'title' => $title,
+            'sign' => $sign
         ]);
     }
 
     /**
      * Validation (provided by Symfony).
      *
-     * #@Route("/validate", name=".validate")
+     * @Route("/validate", name=".validate")
      */
     public function validation()
     {
@@ -112,5 +126,34 @@ class SecurityController extends AbstractController
     public function signOut()
     {
 
+    }
+
+    /**
+     * After successfull login redirect user to his profile.
+     *
+     * @return Response
+     *
+     * @Route("/signinup/success", name=".success", methods={"GET","POST"})
+     */
+    public function success()
+    {
+        $user = $this->getUser();
+        if($user)
+        {
+            if (is_a($user, ShiniPlayer::class))
+            {
+                return $this->redirectToRoute('shini.player.profile');
+            }
+            if (is_a($user, ShiniStaff::class))
+            {
+                return $this->redirectToRoute('shini.staff.profile');
+            }
+            else if (is_a($user, ShiniAdmin::class))
+            {
+                return $this->redirectToRoute('shini.admin.profile');
+            }
+        }
+
+        return $this->redirectToRoute('shini.index');
     }
 }
