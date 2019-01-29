@@ -1,0 +1,95 @@
+
+/*@import "bootstrap.css";*/
+@import url("https://fonts.googleapis.com/css?family=Oleo+Script:400|Open+Sans:300,300italic,600,600italic,800");
+@import url("https://fonts.googleapis.com/css?family=Monoton&effect=fire|fire-animation");
+@import url("https://fonts.googleapis.com/css?family=Carter+One");
+
+footer a{
+    color:white;
+}
+
+body {
+    background: url('images/sky.jpg') top left;
+    background-size:cover;
+}
+
+body:before {
+    background:linear-gradient(270deg, #3c363b 0%, #241842 100%);
+}
+#shinigami-nav a{
+    color: white;
+    font-size: large;
+    font-family: 'Carter One', cursive;
+}
+
+h3 {
+    font-family: 'Carter One', cursive;
+}
+#page{
+ /*   box-shadow: 20px 10px 0 rgba(62, 62, 62, 0.1);*/
+  /*  box-shadow:5px 15px 17px -6px #6f6a69;*/
+/*    box-shadow:24px -21px 15px -20px rgba(37, 37, 40, 0.83);*/
+    box-shadow:24px -21px 12px -20px rgba(20, 20, 20,0.83);
+}
+#shinigamiCarousel .carousel-inner{
+    border-radius: .25rem .25rem 0 0;
+    background-color: rgba(0,0,0,0);
+    overflow: hidden;
+}
+.shinigami-logo{
+    font-family: 'Monoton', serif;
+    color:black;
+    font-size: 2rem;
+}
+
+img.shinigami-avatar{
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    border: 2px solid #F7F9FA;
+    border-top-color: rgb(247, 249, 250);
+    border-right-color: rgb(247, 249, 250);
+    border-bottom-color: rgb(247, 249, 250);
+    border-left-color: rgb(247, 249, 250);
+    background: #F7F9FA;
+    color: #fff;
+}
+
+/* si necessaire */
+.avatar {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    border: 2px solid #F7F9FA;
+    background: #F7F9FA;
+    color: #fff; }
+.avatar.bg-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+.avatar.bg-primary i {
+    font-size: 1rem; }
+.avatar.avatar-lg {
+    width: 3rem;
+    height: 3rem; }
+.avatar.avatar-sm {
+    width: 1.5rem;
+    height: 1.5rem; }
+
+@media (min-width: 992px) {
+    .avatar.avatar-lg {
+        width: 4.5rem;
+        height: 4.5rem; } }
+
+.card .avatar {
+    border-color: #fff;
+    background: #fff; }
+
+.avatars {
+    padding-left: 0;
+    list-style: none;
+    margin: 0; }
+.avatars > li {
+    display: inline-block; }
+.avatars > li + li {
+    margin-left: -0.75rem; }
