@@ -50,8 +50,9 @@
     {% else %}
         {# TODO: mettre les deux formulaire inscription et connection dans le dropdown #}
         <li class="nav-item dropdown">
-            <button id="userButton" type="button" class="btn btn-secodary dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               Connexion/Inscription
+            <button id="userButton" type="button" title="Connexion/Déconnexion" class="btn btn-secodary dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               {#Connexion/Inscription#}
+                <i class="fas fa-user-plus"></i> / <i class="fas fa-sign-in-alt" ></i>
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{{ path('secure.signinup', {'sign' : 'in'}) }}">Se&nbsp;connecter</a>

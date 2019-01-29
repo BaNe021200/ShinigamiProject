@@ -22,6 +22,7 @@ class AppFixtures extends Fixture
 
     /**
      * @param ObjectManager $manager
+     * @throws \Exception
      */
     public function load(ObjectManager $manager)
     {
@@ -73,13 +74,21 @@ class AppFixtures extends Fixture
     public function generateCenters(ObjectManager $manager,Generator $faker)
     {
         $centers = [];
-        for($i=340; $i<351; $i++)
+
+
+        $centerNames = ['Dijon','Chalon-sur-Saône', 'Nevers', 'Auxerre', 'Mâcon','Creusot', 'Beaune', 'Montceau-les-Mines', 'Autun','Avallon'];
+
+        for($i=340; $i<350; $i++)
         {
+
+
+            #$centerkeysRand = array_rand($centerNames,1);
+
+            #$centernameRand = $centerNames[$centerkeysRand];
             $center = new ShiniCenter();
-            //$code = ['340','350','360'];
-            //$center->setCode($faker->randomElement($code))
-            //$center->setCode($faker->randomElement($code = ['340','350','360']));
+            $center->setName($centerNames[$i-340]);
             $center->setCode($i);
+
             $centers[] = $center;
             $manager->persist($center);
         }
@@ -97,7 +106,7 @@ class AppFixtures extends Fixture
                 ->setPrice($faker->randomFloat(2,50,1000))
                 ->setDateEnd($faker->dateTimeThisCentury($min = 'now', $timezone = 'Europe/Paris'))
                 ->setDescription($faker->text)
-                ->setImage('https://picsum.photos/300/200/?image='.$i)
+                ->setImageName('https://picsum.photos/300/200/?image='.$i)
                 ->setShown($faker->boolean(50))
                 ->setOnfirstpage(0)
                 ->setStaffAdviser($staffAdvisers[array_rand($staffAdvisers)])
@@ -111,7 +120,7 @@ class AppFixtures extends Fixture
     {
 
         $staffAdvisers = [];
-        for($i=0; $i<1; $i++)
+        for($i=0; $i<50; $i++)
         {
             $staff = new ShiniStaff();
             $staff->setName($faker->firstName)
@@ -158,8 +167,9 @@ class AppFixtures extends Fixture
      * Create three well known user
      *
      * @param ObjectManager $manager
+     * @param Generator $faker
+     * @param $centers
      * @throws \Exception
-     *
      */
     public function generateWellKnownUser(ObjectManager $manager,Generator $faker, $centers){
 
@@ -246,7 +256,7 @@ class AppFixtures extends Fixture
             ->setStaffAdviser($staffAdvisers[array_rand($staffAdvisers)])
         ;
 
-        //$account->setPlayer($player);
+
         $manager->persist($chat);
         $manager->persist($chien);
         $manager->persist($nana);

@@ -54,9 +54,13 @@ class ShiniLoginType extends AbstractType
                     'placeholder'=> 'Rentrez votre mot de passe'
                 ]
             ])
-            ->add('signin',SubmitType::class,[
-                'label'=>'soumettre'
-            ])
+            /*->add('signin',SubmitType::class,[
+                'label'=>' soumettre',
+                'attr'=>[
+                    'class'=>'mb-4  mt-2 btn btn-success far fa-thumbs-up',
+
+                ]
+            ])*/
             //->setAction($this->urlGen->generate('security.validate'))
         ;
     }

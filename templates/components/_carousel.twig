@@ -31,6 +31,10 @@
     </div>
 </div>#}
 
+{% block test %}
+     {% dump(onLines) %}
+{% endblock test %}
+
 
 <div id="shinigamiCarousel" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
@@ -40,9 +44,9 @@
     </ol>
     <div class="carousel-inner">
         {% for offer in onLines %}
-            <div class="carousel-item {% if loop.first %}{{ active }}{% endif %}">
+            <div class="carousel-item {% if loop.first %}active{% endif %}">
                 <a href="{{ path('shini.offer.show', {id: offer.id,slug:offer.slug}) }}">
-                    <img class="d-block w-100" src="{{ asset (offer.image) }}" alt="{{ offer.name }}">
+                    <img class="d-block w-100" src="{{ asset (offer.imageName) }}" alt="{{ offer.name }}">
                 </a>
                 <div class="carousel-caption d-none d-md-block">
                     <h5>{{ offer.name }}</h5>
