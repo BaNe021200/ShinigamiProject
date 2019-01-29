@@ -220,7 +220,7 @@ class AppFixtures extends Fixture
             ->setDescription($faker->text)
             ->setImageName('2.jpg')
             ->setShown(1)
-            ->setOnfirstpage(0)
+            ->setOnfirstpage(1)
             ->setStaffAdviser($staffAdvisers[array_rand($staffAdvisers)])
         ;
 
@@ -231,7 +231,7 @@ class AppFixtures extends Fixture
             ->setDescription($faker->text)
             ->setImageName('3.jpg')
             ->setShown(1)
-            ->setOnfirstpage(0)
+            ->setOnfirstpage(1)
             ->setStaffAdviser($staffAdvisers[array_rand($staffAdvisers)])
         ;
 
@@ -242,7 +242,7 @@ class AppFixtures extends Fixture
             ->setDescription($faker->text)
             ->setImageName('1.jpg')
             ->setShown(1)
-            ->setOnfirstpage(0)
+            ->setOnfirstpage(1)
             ->setStaffAdviser($staffAdvisers[array_rand($staffAdvisers)])
         ;
 

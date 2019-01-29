@@ -78,7 +78,7 @@ class SecurityController extends AbstractController
             // Go to login check
             if ( $form->get('signin') )
             {
-                return $this-> redirectToRoute('security.validate');
+                return $this-> redirectToRoute('secure.success');
             }
 
             //$player->setPassword($userPasswordEncoder->encodePassword($player,$player->getPassword()));
@@ -114,9 +114,8 @@ class SecurityController extends AbstractController
      */
     public function validation()
     {
-        /**
-         * Etape de validation Symfony
-         */
+
+
     }
 
     /**

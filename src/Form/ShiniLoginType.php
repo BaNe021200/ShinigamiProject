@@ -57,7 +57,7 @@ class ShiniLoginType extends AbstractType
             ->add('signin',SubmitType::class,[
                 'label'=>'soumettre'
             ])
-            //->setAction($this->urlGen->generate('security.validate'))
+            ->setAction($this->urlGen->generate('secure.validate'))
         ;
     }
 
