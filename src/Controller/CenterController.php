@@ -30,7 +30,10 @@ class CenterController extends AbstractController
      */
     public function list(ShiniCenterRepository $rep): Response
     {
-        return $this->render('entity/center/list.html.twig', ['items' => $rep->findAll()]);
+        return $this->render('entity/center/list.html.twig', [
+            'items' => $rep->findAll(),
+            'title' => 'Nos centres'
+        ]);
     }
 
     /**

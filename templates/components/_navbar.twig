@@ -1,21 +1,21 @@
 <nav class="navbar navbar-expand-sm navbar-dark px-sm-0 d-inline-flex">
     <div class="justify-content-center {#col col-sm-8 col-lg-8 ml-2 ml-md-0 #}">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#shinigami-nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="shinigami-nav">
             <ul class="navbar-nav align-items-left mr-auto">
-                <li class="mr-1 nav-item {% if current is defined and current == "about"  %}active{% endif %}">
-                    <a class="btn btn-outline-secondary border-0" href="{{path('shini.about')}}">A&nbsp;propos <span class="sr-only">(current)</span></a>
+                <li class="mr-1 nav-item">
+                    <a class="btn btn-outline-secondary border-0 {% if current is defined and current == "about"  %}active{% endif %}" href="{{path('shini.about')}}">A&nbsp;propos <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="mr-1 nav-item {% if current is defined and current == "centre"  %}active{% endif %}">
-                    <a class="btn btn-outline-secondary border-0" href="{{ path('shini.center.list') }}">Salles&nbsp;de&nbsp;jeux</a>
+                <li class="mr-1 nav-item">
+                    <a class="btn btn-outline-secondary border-0 {% if current is defined and current == "centre"  %}active{% endif %}" href="{{ path('shini.center.list') }}">Salles&nbsp;de&nbsp;jeux</a>
                 </li>
-                <li class="mr-1 nav-item {% if current is defined and current == "offer"  %}active{% endif %}">
-                    <a class="btn btn-outline-secondary border-0" href="{{ path('shini.offer.list') }}">Offres</a>
+                <li class="mr-1 nav-item">
+                    <a class="btn btn-outline-secondary border-0 {% if current is defined and current == "offer"  %}active{% endif %}" href="{{ path('shini.offer.list') }}">Offres</a>
                 </li>
-                <li class="mr-1 nav-item {% if current is defined and current == "contact"  %}active{% endif %}">
-                    <a class="btn btn-outline-secondary border-0" href="{{ path('shini.contact') }}">Contact</a>
+                <li class="mr-1 nav-item">
+                    <a class="btn btn-outline-secondary border-0 {% if current is defined and current == "contact"  %}active{% endif %}" href="{{ path('shini.contact') }}">Contact</a>
                 </li>
             </ul>
         </div>

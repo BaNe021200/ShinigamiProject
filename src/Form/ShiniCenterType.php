@@ -10,8 +10,7 @@ namespace App\Form;
 
 
 use App\Entity\ShiniCenter;
-/*use function Sodium\add;*/
-use App\ImageSaver\ImageSaver;
+use App\Service\ImageSaver\ImageSaver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,8 +33,6 @@ class ShiniCenterType extends AbstractType
     {
         $resolver->setDefaults([
            'data_class' => ShiniCenter::class
-
         ]);
     }
-
 }

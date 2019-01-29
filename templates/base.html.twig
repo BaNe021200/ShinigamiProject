@@ -12,16 +12,17 @@
         {% block stylesheets '' %}
     </head>
 
-    <body class="bg-dark">
+    <body {#class="bg-dark"#}>
         {# top #}
         <section class="container-fluid py-3 col-10 col-xl-8">
             {% block top '' %}
         </section>
 
         {# center #}
-        <section id="page" class="container-fluid justify-content-center py-3 bg-light col-10 col-xl-8 rounded border-top border-right">
+        <section id="page" class="container-fluid justify-content-center p-0 m-auto col-10 col-xl-8 rounded bg-light">
             {#<div class="image image-overlay image-cover skrollable skrollable-between" style="background-image: url({{ asset ('assets/css/images/portfolio-bg-2.jpg') }}); transform: translateY(0px);" data-top-top="transform: translateY(0px);" data-top-bottom="transform: translateY(-250px);"></div>#}
-            <div class="container">
+            {% block carousel '' %}
+            <div class="container px-5 pt-3">
                 {% block messages '' %}
                 {% block page '' %}
              </div>

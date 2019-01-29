@@ -4,11 +4,48 @@
     Accueil
 {% endblock page_title %}
 
+{% block carousel %}
+    {{ include ('components/_carousel.twig') }}
+{% endblock carousel %}
+
 {% block page %}
-    <section class="row bg-dark justify-content-center">
-    {{ include ('components/_carrousel.twig') }}
-    </section>
     <section class="row">
         <p style="height:600px">Du texte de présentation.</p>
     </section>
-{% endblock %}
+
+    <div class="modal fade" id="logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="exampleModalLabel">Deconnexion</h5>
+                    <button type="button" id=" dismissModalCross" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>&nbsp;</p>
+                    <p class="align-items-center">
+                        Vous êtes maintenant déconnecté(e).
+                    </p>
+                    <p>&nbsp;</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="dismissModal"  class="btn btn-success" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+
+{% endblock page %}
+
+{% block final_javascripts %}
+    {% if logout is defined  %}
+       <script>
+           $('#logout').modal('show').click('dismissModal').hide();
+      /*     document.getElementById('dismissModal').addEventListener('click', function () {
+               window.location.href="{{ path('shini.index') }}"
+           });*/
+
+       </script>
+    {% endif %}
+{% endblock final_javascripts %}

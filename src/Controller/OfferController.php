@@ -30,7 +30,7 @@ class OfferController extends AbstractController
      */
     public function show(ShiniOffer $offer):Response
     {
-        return $this->render('offer/show.html.twig',[
+        return $this->render('entity/offer/show.html.twig',[
             'offer' => $offer
         ]);
     }
@@ -45,7 +45,10 @@ class OfferController extends AbstractController
      */
     public function list(ShiniOffersRepository $shiniOffersRepository): Response
     {
-        return $this->render('entity/offer/list.html.twig', ['items' => $shiniOffersRepository->findAll()]);
+        return $this->render('entity/offer/list.html.twig', [
+            'items' => $shiniOffersRepository->findAll(),
+            'title' => 'Nos offres'
+        ]);
     }
 
     /**

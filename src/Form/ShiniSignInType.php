@@ -19,6 +19,8 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ShiniSignInType extends AbstractType
 {
@@ -28,7 +30,6 @@ class ShiniSignInType extends AbstractType
             ->add('name',TextType::class,[
                 'required' =>true,
                 'label' => "Prénom",
-
                 'attr'=>[
                     'placeholder'=>"Votre prénom",
 

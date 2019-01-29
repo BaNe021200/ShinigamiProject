@@ -1,46 +1,23 @@
 {% extends 'layout.html.twig' %}
 
 {% block page_title %}
-    {{ title }}
+    {{ title |title}}
 {% endblock %}
-
-{#{% set active = 'signIn' %}#}
 
 {% block page %}
     <!-- Form -->
 <section class="bg-light pt-0">
     <div class="container">
-        {% if sign == 'in' %}
-        <h3>{{ title }} :</h3>
-            {% if error %}
-                <div class="alert alert-danger">
-                    {{ error.messageKey | trans(error.messageData, 'secure') }}
-                </div>
-            {% endif %}
-            {#{% for message in app.flashes('notice') %}
-                <div class="alert alert-success">{{ message }}</div>
-            {% endfor %}#}
-            {{ form(form) }}
-        {% else %}
-            <h3>{{ title }} !</h3>
-            {{ form_start(form, {attr:{novalidate: 'novalidate' }}) }}
-
-            <div class="row">
-                <div class="col-md-6">{{ form_row(form.name) }}</div>
-                <div class="col-md-6">{{ form_row(form.lastname) }}</div>
+        <h3>{{ title |title }}</h3>
+        {% if error %}
+            <div class="alert alert-danger">
+                {{ error.messageKey | trans(error.messageData, 'secure') }}
             </div>
-
-            <div class="row">
-                <div class="col-md-6">{{ form_row(form.nickName) }}</div>
-                <div class="col-md-6">{{ form_row(form.email) }}</div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">{{ form_row(form.password.first) }}</div>
-                <div class="col-md-6">{{ form_row(form.password.second) }}</div>
-            </div>
-            {{ form_end(form) }}
         {% endif %}
+        {#{% for message in app.flashes('notice') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}#}
+        {{ form(form, {attr:{novalidate: 'novalidate' }}) }}
     </div>
 </section>
 {% endblock %}

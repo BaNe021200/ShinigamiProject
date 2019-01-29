@@ -1,42 +1,18 @@
-{% extends "layout.html.twig" %}
+{% extends "entity/list.html.twig" %}
 
-{% block page_title %}
-    Nos offres
-{% endblock %}
 
-{% block page %}
-    <div class="row content-list-head justify-content-between my-2">
-    <div class="col-auto">
-        <h3>Nos offres :</h3>
+{% block item_search_placeholder %}Rechercher une offre{% endblock %}
+
+{% block item_title %}{{ item.name |title }}{% endblock %}
+
+{% block item_body %}
+    <div class="col-12 col-sm-4">
+        <a href="#" data-toggle="tooltip" title="{{ item.name }}">
+            <img alt="Offre Shinigami" class="img-thumbnail" src="{{ asset (item.image) }}">
+        </a>
     </div>
-    <form class="col-md-auto my-2">
-        <div class="input-group input-group-round">
-            <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="fas fa-search"></i>
-                    </span>
-            </div>
-            <input type="search" class="form-control filter-list-input" placeholder="Chercher un joueur" aria-label="Filter Tasks" aria-describedby="filter-tasks">
-        </div>
-    </form>
-</div>
-    <div class="row content-list-body my-2">
-        {% for item in items %}
-            <div class="card my-2 container-fluid bg-white rounded">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <div class="card-title d-flex justify-content-between align-items-center">
-                        <div>
-                            <a href="#" data-toggle="tooltip" title="Kenny">
-                                <img alt="Offre Shinigami" class="img-thumbnail" src="{{ asset (item.image) }}">
-                            </a>
-                        </div>
-                        <span class="text-small ml-2">{{ item.description }}</span>
-                    </div>
-                    <div>
-                        {{ include('components/_item_button_actions.twig') }}
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
+    <div class="col">
+        <p class="card-text">{{ item.description }}</p>
     </div>
-{% endblock %}
+{% endblock item_body %}
+

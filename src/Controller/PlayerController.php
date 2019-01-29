@@ -4,9 +4,11 @@ namespace App\Controller;
 
 
 use App\Entity\ShiniAdmin;
+use App\Entity\ShiniCard;
 use App\Entity\ShiniPlayer;
 use App\Entity\ShiniStaff;
-use App\Form\ShiniPlayerEditType;
+use App\Form\SearchPlayerCodeType;
+use App\Form\SearchPlayerType;
 use App\Form\ShiniPlayerType;
 use App\Repository\ShiniCenterRepository;
 use App\Repository\ShiniPlayerRepository;
@@ -155,82 +157,91 @@ class PlayerController extends AbstractController
     }
 
     /**
-     * TODO: faire la doc
-     * TODO: Ben, cette fonctionnalité est ouverte aux players, tra la la
-     *
-     * @return Response
-     *
-     * @Route("/searchByNickname", name=".searchByNickname")
-     */
-    public function searchPlayerByNickname()
-    {
-        return $this->render('staff/searchPlayerByNickname.twig');
-    }
-
-    /**
-     * TODO: faire la doc
-     * TODO: Ben, cette fonctionnalité est ouverte aux players, tsoin, tsoin
+     * Search player with card code or username($nickname) (ROLE_STAFF).
+     * Recherche les utilisateurs par leur nom ou pseudo
      *
      * @param Request $request
-     * @param ShiniPlayerRepository $rep
+     * @param ShiniPlayerRepository $shiniPlayerRepository
      * @return Response
      *
-     * @Route("/foundPlayerByPseudo", name=".searchByPseudo")
+     * @Route("/search", name=".search")
      */
-    public function findPlayerByNickname(Request $request, ShiniPlayerRepository $rep)
+    public function searchPlayer(Request $request, ShiniPlayerRepository $shiniPlayerRepository)
     {
-        $pseudo = $request->request->get('foundPlayerByNickname');
+        $form= $this->createForm(SearchPlayerType::class);
 
+        $form->handleRequest($request);
 
-        $player = $rep->findOneBy(['nickName' => $rep]);
-
-
-        if($player=== null)
+        if ($form->isSubmitted() && $form->isValid())
         {
-            $this->addFlash('danger','l\'utilisateur '.$pseudo. ' n\'existe pas');
-            return $this->redirectToRoute('shini.staff.searchByNicknameInStaffWay');
+            $data = $form->getData();
+            $shiniPlayerPseudo = $data['nickName'];
+
+            $shiniPlayer = $shiniPlayerRepository->findOneBy(['nickName' =>$shiniPlayerPseudo]);
+
+            if($shiniPlayer=== null)
+            {
+                $this->addFlash('danger','l\'utilisateur '.$shiniPlayerPseudo. ' n\'existe pas');
+                return $this->redirectToRoute('search.player');
+            }
+
+            return $this->render('shini_player/show.html.twig',['shini_player'=>$shiniPlayer]);
+        }
+        $formCode = $this->createForm(SearchPlayerCodeType::class);
+        $formCode->handleRequest($request);
+        if($formCode->isSubmitted() && $formCode->isValid())
+        {
+            $data = $formCode->getData();
+            $cardCode = $data['cardCode'];
+            $shiniPlayerCardCode = $shiniPlayerRepository->findOneBy(['cardCode' =>$cardCode]);
+            if($shiniPlayerCardCode=== null)
+            {
+                $this->addFlash('danger','Il n\'y a pas d\'enregistrement corresondant au numéro '.$cardCode);
+                return $this->redirectToRoute('search.player');
+            }
+            return $this->render('entity/user/show.html.twig',['shini_player'=>$shiniPlayerCardCode]);
         }
 
-        return $this->render('staff/showPlayerByNickname.html.twig',['player'=>$player]);
-
+        return $this->render('entity/user/search_player.html.twig',[
+            'form' => $form->createView(),
+            'formCode' => $formCode->createView()
+        ]);
     }
 
     /**
-     * TODO: faire la doc
+     * Generate a card code (ROLE_STAFF).
      *
      * @param Request $request
      * @param ShiniPlayer $player
      * @param ShiniCenterRepository $shiniCenterRepository
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
-     * @Route("/{id<\d+>}/staff/search_card", name=".staff.searchcard")
+     * @Route("/shiniplayer/{id<\d+>}/card", name=".searchCard")
      */
     public function cardGenerator(Request $request, ShiniPlayer $player, ShiniCenterRepository $shiniCenterRepository)
     {
-        $searchCard =  $player->getCardCode();
+        $searchCard = $player->getCardCode();
 
-        if($searchCard !== null)
-        {
-            $this->addFlash('danger','Vous avez déjà un numéro de carte pour ce compte');
+        if ($searchCard !== null) {
+            $this->addFlash('danger', 'Vous avez déjà un numéro de carte pour ce compte');
 
-            return $this->redirectToRoute('shini.player.edit', ['id'=>$player->getId()]);
+            return $this->redirectToRoute('shini_player_edit', ['id' => $player->getId()]);
         }
 
-        $unique = uniqid('', true);
-        $file_name = substr($unique, strlen($unique) - 6, strlen($unique));
-        dd($unique);
-        dd($file_name);
         $card = new ShiniCard();
-        $shinicenter = $shiniCenterRepository->findOneBy(['code'=>360]);
-        //dd($shinicenter);
 
-        $clientCode = rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
-        $centerCodeForCheckSum = intval(self::CENTER_CODE);
-        $clientCodeForCheckSum = intval($clientCode);
-        $checksum =($centerCodeForCheckSum+$clientCodeForCheckSum)%9;
-        $card->setCenter($shinicenter);
+        $staff = $this->getUser();
+
+        # Le code client est égale à l'id
+        $clientCode = $player->getId();
+        $centerCodeForCheckSum = $staff->getCenter()->getCode();
+        /*$clientCodeForCheckSum = $staff->getCardCode();*/
+        $checksum = ($centerCodeForCheckSum + $clientCode) % 9;
+        $card->setCenter($staff->getCenter());
         $card->setPlayerCode($clientCode);
         $card->setChecksum($checksum);
+        $card->setPlayer($player);
+        $player->setCardCode($clientCode);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($card);
@@ -238,6 +249,6 @@ class PlayerController extends AbstractController
 
         $this->addFlash('success', 'carte générée !');
 
-        return $this->render('staff/edit.html.twig');
+        return $this->redirectToRoute('shini_player_show', ['id' => $player->getId()]);
     }
 }

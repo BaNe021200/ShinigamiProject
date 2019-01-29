@@ -161,52 +161,93 @@ class AppFixtures extends Fixture
      */
     public function generateWellKnownUser(ObjectManager $manager,Generator $faker, $centers){
 
-        $admin= new ShiniAdmin();
-        $admin->setName($faker->firstName)
-            ->setLastname($faker->lastName)
-            ->setNickName('Admin')
-            ->setEmail('admin@shinigami.fr')
-            ->setPassword('Aa!00000')
-            ->setAddress($faker->buildingNumber.' '.$faker->streetName)
-            ->setCity($faker->city)
-            ->setPostalCode($faker->postcode(5))
-            ->setPhone($faker->phoneNumber(10))
-            ->setBirthday($faker->dateTimeThisCentury)
+    $admin= new ShiniAdmin();
+    $admin->setName($faker->firstName)
+        ->setLastname($faker->lastName)
+        ->setNickName('Admin')
+        ->setEmail('admin@shinigami.fr')
+        ->setPassword('Aa!00000')
+        ->setAddress($faker->buildingNumber.' '.$faker->streetName)
+        ->setCity($faker->city)
+        ->setPostalCode($faker->postcode(5))
+        ->setPhone($faker->phoneNumber(10))
+        ->setBirthday($faker->dateTimeThisCentury)
+    ;
+
+    $staff = new ShiniStaff();
+    $staff->setName($faker->firstName)
+        ->setLastname($faker->lastName)
+        ->setNickName('Staff')
+        ->setEmail('staff@shinigami.fr')
+        ->setPassword('Aa!00000')
+        ->setCenter($centers[0])
+        //->setPassword($faker->regexify("/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([!@#$%^&*\w]{8,20})$/"))
+        ->setAddress($faker->buildingNumber.' '.$faker->streetName)
+        ->setCity($faker->city)
+        ->setPostalCode($faker->postcode(5))
+        ->setPhone($faker->phoneNumber(10))
+        ->setBirthday($faker->dateTimeThisCentury);
+
+    $player= new ShiniPlayer();
+    $account= new ShiniPlayerAccount($player);
+    $account->setConfirmedAt(new \DateTime());
+    $player->setName($faker->firstName)
+        ->setLastname($faker->lastName)
+        ->setNickName('Player')
+        ->setEmail('player@shinigami.fr')
+        ->setPassword('Aa!00000')
+        ->setAddress($faker->buildingNumber.' '.$faker->streetName)
+        ->setCity($faker->city)
+        ->setPostalCode($faker->postcode(5))
+        ->setPhone($faker->phoneNumber(10))
+        ->setBirthday($faker->dateTimeThisCentury)
+    ;
+    //$account->setPlayer($player);
+    $manager->persist($player);
+    $manager->persist($account);
+    $manager->persist($staff);
+    $manager->persist($admin);
+    $manager->flush();
+}
+    public function generateAllReadyMadeOffer(ObjectManager $manager,Generator $faker, $staffAdvisers){
+
+        $chat= new ShiniOffer();
+        $chat->setName("Venez vous mesurer au chat de l'espace !")
+            ->setPrice($faker->randomFloat(2,50,1000))
+            ->setDateEnd($faker->dateTimeThisCentury($min = 'now', $timezone = 'Europe/Paris'))
+            ->setDescription($faker->text)
+            ->setImageName('2.jpg')
+            ->setShown(1)
+            ->setOnfirstpage(0)
+            ->setStaffAdviser($staffAdvisers[array_rand($staffAdvisers)])
         ;
 
-        $staff = new ShiniStaff();
-        $staff->setName($faker->firstName)
-            ->setLastname($faker->lastName)
-            ->setNickName('Staff')
-            ->setEmail('staff@shinigami.fr')
-            ->setPassword('Aa!00000')
-            ->setCenter($centers[0])
-            //->setPassword($faker->regexify("/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([!@#$%^&*\w]{8,20})$/"))
-            ->setAddress($faker->buildingNumber.' '.$faker->streetName)
-            ->setCity($faker->city)
-            ->setPostalCode($faker->postcode(5))
-            ->setPhone($faker->phoneNumber(10))
-            ->setBirthday($faker->dateTimeThisCentury);
-
-        $player= new ShiniPlayer();
-        $account= new ShiniPlayerAccount($player);
-        $account->setConfirmedAt(new \DateTime());
-        $player->setName($faker->firstName)
-            ->setLastname($faker->lastName)
-            ->setNickName('Player')
-            ->setEmail('player@shinigami.fr')
-            ->setPassword('Aa!00000')
-            ->setAddress($faker->buildingNumber.' '.$faker->streetName)
-            ->setCity($faker->city)
-            ->setPostalCode($faker->postcode(5))
-            ->setPhone($faker->phoneNumber(10))
-            ->setBirthday($faker->dateTimeThisCentury)
+        $chien= new ShiniOffer();
+        $chien->setName("Médor vous attends pour un combat sans pitié !")
+            ->setPrice($faker->randomFloat(2,50,1000))
+            ->setDateEnd($faker->dateTimeThisCentury($min = 'now', $timezone = 'Europe/Paris'))
+            ->setDescription($faker->text)
+            ->setImageName('3.jpg')
+            ->setShown(1)
+            ->setOnfirstpage(0)
+            ->setStaffAdviser($staffAdvisers[array_rand($staffAdvisers)])
         ;
+
+        $croco= new ShiniOffer();
+        $croco->setName("Personne ne versera une seule larme...")
+            ->setPrice($faker->randomFloat(2,50,1000))
+            ->setDateEnd($faker->dateTimeThisCentury($min = 'now', $timezone = 'Europe/Paris'))
+            ->setDescription($faker->text)
+            ->setImageName('1.jpg')
+            ->setShown(1)
+            ->setOnfirstpage(0)
+            ->setStaffAdviser($staffAdvisers[array_rand($staffAdvisers)])
+        ;
+
         //$account->setPlayer($player);
-        $manager->persist($player);
-        $manager->persist($account);
-        $manager->persist($staff);
-        $manager->persist($admin);
+        $manager->persist($chat);
+        $manager->persist($chien);
+        $manager->persist($croco);
         $manager->flush();
     }
 }

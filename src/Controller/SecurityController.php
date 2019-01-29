@@ -11,9 +11,11 @@ namespace App\Controller;
 
 use App\Entity\ShiniAdmin;
 use App\Entity\ShiniPlayer;
+use App\Entity\ShiniPlayerAccount;
 use App\Entity\ShiniStaff;
 use App\Form\ShiniSignInType;
 use App\Form\ShiniLoginType;
+use App\Service\EmailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,81 +32,78 @@ class SecurityController extends AbstractController
 {
 
     /**
-     * Sign in or sign up actions (provided by Symfony)
-     * Redirect to page of the actions (player or a staff member).
-     *
+     * formulaire d'inscription et de connexion gestion
+
      * @param Request $request
      * @param UserPasswordEncoderInterface $userPasswordEncoder
      * @param AuthenticationUtils $authenticationUtils
+     * @param EmailService $email
+     * @param null $logout
      * @return Response
+     * @throws \Exception
      *
-     * @Route("/signinup/{sign<in|up>}", name=".signinup", methods={"GET","POST"})
+     * @Route("/sign", name=".sign", methods={"GET","POST"})
+     * @Route("/sign/{sign<in|up>}", name=".signinup", methods={"GET","POST"})
+     *
      */
     public function signInUp(Request $request,
                              UserPasswordEncoderInterface $userPasswordEncoder,
                              AuthenticationUtils $authenticationUtils,
-                                string $sign = null):Response
+                             EmailService $email,
+                             $sign = null): Response
     {
-  /*      $user = $this->getUser();
-        if($user)
-        {
-            if (is_a($user, ShiniPlayer::class))
-            {
-                return $this->redirectToRoute('shini.player.profile');
-            }
-            if (is_a($user, ShiniStaff::class))
-            {
-                return $this->redirectToRoute('shini.staff.profile');
-            }
-            else if (is_a($user, ShiniAdmin::class))
-            {
-                return $this->redirectToRoute('shini.admin.profile');
-            }
-        }*/
 
-        // Only player can susbcribe online,
-        // staffs are created by admin,
-        // and admin is created by...(ni dieu, ni maître).
-        
+        // A player wants to connect
         $player = new ShiniPlayer();
-        $formSignUp = $this->createForm(ShiniSignInType::class, $player);
-        $formSignUp->handleRequest($request);
-
-        if ($formSignUp->isSubmitted() && $formSignUp->isValid()){
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($player);
-            $entityManager->flush();
-
-            // Todo : Ajouter ce flash dans la redirection.
-            //$this->addFlash('success','Félicitation, vous pouvez vous connecter');
-            return $this->redirectToRoute('shini.player.profile');
-        }
-
-        $formSignIn = $this->createForm(ShiniLoginType::class,[
-            'email'=>$authenticationUtils->getLastUsername(),
-        ]);
-
-        $error = $authenticationUtils->getLastAuthenticationError();
-        
-        $lastUsername = $authenticationUtils->getLastUsername();
 
         if ($sign == "up")
         {
-            $form = $formSignUp->createView();
+            $form = $this->createForm(ShiniSignInType::class, $player, [
+                'validation_groups' => ['insertion', 'Default']
+            ]);
             $title = "Rejoignez l'aventure Shinigami";
         }
         else
         {
-            $form = $formSignIn->createView();
+            $form = $this->createForm(ShiniLoginType::class, [
+                'email' => $authenticationUtils->getLastUsername(),
+            ]);
             $title = "Connectez-vous";
         }
 
-        return $this->render('page/signinup.html.twig',[
-            'player'=> $player,
-            'form'=> $form,
-            'error' => $error,
-            'title' => $title,
-            'sign' => $sign
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // Go to login check
+            if ( $form->get('signin') )
+            {
+                return $this-> redirectToRoute('security.validate');
+            }
+
+            //$player->setPassword($userPasswordEncoder->encodePassword($player,$player->getPassword()));
+            $token = uniqid('', true);
+            $entityManager = $this->getDoctrine()->getManager();
+            #$player->setConfirmationToken($token);
+
+            $account = new  ShiniPlayerAccount($player);
+            $account->setConfirmationToken($token);
+
+            $entityManager->persist($player);
+            $entityManager->persist($account);
+            $entityManager->flush();
+
+            $email->emailRegistry($player);
+
+            $this->addFlash('success', 'Bienvenue chez Shinigami Laser !');
+            return $this->redirectToRoute('shini.success');
+        }
+
+        return $this->render('page/signinup.html.twig', [
+            'user' => $player,
+            'form' => $form->createView(),
+            'error' => $authenticationUtils->getLastAuthenticationError(),
+            'title' => $title
         ]);
     }
 
@@ -115,7 +114,9 @@ class SecurityController extends AbstractController
      */
     public function validation()
     {
-
+        /**
+         * Etape de validation Symfony
+         */
     }
 
     /**
@@ -126,6 +127,16 @@ class SecurityController extends AbstractController
     public function signOut()
     {
 
+    }
+
+    /**
+     * Show a modal on home when user disconnect.
+     *
+     * @Route("/logout", name=".logout")
+     */
+    public function logOut()
+    {
+        return $this->render('page/index.html.twig', ['logout' => true]);
     }
 
     /**

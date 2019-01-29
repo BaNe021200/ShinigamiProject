@@ -16,6 +16,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ShiniLoginType extends AbstractType
 {
@@ -37,7 +39,11 @@ class ShiniLoginType extends AbstractType
     {
         $builder
             ->add('email',EmailType::class,[
-              'label' => 'email',
+                'constraints' => [
+                    new NotBlank(),
+                    new Email(['message' => 'Votre adresse "{{value}}" n\'est pas valide'])
+                ],
+                'label' => 'email',
                 'attr'=>[
                     'placeholder'=>'Rentrez  votre email'
                 ]
@@ -48,10 +54,10 @@ class ShiniLoginType extends AbstractType
                     'placeholder'=> 'Rentrez votre mot de passe'
                 ]
             ])
-            ->add('submit',SubmitType::class,[
+            ->add('signin',SubmitType::class,[
                 'label'=>'soumettre'
             ])
-            ->setAction($this->urlGen->generate('security.validate'))
+            //->setAction($this->urlGen->generate('security.validate'))
         ;
     }
 

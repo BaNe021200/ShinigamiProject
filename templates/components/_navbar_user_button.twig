@@ -41,7 +41,7 @@
                     <a class="dropdown-item" href="{{ path('shini.center.list') }}"><i class="fas fa-eye">&nbsp;</i> Les centres</a>
                     <a class="dropdown-item" href="{{ path('shini.staff.list') }}"><i class="fas fa-eye">&nbsp;</i> Le staff</a>
                     <a class="dropdown-item" href="{{ path('shini.player.list') }}"><i class="fas fa-eye">&nbsp;</i> Les joueurs</a>
-                    <a class="dropdown-item" href="{{ path('shini.player.searchByNickname') }}"><i class="fas fa-search"></i> Retrouver un client par pseudo</a>
+                    <a class="dropdown-item" href="{{ path('shini.player.search') }}"><i class="fas fa-search"></i> Rechercher un client</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ path('secure.signout') }}"><i class="fas fa-sign-out-alt"></i>&nbsp;Se déconnecter</a>
                 </div>
@@ -51,11 +51,11 @@
         {# TODO: mettre les deux formulaire inscription et connection dans le dropdown #}
         <li class="nav-item dropdown">
             <button id="userButton" type="button" class="btn btn-secodary dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               connexion
+               Connexion/Inscription
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{{ path('secure.signinup', {'sign' : 'in'}) }}">Se&nbsp;connecter</a>
-                <a class="dropdown-item" href="{{ path('secure.signinup', {'sign' : 'up'}) }}">Première&nbsp;inscription</a>
+                <a class="dropdown-item" href="{{ path('secure.signinup', {'sign' : 'up'}) }}">S'inscrire</a>
             </div>
         </li>
     {% endif %}

@@ -5,8 +5,6 @@ namespace App\Entity;
 use App\Service\ImageSaver\ImageSaverTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ShiniPlayerAccount;
-use App\Entity\ShiniStaff;
 use Cocur\Slugify\Slugify;
 
 /**
@@ -24,6 +22,16 @@ class ShiniOffer
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $price;
@@ -34,41 +42,26 @@ class ShiniOffer
     private $dateEnd;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="boolean", options={"default":0})
      */
-    private $description;
+    private $onfirstpage;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $image;
-
-    /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default":0})
      */
     private $shown;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ShiniStaff",inversedBy="offers")
+     * @ORM\ManyToOne(targetEntity="ShiniStaff", inversedBy="offers")
      * @ORM\JoinColumn(nullable=true)
      */
     private $staffAdviser;
 
     /**
-     * @ORM\ManyToMany(targetEntity="ShiniPlayerAccount",mappedBy="offers")
+     * @ORM\ManyToMany(targetEntity="ShiniPlayerAccount", mappedBy="offers")
      *@ORM\JoinColumn(nullable=true)
      */
     private $accounts;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $onfirstpage;
 
     /**
      * ShiniOffer constructor.
@@ -119,7 +112,7 @@ class ShiniOffer
      * @param mixed $dateEnd
      * @return ShiniOffer
      */
-    public function setDateEnd($dateEnd)
+    public function setDateEnd($dateEnd): self
     {
         $this->dateEnd = $dateEnd;
         return $this;
@@ -137,27 +130,21 @@ class ShiniOffer
         return $this;
     }
 
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(?string $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    public function getShown(): ?bool
+    /**
+     * @return mixed
+     */
+    public function getShown(): bool
     {
         return $this->shown;
     }
 
+    /**
+     * @param mixed $shown
+     * @return ShiniOffer
+     */
     public function setShown(bool $shown): self
     {
         $this->shown = $shown;
-
         return $this;
     }
 
@@ -170,10 +157,10 @@ class ShiniOffer
     }
 
     /**
-     * @param mixed $accounts
+     * @param $account
      * @return ShiniOffer
      */
-    public function addAccounts($account)
+    public function addAccounts($account): self
     {
         $this->accounts[] = $account;
         return $this;
@@ -183,7 +170,7 @@ class ShiniOffer
      * @param mixed $accounts
      * @return ShiniOffer
      */
-    public function setAccounts($accounts)
+    public function setAccounts($accounts): self
     {
         $this->accounts = $accounts;
         return $this;
@@ -201,7 +188,7 @@ class ShiniOffer
      * @param mixed $staffAdviser
      * @return ShiniOffer
      */
-    public function setStaffAdviser($staffAdviser)
+    public function setStaffAdviser($staffAdviser): self
     {
         $this->staffAdviser = $staffAdviser;
         return $this;
@@ -235,5 +222,4 @@ class ShiniOffer
 
         return $this;
     }
-
 }

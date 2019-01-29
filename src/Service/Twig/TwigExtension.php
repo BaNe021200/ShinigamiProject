@@ -36,7 +36,8 @@ class TwigExtension extends AbstractExtension
     public function getPrefix($shiniEntity)
     {
         $prefix = '';
-        switch (get_class($shiniEntity))
+        // Suppress doctrine prefix 'Proxies\__CG__'  from name class.
+        switch (mb_substr(get_class($shiniEntity), 15))
         {
             case ShiniAdmin::class:
                 $prefix ='shini.admin';
