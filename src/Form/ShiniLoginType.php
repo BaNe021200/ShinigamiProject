@@ -57,7 +57,7 @@ class ShiniLoginType extends AbstractType
             /*->add('signin',SubmitType::class,[
                 'label'=>' soumettre',
                 'attr'=>[
-                    'class'=>'mb-4  mt-2 btn btn-success far fa-thumbs-up',
+                    'class'=>'mb-4  mt-2 py-2 btn btn-success far fa-thumbs-up',
 
                 ]
             ])*/

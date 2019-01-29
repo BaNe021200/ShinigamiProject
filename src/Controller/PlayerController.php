@@ -109,6 +109,7 @@ class PlayerController extends AbstractController
      * @return Response
      *
      * #@Route("/new", name=".new", methods={"GET","POST"})
+     * @throws \Exception
      */
     public function new(Request $request, UserPasswordEncoderInterface $userPasswordEncoder): Response
     {

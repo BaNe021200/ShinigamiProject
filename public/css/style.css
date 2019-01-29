@@ -30,3 +30,8 @@
     display: flex;
 }
 
+
+button[type="submit"]{
+    font-family: 'Carter One', cursive !important;
+}
+

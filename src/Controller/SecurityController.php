@@ -13,8 +13,10 @@ use App\Entity\ShiniAdmin;
 use App\Entity\ShiniPlayer;
 use App\Entity\ShiniPlayerAccount;
 use App\Entity\ShiniStaff;
+use App\Form\ForgottenPassordType;
 use App\Form\ShiniSignInType;
 use App\Form\ShiniLoginType;
+use App\Repository\ShiniPlayerRepository;
 use App\Service\EmailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,18 +35,15 @@ class SecurityController extends AbstractController
 
     /**
      * formulaire d'inscription et de connexion gestion
-
      * @param Request $request
      * @param UserPasswordEncoderInterface $userPasswordEncoder
      * @param AuthenticationUtils $authenticationUtils
      * @param EmailService $email
-     * @param null $logout
+     * @param null $sign
      * @return Response
      * @throws \Exception
-     *
      * @Route("/sign", name=".sign", methods={"GET","POST"})
      * @Route("/sign/{sign<in|up>}", name=".signinup", methods={"GET","POST"})
-     *
      */
     public function signInUp(Request $request,
                              UserPasswordEncoderInterface $userPasswordEncoder,
@@ -76,10 +75,10 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             // Go to login check
-            if ( $form->get('signin') )
+            /*if ( $form->get('signin') )
             {
                 return $this-> redirectToRoute('secure.success');
-            }
+            }*/
 
             //$player->setPassword($userPasswordEncoder->encodePassword($player,$player->getPassword()));
             $token = uniqid('', true);
@@ -165,5 +164,44 @@ class SecurityController extends AbstractController
         }
 
         return $this->redirectToRoute('shini.index');
+    }
+
+    /**
+     * @param Request $request
+     * @param ShiniPlayerRepository $playerRepository
+     * @return Response
+     * @Route("/forgottePassword",name=".forgottenPassword")
+     */
+    public function forgottenPassWord(Request $request, ShiniPlayerRepository $playerRepository )
+    {
+        $form = $this->createForm(ForgottenPassordType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $mailInComing = $form->getData();
+            $isPlayerEmailExist = $playerRepository->findOneBy(["mail" => $mailInComing['email'] ]);
+
+            if($isPlayerEmailExist){
+                $this->addFlash('info','un message vous a été envoyé avec la démarche à suivre afin de changer votre mot de passe');
+            }
+            else{
+                $this->addFlash('danger','cet email ne correspond à aucun compte');
+            }
+
+            return $this->render('page/reset_password.html.twig');
+
+        }
+
+        return $this->render('page/forgottenPassWord.html.twig',[
+
+            'form'=> $form->createView()
+        ]);
+
+    }
+
+    public function resetPassword()
+    {
+        
     }
 }

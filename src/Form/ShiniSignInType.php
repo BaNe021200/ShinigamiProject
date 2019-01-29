@@ -65,13 +65,13 @@ class ShiniSignInType extends AbstractType
                 'first_options'  => ['label' => 'Mot de passe','attr'=>['placeholder'=>'Mot de passe']],
                 'second_options' => ['label' => 'Confirmez le mot de passe','attr'=>['placeholder'=>'Confirmez votre mot de passe']],
             ))
-            ->add('submit', SubmitType::class,[
+            /*->add('submit', SubmitType::class,[
                 'label'=> "Je m'inscris",
                 'attr'=> [
                     'class' => 'btn btn-success center'
 
                 ]
-            ])
+            ])*/
         ;
     }
 
