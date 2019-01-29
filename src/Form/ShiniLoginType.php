@@ -61,7 +61,7 @@ class ShiniLoginType extends AbstractType
 
                 ]
             ])*/
-            //->setAction($this->urlGen->generate('security.validate'))
+            ->setAction($this->urlGen->generate('secure.validate'))
         ;
     }
 

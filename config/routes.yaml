@@ -3,6 +3,6 @@
 #    path: /
 #    controller: App\Controller\ShiniGamiController::index
 
-security.validate:
+secure.validate:
     path: /connect/validate
     controller: App\Controller\SecurityController::validation
