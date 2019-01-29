@@ -34,7 +34,7 @@
 
 <div id="shinigamiCarousel" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
-        {% for i in range(0, items|length) %}
+        {% for i in range(0, onLines|length) %}
             <li data-target="#ShiniGamiCarousel" data-slide-to="{{ i }}" {% if loop.first %}class="active"{% endif %}></li>
         {% endfor %}
     </ol>
