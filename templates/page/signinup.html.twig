@@ -28,8 +28,11 @@
 
         {{ form_widget(form) }}
 
+
+        <div class="d-flex justify-content-between align-items-center">
             <button type="submit" class="btn btn-success"><i class="far fa-thumbs-up"></i> Soumettre</button>&nbsp;
-        <a href="{{ path('secureconnect.resertPassword') }}">{#<i class="far fa-sad-tear"></i>#}<i class="fas fa-sad-tear" style="color: #ff9f1a"></i> J'ai oublié mon mot de passe</a>
+            <a href="{{ path('secure.forgottenPassword') }}">{#<i class="far fa-sad-tear"></i>#}<i class="fas fa-sad-tear" style="color: #ff9f1a"></i> J'ai oublié mon mot de passe</a>
+        </div>
 
         {{ form_end(form) }}
     </div>
