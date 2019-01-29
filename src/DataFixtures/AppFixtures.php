@@ -27,16 +27,18 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
-        $this->generatePlayers($manager,$faker);
-        $centers = $this->generateCenters($manager,$faker);
+        $this->generatePlayers($manager, $faker);
+        $centers = $this->generateCenters($manager, $faker);
 
         // A Staff is linked to an offer
-        $staffAdvisers = $this->generateStaff($manager,$faker, $centers);
-        $this->generateOffer($manager,$faker,$staffAdvisers);
+        $staffAdvisers = $this->generateStaff($manager, $faker, $centers);
+        $this->generateOffer($manager, $faker, $staffAdvisers);
 
-        $this->generateAdmin($manager,$faker);
+        $this->generateAdmin($manager, $faker);
 
-        $this->generateWellKnownUser($manager,$faker, $centers);
+        $this->generateWellKnownUser($manager, $faker, $centers);
+
+        $this->generateAllReadyMadeOffer($manager, $faker, $staffAdvisers);
 
     }
 
@@ -164,7 +166,7 @@ class AppFixtures extends Fixture
     $admin= new ShiniAdmin();
     $admin->setName($faker->firstName)
         ->setLastname($faker->lastName)
-        ->setNickName('Admin')
+        ->setNickName('Pseudo-Admin')
         ->setEmail('admin@shinigami.fr')
         ->setPassword('Aa!00000')
         ->setAddress($faker->buildingNumber.' '.$faker->streetName)
@@ -177,7 +179,7 @@ class AppFixtures extends Fixture
     $staff = new ShiniStaff();
     $staff->setName($faker->firstName)
         ->setLastname($faker->lastName)
-        ->setNickName('Staff')
+        ->setNickName('Pseudo-Staff')
         ->setEmail('staff@shinigami.fr')
         ->setPassword('Aa!00000')
         ->setCenter($centers[0])
@@ -193,7 +195,7 @@ class AppFixtures extends Fixture
     $account->setConfirmedAt(new \DateTime());
     $player->setName($faker->firstName)
         ->setLastname($faker->lastName)
-        ->setNickName('Player')
+        ->setNickName('Pseudo-Player')
         ->setEmail('player@shinigami.fr')
         ->setPassword('Aa!00000')
         ->setAddress($faker->buildingNumber.' '.$faker->streetName)
@@ -212,7 +214,7 @@ class AppFixtures extends Fixture
     public function generateAllReadyMadeOffer(ObjectManager $manager,Generator $faker, $staffAdvisers){
 
         $chat= new ShiniOffer();
-        $chat->setName("Venez vous mesurer au chat de l'espace !")
+        $chat->setName("Chat alors ? Vous ne vous attendiez pas à chat !")
             ->setPrice($faker->randomFloat(2,50,1000))
             ->setDateEnd($faker->dateTimeThisCentury($min = 'now', $timezone = 'Europe/Paris'))
             ->setDescription($faker->text)
@@ -233,8 +235,8 @@ class AppFixtures extends Fixture
             ->setStaffAdviser($staffAdvisers[array_rand($staffAdvisers)])
         ;
 
-        $croco= new ShiniOffer();
-        $croco->setName("Personne ne versera une seule larme...")
+        $nana= new ShiniOffer();
+        $nana->setName("Un monde d'aventure vous attends...")
             ->setPrice($faker->randomFloat(2,50,1000))
             ->setDateEnd($faker->dateTimeThisCentury($min = 'now', $timezone = 'Europe/Paris'))
             ->setDescription($faker->text)
@@ -247,7 +249,7 @@ class AppFixtures extends Fixture
         //$account->setPlayer($player);
         $manager->persist($chat);
         $manager->persist($chien);
-        $manager->persist($croco);
+        $manager->persist($nana);
         $manager->flush();
     }
 }
