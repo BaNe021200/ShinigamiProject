@@ -57,8 +57,6 @@ trait shiniPeopleTrait
      */
     private $password;
 
-
-
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="N'oubliez pas d'entrer votre email")

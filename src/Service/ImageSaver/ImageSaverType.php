@@ -55,10 +55,10 @@ class ImageSaverType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'class' => 'dropify',
-                    'data-default-file' => '/staff/default.jpg'
+                    'data-default-file' => $options['data-default-file']()
                 ]
             ])
-            ->addEventSubscriber(new ImageSaver($this->package))
+            ->addEventSubscriber(new ImageSaver($this->package, $this))
         ;
     }
 
@@ -66,6 +66,14 @@ class ImageSaverType extends AbstractType
     {
         $resolver->setDefaults([
             'mapped' => false,
+            'data-default-file' => function(){
+                dump($this);
+                return 'data-resolver';
+            }
+/*            'data-default-file' => function(){
+                dump($this);
+                die();
+            }*/
         ]);
     }
 

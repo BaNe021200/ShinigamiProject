@@ -26,6 +26,7 @@ class ImageSaver implements EventSubscriberInterface
 {
     private $package;
 
+
     /**
      * ImageSaver constructor.
      * @param $package
@@ -60,10 +61,16 @@ class ImageSaver implements EventSubscriberInterface
         $form = $field->getParent();
         $entity = $form->getData();
 
+        dump($form);
+        dump($event);
+        $event->setData([
+                'data-default-file' => 'test'
+        ]);
+
         // How to change form options dynamically
         // https://stackoverflow.com/questions/40267844/how-to-use-setattribute-on-symfony-form-field
         // Get all options
-        $options = $field->getConfig()->getOptions();
+        //$options = $field->getConfig()->getOptions();
         //dump($options);
 
 

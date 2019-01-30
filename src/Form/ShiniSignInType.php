@@ -32,8 +32,6 @@ class ShiniSignInType extends AbstractType
                 'label' => "Prénom",
                 'attr'=>[
                     'placeholder'=>"Votre prénom",
-
-
                 ]
             ])
             ->add('lastname',TextType::class,[

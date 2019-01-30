@@ -38,7 +38,6 @@ class ShiniPlayerType extends AbstractType
                 'label' => "Pseudo",
                 'attr'=>[
                     'placeholder'=>"Votre pseudo"
-
                 ]
             ])
             ->add('birthday',BirthdayType::class,[
@@ -47,7 +46,6 @@ class ShiniPlayerType extends AbstractType
                 'attr'=>[
                     'placeholder'=>"Votre date de naissance",
                     'format' => 'dd-mm-yyyy',
-
                 ]
             ])
             ->add('email', EmailType::class,[
@@ -65,11 +63,7 @@ class ShiniPlayerType extends AbstractType
             ->add('city',TextType::class,[
                 'label' => "Ville",
                  'attr'=>[
-
                      'placeholder'=>"Votre ville",
-
-
-
                 ]
             ])
             ->add('postalCode',TextType::class,[
@@ -79,7 +73,7 @@ class ShiniPlayerType extends AbstractType
                 ]
             ])
             ->add('phone',TextType::class,[
-                'required' =>true,
+                'required' => false,
                 'label' => "téléphone",
                 'attr'=>[
                     'placeholder'=>"Votre numéro de téléphone (10 chiffres)"

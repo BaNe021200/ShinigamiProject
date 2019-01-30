@@ -52,7 +52,7 @@ class ShiniPlayerEditType extends AbstractType
                 ]
             ])
             ->add('email', EmailType::class,[
-                'label' => 'Saisissez votre email',
+                'label' => 'Email',
                 'attr'=> [
                     'placeholder'=> 'saisissez votre email'
                 ]
@@ -79,7 +79,7 @@ class ShiniPlayerEditType extends AbstractType
                 ]
             ])
             ->add('phone',TextType::class,[
-                'required' =>true,
+                'required' =>false,
                 'label' => "téléphone",
                 'attr'=>[
                     'placeholder'=>"Votre numéro de téléphone (10 chiffres)"

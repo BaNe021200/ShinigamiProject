@@ -1,0 +1,57 @@
+
+Projet retenu et objectifs
+--------------------------
+
+Dématérialiser le suivi de la clientèle de Shinigami Laser, une enseigne de salles de jeux ayant plusieurs succursales en Bourgogne.
+
+Les modules du projet :
+
+ - des utilisateurs authentifiés (clients et staff)
+ - des routes sécurisées
+ - un site responsive (pour la clientèle plutôt génération mobile)
+ - des interactions et des usages dont la possibilité de retrouver un utilisateur par son code carte
+
+Parallèllement nous avons dévelloper le code avec pour ligne de conduite :
+
+ - de livrer un projet structuré et documenté
+ - de s'appuyer sur les composants natifs symfony plutôt que d'importer des bundle tiers
+
+
+Organisation
+------------
+(gestion de projet, dépôt git, tableau de bord, estimations de temps)
+
+ - Le projet a été géré et versionné sur github : https://github.com/BaNe021200/ShinigamiProject
+ - nous avons utiliser un wiki pour formaliser notre feuille de route et rassembler les informations relative à la co-construction du projet
+
+
+Choix techniques - composants de base
+-------------------------------------
+
+ - composant Symfony :
+	* website-skeleton
+	* twig-extensions
+	* maker
+	* profiler
+	* phpunit-bridge
+
+ - FOSymfony :
+	* knpPaginatorBundle
+	* faker/fzaninoto
+
+Modélisation UML
+----------------
+
+ - https://github.com/BaNe021200/ShinigamiProject/blob/master/shinigami_uml.png
+
+Choix techniques - Authentification des utilisateurs
+----------------------------------------------------
+
+ * Utilisateurs authentifiés :
+ - les adhérents de l'enseigne Shinigami laser
+ - les membres du staff
+
+ * La création d'utilisateur sur l'interface :
+ Seule la clientèle est en mesure de se créer un profile.
+ Le staff est créé par le super administrateur.
+

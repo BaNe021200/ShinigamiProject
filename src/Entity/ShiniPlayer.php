@@ -131,8 +131,6 @@ class ShiniPlayer implements UserInterface
         return $this;
     }
 
-
-
     public function getGames():?ArrayCollection
     {
         return $this->games;
