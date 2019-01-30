@@ -104,7 +104,7 @@ class ShiniPlayerAccount
         return $this->confirmed_at;
     }
 
-    public function setConfirmedAt(\DateTimeInterface $confirmed_at): self
+    public function setConfirmedAt(?\DateTimeInterface $confirmed_at): self
     {
         $this->confirmed_at = $confirmed_at;
 

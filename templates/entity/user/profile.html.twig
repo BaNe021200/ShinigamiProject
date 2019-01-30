@@ -16,6 +16,11 @@
         <div class="container">
             <div class="row justify-content-center align-items-end vh-50">
                 <div class="col col-md-10 col-lg-8">
+                    {{ include('components/_message_flash.twig') }}
+                </div>
+            </div>
+            <div class="row justify-content-center align-items-end vh-50">
+                <div class="col col-md-10 col-lg-8">
                     <div class="row align-items-center">
                         <div class="col-4 col-lg-3">
                             <img class="mr-3 avatar avatar-xl rounded-circle" src="{{ asset (app.user.imageName) }}" {#{{ asset (actions.imageName) }}#} alt="Generic placeholder image">

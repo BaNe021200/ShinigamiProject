@@ -16,14 +16,13 @@
 <section class="bg-light pt-0">
     <div class="container">
         <h3>{{ title |title }}</h3>
+        {% include 'components/_message_flash.twig' %}
         {% if error %}
             <div class="alert alert-danger">
                 {{ error.messageKey | trans(error.messageData, 'secure') }}
             </div>
         {% endif %}
-        {#{% for message in app.flashes('notice') %}
-            <div class="alert alert-success">{{ message }}</div>
-        {% endfor %}#}
+
         {{ form_start(form, {attr:{novalidate: 'novalidate' }}) }}
 
         {{ form_widget(form) }}
