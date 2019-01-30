@@ -55,3 +55,13 @@ Choix techniques - Authentification des utilisateurs
  Seule la clientèle est en mesure de se créer un profile.
  Le staff est créé par le super administrateur.
 
+* La clientèle s'enregistre sur le site
+   -> envoi au joueur d'un lien d'authentification contenant token
+   -> si le lien est validé (c'est àdire si le token et le mails sont reconnus) le joueur est autoconnecté. Si ce dernier click le lien de validation alors qu'il est déjà authentifier, il est redirigé vers une page de connexion avec la mention "ce token n'est plus valide "
+
+* J'ai oublié mon mon de passe
+
+
+
+
+

@@ -1,11 +1,11 @@
 <h3>You did it! You registered!</h3>
 
-Hi {{ player.name }}! You're successfully registered.
+Bonjour {{ player.name }}! Bienvenue parmis nous.
 
 {# example, assuming you have a route named "login" #}
-To login, go to: <a href="{{ url('secure.email.confirmation',{userId:player.id, token: player.account.confirmationToken }) }}">cliquez sur ce lien pour valider votre compte</a>.
+Pour pouvoir vous connecter : <a href="{{ url('secure.email.confirmation',{userId:player.id, token: player.account.confirmationToken }) }}">cliquez sur ce lien pour valider votre compte</a>.
 
-Thanks!
+Merci et a bientôt !
 
 {# Makes an absolute URL to the /images/logo.png file #}
 {#
