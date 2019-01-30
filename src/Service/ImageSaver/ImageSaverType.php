@@ -8,10 +8,8 @@
 
 namespace App\Service\ImageSaver;
 
-
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -45,9 +43,9 @@ class ImageSaverType extends AbstractType
         $this->package = $package;
     }
 
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $builder
             ->add('image', FileType::class, [
                 'label' => false,
@@ -55,10 +53,10 @@ class ImageSaverType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'class' => 'dropify',
-                    'data-default-file' => $options['data-default-file']()
+                    'data-default-file' => $options['image_url']
                 ]
             ])
-            ->addEventSubscriber(new ImageSaver($this->package, $this))
+            ->addEventSubscriber(new ImageSaver($this->package))
         ;
     }
 
@@ -66,14 +64,7 @@ class ImageSaverType extends AbstractType
     {
         $resolver->setDefaults([
             'mapped' => false,
-            'data-default-file' => function(){
-                dump($this);
-                return 'data-resolver';
-            }
-/*            'data-default-file' => function(){
-                dump($this);
-                die();
-            }*/
+            'image_url' => null
         ]);
     }
 

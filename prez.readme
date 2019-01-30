@@ -1,3 +1,19 @@
+ Plan
+ ----
+
+ Présentation du projet (Powerpoint, RevealJS…) :
+       Présentation du groupe
+       Projet retenu et objectifs
+       Organisation (gestion de projet, dépôt git, tableau de bord, estimations de temps)
+       Choix techniques
+       Modélisation UML
+       Exemples de code (Par exemple Controller, service, API…)
+       Bilan
+   Tests fonctionnels
+   Tests unitaires
+   API (si réalisée)
+   Démo courte (si possible à travers les tests fonctionnel en interactif)
+
 
 Projet retenu et objectifs
 --------------------------
@@ -8,7 +24,7 @@ Les modules du projet :
 
  - des utilisateurs authentifiés (clients et staff)
  - des routes sécurisées
- - un site responsive (pour la clientèle plutôt génération mobile)
+ - un site responsive (pour une clientèle génération mobile)
  - des interactions et des usages dont la possibilité de retrouver un utilisateur par son code carte
 
 Parallèllement nous avons dévelloper le code avec pour ligne de conduite :
@@ -22,13 +38,13 @@ Organisation
 (gestion de projet, dépôt git, tableau de bord, estimations de temps)
 
  - Le projet a été géré et versionné sur github : https://github.com/BaNe021200/ShinigamiProject
- - nous avons utiliser un wiki pour formaliser notre feuille de route et rassembler les informations relative à la co-construction du projet
-
+ - nous avons utiliser un wiki pour formaliser notre feuille de route et rassembler les informations relatives à la co-construction du projet
+ https://github.com/BaNe021200/ShinigamiProject/wiki/Shinigami-Laser
 
 Choix techniques - composants de base
 -------------------------------------
 
- - composant Symfony :
+ - Symfony :
 	* website-skeleton
 	* twig-extensions
 	* maker
@@ -51,7 +67,52 @@ Choix techniques - Authentification des utilisateurs
  - les adhérents de l'enseigne Shinigami laser
  - les membres du staff
 
- * La création d'utilisateur sur l'interface :
- Seule la clientèle est en mesure de se créer un profile.
+ * Création d'utilisateur sur l'interface :
+ Seule la clientèle est en mesure de se créer un profil.
  Le staff est créé par le super administrateur.
+
+ * La clientèle s'enregistre sur le site
+ rédiger par Benoît
+
+ * J'ai oublié mon mot de passe
+
+Choix techniques - la sécurisation des routes
+---------------------------------------------
+
+ * Toutes les routes sont sécurisées en une seule fois depuis le security.yaml uniquement !
+     # Easy way to control access for large sections of your site
+     # Note: Only the *first* access control that matches will be used
+     access_control:
+         - { path: ^/player, roles: [ROLE_STAFF, ROLE_PLAYER] }
+         - { path: /staff, roles: ROLE_STAFF }
+         - { path: /admin, roles: ROLE_ADMIN }
+
+     role_hierarchy:
+         ROLE_ADMIN: ROLE_STAFF
+
+ * Par ailleurs chaque utilisateur possède une entité propre (ShiniPlayer, ShiniStaff, ShiniAdmin)
+  qui garantit l'accès aux ressources/actions auquel il a droit et pas au-delà.
+
+  ex : chaque profil utilisateur est accessible uniquement à son détenteur. Le controlleur qui
+  gère la redirection vérifie le type d'utilisateur qui se connecte.
+
+    // sur la route shinigami/player
+    public function showEditProfile(Request $request): Response
+    {
+      // Get the user
+      $user = $this->getUser();
+
+      if($user)
+      {
+          if (is_a($user, ShiniStaff::class))
+          {
+              return $this->redirectToRoute('shini.staff.profile');
+          }
+          else if (is_a($user, ShiniAdmin::class))
+          {
+              return $this->redirectToRoute('shini.admin.profile');
+          }
+      }
+      // le else est redirigé automatiquement vers l'écran de connection par le service d'authetification
+
 

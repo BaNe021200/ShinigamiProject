@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class ImageSaver
@@ -25,7 +26,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class ImageSaver implements EventSubscriberInterface
 {
     private $package;
-
 
     /**
      * ImageSaver constructor.
@@ -59,19 +59,13 @@ class ImageSaver implements EventSubscriberInterface
     {
         $field = $event->getForm();
         $form = $field->getParent();
-        $entity = $form->getData();
+        $entity = $event->getData();
 
-        dump($form);
-        dump($event);
-        $event->setData([
-                'data-default-file' => 'test'
-        ]);
+
 
         // How to change form options dynamically
         // https://stackoverflow.com/questions/40267844/how-to-use-setattribute-on-symfony-form-field
-        // Get all options
-        //$options = $field->getConfig()->getOptions();
-        //dump($options);
+        // doesn't work
 
 
         // Entity have an image, grab it.
@@ -96,24 +90,6 @@ class ImageSaver implements EventSubscriberInterface
          */
         // move submit to end of form if it exist.
         // Part 1: remove the field
-/*
-        if ($hasSubmit = $form->has('submit'))
-        {
-            $submit = $form->get('submit');
-            $form->remove('submit');
-        }
-*/
-
-
-
-
-        // Part 2: re-inject it.
-/*
-       if ($hasSubmit)
-        {
-            $form->add($submit);;
-        }
-       */
     }
 
     /**

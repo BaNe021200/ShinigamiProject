@@ -149,9 +149,10 @@ class OfferController extends AbstractController
             return $this->redirectToRoute('shini.offer.show', ['item' => $offer]);
         }
 
-        return $this->render('entity/offer/edit.html.twig', [
+        return $this->render('entity/offer/new.html.twig', [
             'offer' => $offer,
             'form' => $form->createView(),
+            'title' => $offer->getName()
         ]);
     }
 

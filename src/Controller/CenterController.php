@@ -98,7 +98,7 @@ class CenterController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success','Modification effectuée');
 
-            return $this->render('entity/center/show.html.twig', [
+            return $this->render('entity/center/new.html.twig', [
                 'item' => $center,
                 'title'=> $center->getName()
             ]);
