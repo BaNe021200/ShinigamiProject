@@ -40,7 +40,7 @@
     </ol>
     <div class="carousel-inner">
         {% for offer in onLines %}
-            <div class="carousel-item {% if loop.first %}{{ active }}{% endif %}">
+            <div class="carousel-item {% if loop.first %}active{% endif %}">
                 <a href="{{ path('shini.offer.show', {id: offer.id,slug:offer.slug}) }}">
                     <img class="d-block w-100" src="{{ asset (offer.getImage) }}" alt="{{ offer.name }}">
                 </a>

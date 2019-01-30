@@ -90,7 +90,8 @@ class StaffController extends AbstractController
     public function list(ShiniStaffRepository $rep): Response
     {
         return $this->render('page/list.html.twig', [
-            'items' => $rep->findStaffWithCenter()
+            'items' => $rep->findStaffWithCenter(),
+            'title' => 'Le staff'
             ]);
     }
 

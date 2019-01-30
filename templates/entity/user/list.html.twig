@@ -1,10 +1,5 @@
 {% extends "layout.html.twig" %}
-{% set prefix = getEntityPrefixRoute(items.0) %}
-{% if prefix == 'shini.player' %}
-    {% set title = 'Liste des joueurs' %}
-{% elseif prefix == 'shini.staff' %}
-    {% set title = 'Membres du staff' %}
-{% endif %}
+
 {% block page_title %}
    {{ title }}
 {% endblock %}
@@ -12,7 +7,7 @@
 {% block page %}
     <div class="row content-list-head justify-content-between my-2">
     <div class="col-auto">
-        <h3>{{ title }}.</h3>
+        <h3>{{ title }}</h3>
     </div>
     <form class="col-md-auto my-2">
         <div class="input-group input-group-round">

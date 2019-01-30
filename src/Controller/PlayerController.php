@@ -97,7 +97,10 @@ class PlayerController extends AbstractController
      */
     public function list(ShiniPlayerRepository $rep): Response
     {
-        return $this->render('entity/user/list.html.twig', ['items' => $rep->findAll()]);
+        return $this->render('entity/user/list.html.twig', [
+            'items' => $rep->findAll(),
+            'title' => 'Les joueurs'
+        ]);
     }
 
     /**
