@@ -32,7 +32,10 @@ class AdminController extends AbstractController
     public function showEditProfile(): Response
     {
         $admin = $this->getUser();
-        return $this->render('entity/user/profile.html.twig');
+        if ($admin)
+            return $this->redirectToRoute('secure.success');
+
+        return $this->redirectToRoute('shini.index');
     }
 
     /**
