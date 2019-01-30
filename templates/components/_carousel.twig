@@ -31,11 +31,7 @@
     </div>
 </div>#}
 
-{% block test %}
-     {% dump(onLines) %}
-{% endblock test %}
-
-
+{% set onLines = getOffersOnLine() %}
 <div id="shinigamiCarousel" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
         {% for i in range(0, onLines|length) %}
@@ -44,14 +40,14 @@
     </ol>
     <div class="carousel-inner">
         {% for offer in onLines %}
-            <div class="carousel-item {% if loop.first %}active{% endif %}">
+            <div class="carousel-item {% if loop.first %}{{ active }}{% endif %}">
                 <a href="{{ path('shini.offer.show', {id: offer.id,slug:offer.slug}) }}">
-                    <img class="d-block w-100" src="{{ asset (offer.imageName) }}" alt="{{ offer.name }}">
+                    <img class="d-block w-100" src="{{ asset (offer.getImage) }}" alt="{{ offer.name }}">
                 </a>
-                <div class="carousel-caption d-none d-md-block">
+                <div class="carousel-caption d-none d-md-block px-3" style="background-color: rgba(10, 10, 10, 0.7);text-align: left">
                     <h5>{{ offer.name }}</h5>
-                    <p class="post-meta">Offre valable juqu'au {{ offer.dateEnd |date('d-m-Y') }}</p>
-                    <p>{{ offer.getFormattedPrice }}</p>
+                    <p class="post-meta">{{ offer.getDescription |summary }}</p>
+                    <p class="post-meta float-right">Offre valable juqu'au {{ offer.dateEnd |date('d-m-Y') }}</p>
                 </div>
             </div>
         {% endfor %}

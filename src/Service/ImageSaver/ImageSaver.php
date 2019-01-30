@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 /**
  * Class ImageSaver
  * @package App\Form
- * TODO : installer dropify dans la champ image
+ *
  */
 class ImageSaver implements EventSubscriberInterface
 {

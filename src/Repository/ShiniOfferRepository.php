@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method ShiniOffer[]    findAll()
  * @method ShiniOffer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ShiniOffersRepository extends ServiceEntityRepository
+class ShiniOfferRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
@@ -29,18 +29,7 @@ class ShiniOffersRepository extends ServiceEntityRepository
     }
 
 
-    public function findVisible()
-    {
-        return $this->createQueryBuilder('shiniOffers')
-            ->where('shiniOffers.shown = 1')
-            ->orderBy('shiniOffers.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
-    public function findOnLine()
+    public function findOnFirstPage()
     {
         return $this->createQueryBuilder('shiniOffers')
             ->where('shiniOffers.onfirstpage = 1')

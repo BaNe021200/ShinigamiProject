@@ -10,6 +10,20 @@ namespace App\Service\ImageSaver;
 
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Trait ImageSaverTrait
+ *
+ * Add an imageName property in entity using the trait and the method to retrieve the image in its storage folder.
+ *
+ * Entity should defined two constants to customized the trait to ist need.
+ *
+ * 1) ASSET_FOLDER : a storage folder based in the symfony 'asset' tree, generally under 'public'
+ * if not defined 'myImages' is returned.
+ *
+ * 2) DEFAULT_IMAGE : a default image preferably stored in a folder outside the 'asset folder'
+ * if not defined empty string is returned
+ * @package App\Service\ImageSaver
+ */
 trait ImageSaverTrait
 {
     /**
@@ -17,34 +31,6 @@ trait ImageSaverTrait
      *
      */
     private $imageName;
-
-    /**
-     * Path to a default image for the entity.
-     * Presumably not stored in public folder.
-     *
-     * @var string A path to an image.
-     */
-    private $defaultImage = null;
-
-    /**
-     * Image folder for entity, located in symfony 'public' folder.
-     * Accessible with symfony 'assets'
-     *
-     * Must be set in entity private '$folder' attribute, or default to myImages.
-     *
-     * @var string
-     */
-    private $folder = null;
-
-    /**
-     * Get image from the entity folder
-     *
-     * @return string $image Image from the entity folder.
-     */
-    public function getImage():? string
-    {
-        return $this->getFolder().'/'.$this->getImageName();
-    }
 
     /**
      * Get name and extension.
@@ -69,25 +55,51 @@ trait ImageSaverTrait
     }
 
     /**
-     * Return storage folder name
+     * Get image from its storage location.
      *
-     * @return string Storage Folder name, or if null 'savedImages' by default.
+     * @return string $image Image from the entity folder.
      */
-    public function getFolder(): string
+    public function getImage(): string
     {
-        return null == $this->folder ? 'myImages' : $this->folder;
+        return $this->getFolder().'/'.$this->getImageName();
     }
 
     /**
-     * Storage folder for image entity
-     * Will be located under Symfony 'public' folder and reachable with 'asset' utility.
+     * Return storage folder name for entity.
      *
-     * @param string $folder Folder name.
-     * @return mixed
+     * @return string Storage Folder name defined in const ASSET_FOLDER of the entity, or 'myImages' if not defined.
      */
-    public function setFolder(string $folder): self
+    public function getFolder(): string
     {
-        $this->folder = $folder;
-        return $this;
+        try
+        {
+            $class = get_called_class();
+            return $class::ASSET_FOLDER;
+        }
+        catch(\Error $e)
+        {
+            // TODO: throw notice 'no constant ASSET_FOLDER defined in entity'
+            return 'myImages';
+        }
+    }
+
+    /**
+     * Return path to default image for entity.
+     *
+     * @return string The path to default image defined in const DEFAULT_IMAGE entity, or otherwise empty string ''.
+     */
+    public function getDefaultImage(): string
+    {
+        try
+        {
+            $class = get_called_class();
+            return $class::DEFAULT_IMAGE;
+        }
+        catch(\Error $e)
+        {
+            // TODO: throw notice 'no constant DEFAULT_IMAGE defined in entity'
+            // Be compliant with php 7.1
+            return '';
+        }
     }
 }

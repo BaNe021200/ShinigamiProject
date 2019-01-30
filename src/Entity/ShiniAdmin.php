@@ -20,6 +20,8 @@ class ShiniAdmin implements UserInterface
     use shiniPeopleTrait;
     use ImageSaverTrait;
 
+    const ASSET_FOLDER = 'admin';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -35,7 +37,6 @@ class ShiniAdmin implements UserInterface
     public function __construct(string $role = 'ROLE_ADMIN')
     {
         $this->addRole($role);
-        $this->setFolder('admin');
     }
 
     public function getId(): ?int

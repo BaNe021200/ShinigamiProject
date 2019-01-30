@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ShiniOffer;
 use App\Form\ShiniOfferType;
-use App\Repository\ShiniOffersRepository;
+use App\Repository\ShiniOfferRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,19 +31,20 @@ class OfferController extends AbstractController
     public function show(ShiniOffer $offer):Response
     {
         return $this->render('entity/offer/show.html.twig',[
-            'offer' => $offer
+            'item' => $offer,
+            'title' => $offer->getName()
         ]);
     }
 
     /**
      * List all offers.
      *
-     * @param ShiniOffersRepository $shiniOffersRepository
+     * @param ShiniOfferRepository $shiniOffersRepository
      * @return Response
      *
      * @Route("/", name=".list", methods={"GET"})
      */
-    public function list(ShiniOffersRepository $shiniOffersRepository): Response
+    public function list(ShiniOfferRepository $shiniOffersRepository): Response
     {
         return $this->render('entity/offer/list.html.twig', [
             'items' => $shiniOffersRepository->findAll(),
@@ -54,12 +55,12 @@ class OfferController extends AbstractController
     /**
      * List offers tagged 'visible'.
      *
-     * @param ShiniOffersRepository $offersRepository
+     * @param ShiniOfferRepository $offersRepository
      * @return Response
      *
      * @Route("/visible", name=".visible")
      */
-    public function visibleOffers(ShiniOffersRepository $offersRepository):Response
+    public function visibleOffers(ShiniOfferRepository $offersRepository):Response
     {
         $shiniOffers = $offersRepository->findVisible();
 
@@ -88,13 +89,13 @@ class OfferController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success','Votre Offre est créée');
-            if($offer->getShown())
+/*            if($offer->getShown())
             {
                 $this->addFlash('info','votre offre est publiée');
 
             }else{
                 $this->addFlash('danger','votre offre n\'est pas publiée');
-            }
+            }*/
             if($offer->getOnfirstpage())
             {
                 $this->addFlash('info','votre offre est publiée à la une');
@@ -106,6 +107,7 @@ class OfferController extends AbstractController
         }
 
         return $this->render('entity/offer/new.html.twig', [
+            'title' => 'Créer une offre',
             'offer' => $offer,
             'form' => $form->createView(),
         ]);
@@ -114,7 +116,7 @@ class OfferController extends AbstractController
     /**
      * Edit an offer (ROLE_STAFF only)
      *
-     * @Security("has_role('ROLE_STAFF')")
+     *
      * @param Request $request
      * @param ShiniOffer $offer offer to edit.
      * @return Response
@@ -130,13 +132,13 @@ class OfferController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success','Votre Offre est créée');
-            if($offer->getShown())
+/*            if($offer->getShown())
             {
                 $this->addFlash('info','votre offre est publiée');
 
             }else{
                 $this->addFlash('danger','votre offre n\'est pas publiée');
-            }
+            }*/
             if($offer->getOnfirstpage())
             {
                 $this->addFlash('info','votre offre est publiée à la une');
@@ -144,7 +146,7 @@ class OfferController extends AbstractController
                 $this->addFlash('danger','votre offre n\'est pas à la une');
             }
 
-            return $this->redirectToRoute('shini.offer.show', ['id' => $offer->getId()]);
+            return $this->redirectToRoute('shini.offer.show', ['item' => $offer]);
         }
 
         return $this->render('entity/offer/edit.html.twig', [
@@ -160,16 +162,22 @@ class OfferController extends AbstractController
      * @param ShiniOffer $offer offer to delete.
      * @return Response
      *
-     * @Route("/{id}/staff/delete", name=".delete", methods={"DELETE"})
+     * @Route("/{id}/staff/delete", name=".delete", methods={"GET"})
      */
     public function delete(Request $request, ShiniOffer $offer): Response
     {
+/*
         if ($this->isCsrfTokenValid('delete'.$offer->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($offer);
             $entityManager->flush();
         }
+ */
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($offer);
+        $entityManager->flush();
 
+        $this->addFlash('success','L\'offre'.$offer->getName().' a bien été supprimée');
         return $this->redirectToRoute('shini.offer.list');
     }
 }

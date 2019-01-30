@@ -14,16 +14,54 @@ use App\Entity\ShiniCenter;
 use App\Entity\ShiniOffer;
 use App\Entity\ShiniPlayer;
 use App\Entity\ShiniStaff;
+use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 
 class TwigExtension extends AbstractExtension
 {
+
+    const NB_SUMMARY_CHAR = 80;
+    private $em;
+
+    public function __construct(EntityManagerInterface $manager)
+    {
+        # Récupération de Doctrine
+        $this->em = $manager;
+    }
+
+    public function getFilters()
+    {
+        return [
+            new TwigFilter('summary', function($text) {
+
+                # Suppression des Balises HTML
+                $string = strip_tags($text);
+
+                # Si mon string est supérieur à 170, je continue
+                if(strlen($string) > self::NB_SUMMARY_CHAR) {
+
+                    # Je coupe ma chaine à 170
+                    $stringCut = substr($string, 0, self::NB_SUMMARY_CHAR);
+                    $string = substr($stringCut, 0, strrpos($stringCut, ' ')). '...';
+                }
+
+                return $string;
+
+            },['is_safe' => ['html']])
+        ];
+    }
+    
+
     public function getFunctions()
     {
         return [
-            new TwigFunction('getEntityPrefixRoute', [$this, 'getPrefix'])
+            new TwigFunction('getEntityPrefixRoute', [$this, 'getPrefix']),
+            new TwigFunction('getOffersOnLine', function() {
+                return $this->em->getRepository(ShiniOffer::class)->findOnFirstPage();
+            })
         ];
     }
 

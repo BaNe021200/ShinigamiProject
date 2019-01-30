@@ -13,10 +13,8 @@ use App\Entity\ShiniAdmin;
 use App\Entity\ShiniPlayer;
 use App\Entity\ShiniPlayerAccount;
 use App\Entity\ShiniStaff;
-use App\Form\ForgottenPassordType;
 use App\Form\ShiniSignInType;
 use App\Form\ShiniLoginType;
-use App\Repository\ShiniPlayerRepository;
 use App\Service\EmailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,8 +40,10 @@ class SecurityController extends AbstractController
      * @param null $sign
      * @return Response
      * @throws \Exception
+     *
      * @Route("/sign", name=".sign", methods={"GET","POST"})
      * @Route("/sign/{sign<in|up>}", name=".signinup", methods={"GET","POST"})
+     *
      */
     public function signInUp(Request $request,
                              UserPasswordEncoderInterface $userPasswordEncoder,
@@ -73,12 +73,6 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            // Go to login check
-            /*if ( $form->get('signin') )
-            {
-                return $this-> redirectToRoute('secure.success');
-            }*/
 
             //$player->setPassword($userPasswordEncoder->encodePassword($player,$player->getPassword()));
             $token = uniqid('', true);
@@ -202,6 +196,6 @@ class SecurityController extends AbstractController
 
     public function resetPassword()
     {
-        
+
     }
 }

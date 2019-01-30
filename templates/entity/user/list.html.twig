@@ -1,5 +1,5 @@
 {% extends "layout.html.twig" %}
-
+{% set prefix = getEntityPrefixRoute(items.0) %}
 {% if prefix == 'shini.player' %}
     {% set title = 'Liste des joueurs' %}
 {% elseif prefix == 'shini.staff' %}

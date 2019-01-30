@@ -20,6 +20,7 @@ class ShiniStaff implements UserInterface
     use shiniPeopleTrait;
     use ImageSaverTrait;
 
+    const ASSET_FOLDER = 'staff';
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -27,13 +28,10 @@ class ShiniStaff implements UserInterface
      */
     private $id;
 
-
     /**
      * @ORM\OneToMany(targetEntity="ShiniOffer",mappedBy="staffAdviser")
      */
     private $offers;
-
-
 
     /**
      * @ORM\ManyToOne(targetEntity="ShiniCenter",inversedBy="staff")
@@ -49,7 +47,6 @@ class ShiniStaff implements UserInterface
         $this->offers = new ArrayCollection();
         $this->roles = new ArrayCollection();
         $this->addRole($role);
-        $this->setFolder('staff');
     }
 
     public function getId(): ?int
@@ -101,6 +98,4 @@ class ShiniStaff implements UserInterface
 
         return $this;
     }
-
-
 }

@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\ShiniOffer;
-use App\ImageSaver\ImageSaver;
+use App\Service\ImageSaver\ImageSaver;
 use App\Service\ImageSaver\ImageSaverType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
@@ -30,8 +30,6 @@ class ShiniOfferType extends AbstractType
                 'label'=> 'prix',
                 'attr'=>[
                     'placeholder'=>"prix de l'article",
-
-
                 ]
             ])
             ->add('dateEnd',DateType::class,[
@@ -50,7 +48,7 @@ class ShiniOfferType extends AbstractType
                 ]
             ])
             ->add('image')
-            ->add('shown',CheckboxType::class,[
+/*            ->add('shown',CheckboxType::class,[
                 'label'=> "visible en ligne",
                 'required' => false,
                 'attr'=>[
@@ -62,7 +60,7 @@ class ShiniOfferType extends AbstractType
                     'novalidate' => 'novalidate'
 
                 ]
-            ])
+            ])*/
             ->add('onfirstpage',CheckboxType::class,[
                 'label'=>"a la une",
                 'required' => false,
@@ -93,8 +91,6 @@ class ShiniOfferType extends AbstractType
                     'class' =>'btn btn-success'
                 ]
             ])
-
-
         ;
     }
 

@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ImageSaverTraitTest extends TestCase
 {
-    private $anonymous;
+    private $classWithoutConstants;
     private $player;
     private $staff;
     private $admin;
@@ -26,8 +26,8 @@ class ImageSaverTraitTest extends TestCase
     {
         parent::setUp();
 
-        $this->anonymous = new class {use ImageSaverTrait;};
-        $this->anonymous->setImageName('image.jpg');
+        $this->classWithoutConstants = new class {use ImageSaverTrait;};
+        $this->classWithoutConstants->setImageName('image.jpg');
 
         $this->player = new ShiniPlayer();
         $this->player->setImageName('image.jpg');
@@ -44,28 +44,18 @@ class ImageSaverTraitTest extends TestCase
      */
     public function testAnonymousHasDefaultFolder()
     {
-        $this->assertSame('myImages', $this->anonymous->getFolder());
-    }
 
-    /**
-     * Can we change the default folder ?
-     *
-     * @depends testAnonymousHasDefaultFolder
-     */
-    public function testAnonymousCanChangeFolderProperty()
-    {
-        $this->anonymous->setFolder('anonymous');
-        $this->assertSame('anonymous', $this->anonymous->getFolder());
+        $this->assertSame('myImages', $this->classWithoutConstants->getFolder());
     }
 
     /**
      * Can we get the image name ?
      *
-     * @depends testAnonymousCanChangeFolderProperty
+     * @depends testAnonymousHasDefaultFolder
      */
     public function testAnonymousHasImageNameProperty()
     {
-        $this->assertSame('image.jpg', $this->anonymous->getImageName());
+        $this->assertSame('image.jpg', $this->classWithoutConstants->getImageName());
     }
 
     /**
@@ -75,13 +65,13 @@ class ImageSaverTraitTest extends TestCase
      */
     public function testAnonymousGetImagePath()
     {
-        $this->assertSame('myImages/image.jpg', $this->anonymous->getImage());
+        $this->assertSame('myImages/image.jpg', $this->classWithoutConstants->getImage());
     }
 
     /**
      * Do we get the default storage folder ?
      *
-     * @depends testAnonymousCanChangeFolderProperty
+     * @depends testAnonymousHasDefaultFolder
      */
     public function testPlayerHasDefaultFolder()
     {
@@ -89,20 +79,9 @@ class ImageSaverTraitTest extends TestCase
     }
 
     /**
-     * Can we change the default folder ?
-     *
-     * @depends testPlayerHasDefaultFolder
-     */
-    public function testPlayerChangeFolderProperty()
-    {
-        $this->player->setFolder('coco');
-        $this->assertSame('coco', $this->player->getFolder());
-    }
-
-    /**
      * Can we get the image name ?
      *
-     * @depends testPlayerChangeFolderProperty
+     * @depends testPlayerHasDefaultFolder
      */
     public function testPlayerHasImageNameProperty()
     {
@@ -122,7 +101,7 @@ class ImageSaverTraitTest extends TestCase
     /**
      * Do we get the default storage folder ?
      *
-     * @depends testAnonymousCanChangeFolderProperty
+     * @depends testAnonymousHasDefaultFolder
      */
     public function testStaffHasDefaultFolder()
     {
@@ -130,20 +109,9 @@ class ImageSaverTraitTest extends TestCase
     }
 
     /**
-     * Can we change the default folder ?
-     *
-     * @depends testStaffHasDefaultFolder
-     */
-    public function testStaffChangeFolderProperty()
-    {
-        $this->staff->setFolder('coco');
-        $this->assertSame('coco', $this->staff->getFolder());
-    }
-
-    /**
      * Can we get the image name ?
      *
-     * @depends testPlayerChangeFolderProperty
+     * @depends testStaffHasDefaultFolder
      */
     public function testStaffHasImageNameProperty()
     {
@@ -163,7 +131,7 @@ class ImageSaverTraitTest extends TestCase
     /**
      * Do we get the default storage folder ?
      *
-     * @depends testAnonymousCanChangeFolderProperty
+     * @depends testAnonymousHasDefaultFolder
      */
     public function testAdminHasDefaultFolder()
     {
@@ -171,20 +139,9 @@ class ImageSaverTraitTest extends TestCase
     }
 
     /**
-     * Can we change the default folder ?
-     *
-     * @depends testAdminHasDefaultFolder
-     */
-    public function testAdminChangeFolderProperty()
-    {
-        $this->admin->setFolder('coco');
-        $this->assertSame('coco', $this->admin->getFolder());
-    }
-
-    /**
      * Can we get the image name ?
      *
-     * @depends testPlayerChangeFolderProperty
+     * @depends testAdminHasDefaultFolder
      */
     public function testAdminHasImageNameProperty()
     {

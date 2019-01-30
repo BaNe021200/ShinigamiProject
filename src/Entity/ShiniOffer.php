@@ -8,11 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ShiniOffersRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ShiniOfferRepository")
  */
 class ShiniOffer
 {
     use ImageSaverTrait;
+    const ASSET_FOLDER = 'offer';
 
     /**
      * @ORM\Id()
@@ -46,10 +47,6 @@ class ShiniOffer
      */
     private $onfirstpage;
 
-    /**
-     * @ORM\Column(type="boolean", options={"default":0})
-     */
-    private $shown;
 
     /**
      * @ORM\ManyToOne(targetEntity="ShiniStaff", inversedBy="offers")
@@ -69,7 +66,6 @@ class ShiniOffer
     public function __construct()
     {
         $this->accounts = new ArrayCollection();
-        $this->folder = 'offer';
     }
 
 
@@ -127,24 +123,6 @@ class ShiniOffer
     {
         $this->description = $description;
 
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getShown(): bool
-    {
-        return $this->shown;
-    }
-
-    /**
-     * @param mixed $shown
-     * @return ShiniOffer
-     */
-    public function setShown(bool $shown): self
-    {
-        $this->shown = $shown;
         return $this;
     }
 

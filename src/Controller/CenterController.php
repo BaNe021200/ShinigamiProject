@@ -73,6 +73,7 @@ class CenterController extends AbstractController
         }
 
         return $this->render('entity/center/new.html.twig',[
+            'title' => 'Créer une salle de jeux',
             'centre'=>$center,
             'form'=> $form->createView()
         ]);
@@ -89,40 +90,24 @@ class CenterController extends AbstractController
      */
     public function edit(Request $request, ShiniCenter $center): Response
     {
-        $form = $this->createForm(ShiniStaffEditType::class, $center);
+        $form = $this->createForm(ShiniCenterType::class, $center);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success','Votre profil est modifié');
+            $this->addFlash('success','Modification effectuée');
 
-            return $this->redirectToRoute('shini.center.show', ['id' => $center->getId()]);
+            return $this->render('entity/center/show.html.twig', [
+                'item' => $center,
+                'title'=> $center->getName()
+            ]);
         }
 
         return $this->render('entity/center/new.html.twig', [
+            'title' => $center->getName(),
             'center' => $center,
             'form' => $form->createView(),
         ]);
-    }
-
-    /**
-     * Delete a center (ROLE_STAFF only).
-     *
-     * @param Request $request
-     * @param ShiniStaff $staff
-     * @return Response
-     *
-     * @Route("/{id}/staff/delete", name=".delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, ShiniStaff $staff): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$staff->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($staff);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('shini.center.list');
     }
 }

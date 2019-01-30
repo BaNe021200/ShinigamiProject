@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 class ShiniCenter
 {
     use ImageSaverTrait;
+
+    const ASSET_FOLDER = 'center';
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -72,6 +74,42 @@ class ShiniCenter
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     * @return ShiniCenter
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     * @return ShiniCenter
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
     }
 
     public function getAddress(): ?string

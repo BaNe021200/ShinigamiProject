@@ -22,7 +22,6 @@ class AppFixtures extends Fixture
 
     /**
      * @param ObjectManager $manager
-     * @throws \Exception
      */
     public function load(ObjectManager $manager)
     {
@@ -80,15 +79,14 @@ class AppFixtures extends Fixture
 
         for($i=340; $i<350; $i++)
         {
-
-
-            #$centerkeysRand = array_rand($centerNames,1);
-
-            #$centernameRand = $centerNames[$centerkeysRand];
             $center = new ShiniCenter();
+            //$code = ['340','350','360'];
+            //$center->setCode($faker->randomElement($code))
+            //$center->setCode($faker->randomElement($code = ['340','350','360']));
+            $center->setName($faker->word(1));
+            $center->setDescription($faker->text);
             $center->setName($centerNames[$i-340]);
             $center->setCode($i);
-
             $centers[] = $center;
             $manager->persist($center);
         }
@@ -107,7 +105,6 @@ class AppFixtures extends Fixture
                 ->setDateEnd($faker->dateTimeThisCentury($min = 'now', $timezone = 'Europe/Paris'))
                 ->setDescription($faker->text)
                 ->setImageName('https://picsum.photos/300/200/?image='.$i)
-                ->setShown($faker->boolean(50))
                 ->setOnfirstpage(0)
                 ->setStaffAdviser($staffAdvisers[array_rand($staffAdvisers)])
             ;
@@ -223,13 +220,12 @@ class AppFixtures extends Fixture
 }
     public function generateAllReadyMadeOffer(ObjectManager $manager,Generator $faker, $staffAdvisers){
 
-        $chat= new ShiniOffer();
-        $chat->setName("Chat alors ? Vous ne vous attendiez pas à chat !")
+        $chat = new ShiniOffer();
+        $chat->setName("Chat va barder...!")
             ->setPrice($faker->randomFloat(2,50,1000))
             ->setDateEnd($faker->dateTimeThisCentury($min = 'now', $timezone = 'Europe/Paris'))
             ->setDescription($faker->text)
             ->setImageName('2.jpg')
-            ->setShown(1)
             ->setOnfirstpage(1)
             ->setStaffAdviser($staffAdvisers[array_rand($staffAdvisers)])
         ;
@@ -240,7 +236,6 @@ class AppFixtures extends Fixture
             ->setDateEnd($faker->dateTimeThisCentury($min = 'now', $timezone = 'Europe/Paris'))
             ->setDescription($faker->text)
             ->setImageName('3.jpg')
-            ->setShown(1)
             ->setOnfirstpage(1)
             ->setStaffAdviser($staffAdvisers[array_rand($staffAdvisers)])
         ;
@@ -251,11 +246,9 @@ class AppFixtures extends Fixture
             ->setDateEnd($faker->dateTimeThisCentury($min = 'now', $timezone = 'Europe/Paris'))
             ->setDescription($faker->text)
             ->setImageName('1.jpg')
-            ->setShown(1)
             ->setOnfirstpage(1)
             ->setStaffAdviser($staffAdvisers[array_rand($staffAdvisers)])
         ;
-
 
         $manager->persist($chat);
         $manager->persist($chien);

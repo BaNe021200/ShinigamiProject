@@ -36,6 +36,10 @@ h3 {
     background-color: rgba(0,0,0,0);
     overflow: hidden;
 }
+
+#shinigamiCarousel h5{
+    font-family: 'Carter One', cursive;
+}
 .shinigami-logo{
     font-family: 'Monoton', serif;
     color:black;

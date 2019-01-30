@@ -23,6 +23,8 @@ class ShiniPlayer implements UserInterface
     use shiniPeopleTrait;
     use ImageSaverTrait;
 
+    const ASSET_FOLDER = 'player';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -70,7 +72,6 @@ class ShiniPlayer implements UserInterface
         $this->games = new ArrayCollection();
         $this->roles = new ArrayCollection();
         $this->addRole($role);
-        $this->setFolder('player');
     }
 
     public function getId(): ?int
@@ -167,6 +168,4 @@ class ShiniPlayer implements UserInterface
     {
 
     }
-
-
 }
