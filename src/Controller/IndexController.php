@@ -51,4 +51,6 @@ class IndexController extends AbstractController
         return $this->render('page/contact.html.twig',['current'=>'contact']);
     }
 
+
+
 }

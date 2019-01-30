@@ -3,7 +3,7 @@
 Hi {{ player.name }}! You're successfully registered.
 
 {# example, assuming you have a route named "login" #}
-To login, go to: <a href="{{ url('email.confirmation',{userId:player.id, token: player.account.confirmationToken }) }}">{#{{ path('email.confirmation',{userId:player.id, token: player.confirmationToken }) }}#}cliquez sur ce lien pour valider votre compte</a>.
+To login, go to: <a href="{{ url('secure.email.confirmation',{userId:player.id, token: player.account.confirmationToken }) }}">cliquez sur ce lien pour valider votre compte</a>.
 
 Thanks!
 

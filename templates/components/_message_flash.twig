@@ -1,5 +1,40 @@
 {% for key,type in app.flashes %}
     {% for message in type %}
-        <div class="alert alert-{{ key }}">{{ message }}</div>
+        <div id="alert" class="alert alert-{{ key }}">{{ message }}
+            <a class="close" id="crossClose">x</a>
+        </div>
     {% endfor %}
 {% endfor %}
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script>
+    jQuery(function($){
+
+        const alert = $('#alert');
+        if(alert.length > 0){
+            alert.show().slideDown(500);
+            alert.find('.close').click(function(e){
+                e.preventDefault();
+                alert.slideUp();
+            })
+        }
+
+    });
+
+
+
+
+
+
+</script>

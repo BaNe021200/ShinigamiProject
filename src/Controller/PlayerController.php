@@ -128,7 +128,7 @@ class PlayerController extends AbstractController
             $entityManager->persist($player);
             $entityManager->flush();
 
-            return $this->redirectToRoute('shini.player.index');
+            return $this->redirectToRoute('shini.player.profile');
         }
 
         return $this->render('page/new.html.twig', [

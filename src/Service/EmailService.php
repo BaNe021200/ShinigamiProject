@@ -60,7 +60,7 @@ class EmailService
 
 
 
-        $message = (new Swift_Message('Hello Email'))
+        $message = (new Swift_Message('Bienvenue parmi nous'))
             ->setFrom('shiniGamiLaser@mail.com')
             ->setTo($shiniPlayer->getEmail())
             ->setBody(
@@ -98,6 +98,28 @@ class EmailService
 
 
 
+    }
+
+    public function emailReInitialization(ShiniPlayer $shiniPlayer)
+    {
+        $token = $shiniPlayer->getAccount()->getConfirmationToken();
+
+
+
+        $message = (new Swift_Message('Hello Email'))
+            ->setFrom('shiniGamiLaser@mail.com')
+            ->setTo($shiniPlayer->getEmail())
+            ->setBody(
+                $this->twig->render('emails/reInitializationPassword.html.twig',[
+                    'player' =>$shiniPlayer,
+                    'name' => $shiniPlayer->getNickName(),
+                    'token' => $token
+
+                ]),
+                'text/html'
+            );
+
+        $this->mailer->send($message);
     }
 
 }

@@ -10,7 +10,7 @@
 {% endblock page_title %}
 
 {% block page %}
-
+    {% include 'components/_message_flash.twig' %}
     <!-- Avatar and pseudo-->
     <section class="py-3 bg-light">
         <div class="image image-overlay image-cover skrollable skrollable-between" style="background-image: url({{ asset ('assets/css/images/portfolio-bg-2.jpg') }}); transform: translateY(0px);" data-top-top="transform: translateY(0px);" data-top-bottom="transform: translateY(-250px);"></div>
